@@ -1,0 +1,13 @@
+C:\Users\David\Desktop\SzimulációsTechnikák\teszt\teszt\bin\Debug\teszt.exe.config
+C:\Users\David\Desktop\SzimulációsTechnikák\teszt\teszt\bin\Debug\teszt.exe
+C:\Users\David\Desktop\SzimulációsTechnikák\teszt\teszt\bin\Debug\teszt.pdb
+C:\Users\David\Desktop\SzimulációsTechnikák\teszt\teszt\obj\Debug\teszt.csprojResolveAssemblyReference.cache
+C:\Users\David\Desktop\SzimulációsTechnikák\teszt\teszt\obj\Debug\MainWindow.g.cs
+C:\Users\David\Desktop\SzimulációsTechnikák\teszt\teszt\obj\Debug\App.g.cs
+C:\Users\David\Desktop\SzimulációsTechnikák\teszt\teszt\obj\Debug\teszt_MarkupCompile.cache
+C:\Users\David\Desktop\SzimulációsTechnikák\teszt\teszt\obj\Debug\MainWindow.baml
+C:\Users\David\Desktop\SzimulációsTechnikák\teszt\teszt\obj\Debug\teszt.g.resources
+C:\Users\David\Desktop\SzimulációsTechnikák\teszt\teszt\obj\Debug\teszt.Properties.Resources.resources
+C:\Users\David\Desktop\SzimulációsTechnikák\teszt\teszt\obj\Debug\teszt.csproj.GenerateResource.Cache
+C:\Users\David\Desktop\SzimulációsTechnikák\teszt\teszt\obj\Debug\teszt.exe
+C:\Users\David\Desktop\SzimulációsTechnikák\teszt\teszt\obj\Debug\teszt.pdb
