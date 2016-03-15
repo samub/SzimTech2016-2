@@ -4,17 +4,58 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Szoba bejárás" Height="640" Width="850">
+        Title="Szoba bejárás" Height="516" Width="850">
     <Grid>
-        <Button x:Name="Button" Content="Megnyitás&#xD;&#xA;" Margin="0,68,90,0"
-                VerticalAlignment="Top" Click="button_Click" Height="20" HorizontalAlignment="Right" Width="75" IsEnabled="False"/>
-        <Image x:Name="Image" HorizontalAlignment="Left" Height="100" Margin="10,10,0,0" VerticalAlignment="Top"
-               Width="100" IsEnabled="False" />
-        <RadioButton x:Name="RadioButton" Content="Szerkesztés" HorizontalAlignment="Right" Margin="0,48,48,0"
-                     VerticalAlignment="Top" Checked="radioButton_Checked" />
-        <RadioButton x:Name="RadioButton1" Content="Beolvasás" HorizontalAlignment="Right" Margin="0,28,57,0"
-                     VerticalAlignment="Top" Checked="radioButton1_Checked"/>
-        <Button x:Name="Button1" Content="Szerkeszt" HorizontalAlignment="Right" Margin="0,68,10,0"
-                VerticalAlignment="Top" Width="75" IsEnabled="False" Click="Button1_Click"/>
+        <Rectangle HorizontalAlignment="Left" Height="109" Margin="666,58,0,0" Stroke="Black" VerticalAlignment="Top" Width="155"/>
+        <Button x:Name="button_MapOpen" Content="Megnyitás&#xA;" Margin="0,78,64,0"
+    		VerticalAlignment="Top" Click="button_Click" Height="20" HorizontalAlignment="Right" Width="75" IsEnabled="False"/>
+        <Image x:Name="Image" HorizontalAlignment="Left" Height="100" Margin="10,42,0,0" VerticalAlignment="Top"
+    		Width="100" IsEnabled="False" />
+        <Button x:Name="button_MapEdit" Content="Szerkesztés" HorizontalAlignment="Right" Margin="0,99,64,0"
+    		VerticalAlignment="Top" Width="75" IsEnabled="False" Click="Button1_Click"/>
+
+        <Label x:Name="label_Choose" Content="Algoritmus kiválasztása" HorizontalAlignment="Left" Margin="670,183,0,0" VerticalAlignment="Top"/>
+        <RadioButton x:Name="radioButton_Genetic" GroupName="AlgoChoose" Content="Genetikus" HorizontalAlignment="Left" Margin="688,211,0,0" VerticalAlignment="Top"/>
+        <RadioButton x:Name="radioButton_Heuristic1" GroupName="AlgoChoose" Content="Heurisztikus 1" HorizontalAlignment="Left" Margin="688,229,0,0" VerticalAlignment="Top"/>
+        <RadioButton x:Name="radioButton_Heuristic2" GroupName="AlgoChoose" Content="Heurisztikus 2" HorizontalAlignment="Left" Margin="688,247,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+            <RadioButton.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="1.909"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="-0.217"/>
+                </TransformGroup>
+            </RadioButton.RenderTransform>
+        </RadioButton>
+        <Rectangle  HorizontalAlignment="Left" Height="86" Margin="666,183,0,0" Stroke="Black" VerticalAlignment="Top" Width="155"/>
+        <Label x:Name="label_Options" Content="Opciók" HorizontalAlignment="Left" Margin="671,283,0,0" VerticalAlignment="Top"/>
+        <Slider x:Name="slider_ViweAngle" HorizontalAlignment="Left" Margin="744,311,0,0" VerticalAlignment="Top" Width="65" RenderTransformOrigin="0.154,-0.167"/>
+        <Rectangle HorizontalAlignment="Left" Height="113" Margin="666,280,0,0" Stroke="Black" VerticalAlignment="Top" Width="155" RenderTransformOrigin="0.5,0.5">
+            <Rectangle.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Rectangle.RenderTransform>
+        </Rectangle>
+        <Label x:Name="label_ViewAngle" Content="Látószög" HorizontalAlignment="Left" Margin="678,311,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.204,0.014"/>
+        <Label x:Name="label" Content="Bejárás %" HorizontalAlignment="Left" Margin="679,339,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBox_CoveringPercentage" HorizontalAlignment="Left" Height="23" Margin="751,339,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="58"/>
+        <Label x:Name="label_StartingPosition" Content="Kezdőpozíció" HorizontalAlignment="Left" Margin="679,367,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBox_PositionX" HorizontalAlignment="Left" Height="23" Margin="753,367,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="25"/>
+        <TextBox x:Name="textBox_PositionY" HorizontalAlignment="Left" Height="23" Margin="783,367,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="25"/>
+        <Button x:Name="button_Start" Content="Start" HorizontalAlignment="Left" Margin="678,403,0,0" VerticalAlignment="Top" Width="127" Height="34"/>
+        <Button x:Name="button_Stop" Content="Stop" HorizontalAlignment="Left" Margin="707,442,0,0" VerticalAlignment="Top" Width="75"/>
+        <Rectangle HorizontalAlignment="Left" Height="45" Margin="10,422,0,0" Stroke="Black" VerticalAlignment="Top" Width="632"/>
+        <Label x:Name="label_Messages" Content="Üzenetek" HorizontalAlignment="Left" Margin="8,401,0,0" VerticalAlignment="Top"/>
+        <Rectangle HorizontalAlignment="Left" Height="352" Margin="10,50,0,0" Stroke="Black" VerticalAlignment="Top" Width="632"/>
+        <Label x:Name="label_Map" Content="Térkép" HorizontalAlignment="Left" Margin="9,26,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_MapOptions" Content="Térkép opciók" HorizontalAlignment="Left" Margin="665,55,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="button_EditOk" Content="Mentés" HorizontalAlignment="Left" Margin="703,120,0,0" VerticalAlignment="Top" Width="75" Height="20"/>
+        <Button x:Name="button_EditCancel" Content="Mégsem" HorizontalAlignment="Left" Margin="703,141,0,0" VerticalAlignment="Top" Width="75" Height="20"/>
+        <Label x:Name="label_wtf" Content="Futási állapot:" HorizontalAlignment="Left" Margin="8,466,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_Status" Foreground="red" Content="Off" HorizontalAlignment="Left" Margin="83,467,0,-1" VerticalAlignment="Top"/>
     </Grid>
 </Window>

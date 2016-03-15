@@ -65,7 +65,6 @@ namespace teszt {
     public partial class MainWindow {
         public MainWindow() {
             InitializeComponent();
-            RadioButton1.IsChecked = true;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             Image.Width = 640;
             Image.Height = 640;
@@ -111,16 +110,6 @@ namespace teszt {
                 Image.Source = myBitmapSource;
                 RenderOptions.SetBitmapScalingMode(Image, BitmapScalingMode.NearestNeighbor);
             }
-        }
-
-        private void radioButton_Checked(object sender, RoutedEventArgs e) {
-            Button.IsEnabled = false;
-            Button1.IsEnabled = true;
-        }
-
-        private void radioButton1_Checked(object sender, RoutedEventArgs e) {
-            Button.IsEnabled = true;
-            Button1.IsEnabled = false;
         }
 
         private void Button1_Click(object sender, RoutedEventArgs e) {
