@@ -11,3 +11,16 @@ C:\Users\David\Desktop\SzimulációsTechnikák\teszt\teszt\obj\Debug\teszt.Prope
 C:\Users\David\Desktop\SzimulációsTechnikák\teszt\teszt\obj\Debug\teszt.csproj.GenerateResource.Cache
 C:\Users\David\Desktop\SzimulációsTechnikák\teszt\teszt\obj\Debug\teszt.exe
 C:\Users\David\Desktop\SzimulációsTechnikák\teszt\teszt\obj\Debug\teszt.pdb
+C:\Users\David\Documents\SzimTech2016-2\teszt\bin\Debug\teszt.exe.config
+C:\Users\David\Documents\SzimTech2016-2\teszt\bin\Debug\teszt.exe
+C:\Users\David\Documents\SzimTech2016-2\teszt\bin\Debug\teszt.pdb
+C:\Users\David\Documents\SzimTech2016-2\teszt\obj\Debug\teszt.csprojResolveAssemblyReference.cache
+C:\Users\David\Documents\SzimTech2016-2\teszt\obj\Debug\MainWindow.baml
+C:\Users\David\Documents\SzimTech2016-2\teszt\obj\Debug\MainWindow.g.cs
+C:\Users\David\Documents\SzimTech2016-2\teszt\obj\Debug\App.g.cs
+C:\Users\David\Documents\SzimTech2016-2\teszt\obj\Debug\teszt_MarkupCompile.cache
+C:\Users\David\Documents\SzimTech2016-2\teszt\obj\Debug\teszt.g.resources
+C:\Users\David\Documents\SzimTech2016-2\teszt\obj\Debug\teszt.Properties.Resources.resources
+C:\Users\David\Documents\SzimTech2016-2\teszt\obj\Debug\teszt.csproj.GenerateResource.Cache
+C:\Users\David\Documents\SzimTech2016-2\teszt\obj\Debug\teszt.exe
+C:\Users\David\Documents\SzimTech2016-2\teszt\obj\Debug\teszt.pdb
