@@ -13,6 +13,7 @@ namespace teszt {
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             Image.Width = 640;
             Image.Height = 640;
+            Image.Stretch = Stretch.None;
         }
 
         private void button_Click(object sender, RoutedEventArgs e) {
