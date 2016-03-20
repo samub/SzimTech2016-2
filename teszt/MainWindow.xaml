@@ -6,6 +6,8 @@
         mc:Ignorable="d"
         Title="Szoba bejárás" Height="850" Width="850">
     <Grid>
+        <Rectangle HorizontalAlignment="Right" Height="86" Margin="0,183,16,0" Stroke="Black" VerticalAlignment="Top"
+                   Width="160" />
         <Rectangle HorizontalAlignment="Right" Height="115" Margin="0,50,16,0" Stroke="Black" VerticalAlignment="Top"
                    Width="160" />
         <Button x:Name="ButtonMapOpen" Content="Megnyitás&#xA;" Margin="0,78,60,0"
@@ -18,7 +20,7 @@
         <Label x:Name="LabelChoose" Content="Algoritmus kiválasztása" HorizontalAlignment="Right" Margin="0,183,39,0"
                VerticalAlignment="Top" />
         <RadioButton x:Name="RadioButtonGenetic" GroupName="AlgoChoose" Content="Genetikus" HorizontalAlignment="Right"
-                     Margin="0,211,83,0" VerticalAlignment="Top" />
+                     Margin="0,211,81,0" VerticalAlignment="Top" Checked="RadioButtonGenetic_Checked" />
         <RadioButton x:Name="RadioButtonHeuristic1" GroupName="AlgoChoose" Content="Heurisztikus 1"
                      HorizontalAlignment="Right" Margin="0,229,61,0" VerticalAlignment="Top" />
         <RadioButton x:Name="RadioButtonHeuristic2" GroupName="AlgoChoose" Content="Heurisztikus 2"
@@ -33,8 +35,6 @@
                 </TransformGroup>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <Rectangle HorizontalAlignment="Right" Height="86" Margin="0,183,16,0" Stroke="Black" VerticalAlignment="Top"
-                   Width="160" />
         <Label x:Name="LabelOptions" Content="Opciók" HorizontalAlignment="Right" Margin="0,285,123,0"
                VerticalAlignment="Top" />
         <Slider x:Name="SliderViweAngle" HorizontalAlignment="Right" Margin="0,311,26,0" VerticalAlignment="Top"

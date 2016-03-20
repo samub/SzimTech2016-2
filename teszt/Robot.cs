@@ -1,7 +1,7 @@
 namespace teszt {
     internal class Robot {
         public Robot(int angleview, int x, int y, int cover, double theta) {
-            AngleViwe = angleview;
+            AngleView = angleview;
             X = x;
             Y = y;
             Cover = cover;
@@ -16,6 +16,6 @@ namespace teszt {
 
         public int X { get; set; }
 
-        public int AngleViwe { get; set; }
+        public int AngleView { get; set; }
     }
 }
