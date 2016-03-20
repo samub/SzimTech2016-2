@@ -13,6 +13,18 @@ namespace teszt {
 
         public MainWindow() {
             InitializeComponent();
+
+            // Üzenetek tesztelése
+            MessageHandler Messages = new MessageHandler(textBoxMessages);
+            Messages.Write("Uzenet1");
+            Messages.Write("Uzenet2");
+            Messages.Write("Uzenet3");
+            Messages.Write("Uzenet4");
+            Messages.Write("Uzenet5");
+            Messages.Write("Uzenet6");
+
+
+
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             Image.Width = 640;
             Image.Height = 640;

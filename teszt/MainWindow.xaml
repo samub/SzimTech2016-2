@@ -65,7 +65,7 @@
                 VerticalAlignment="Top" Width="127" Height="34" Click="ButtonStart_Click" />
         <Button x:Name="ButtonStop" Content="Stop" HorizontalAlignment="Right" Margin="0,442,60,0"
                 VerticalAlignment="Top" Width="75" />
-        <Rectangle HorizontalAlignment="Left" Height="45" Margin="10,735,0,0" Stroke="Black" VerticalAlignment="Top"
+        <Rectangle HorizontalAlignment="Left" Height="48" Margin="10,732,0,0" Stroke="Black" VerticalAlignment="Top"
                    Width="632" />
         <Label x:Name="LabelMessages" Content="Üzenetek" HorizontalAlignment="Left" Margin="8,704,0,0"
                VerticalAlignment="Top" />
@@ -82,5 +82,6 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelStatus" Foreground="red" Content="Off" HorizontalAlignment="Left" Margin="83,785,0,0"
                VerticalAlignment="Top" />
+        <TextBox x:Name="textBoxMessages" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Left" Height="48" Margin="10,732,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="632" IsReadOnlyCaretVisible="True" SelectionOpacity="1"/>
     </Grid>
 </Window>
