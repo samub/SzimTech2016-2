@@ -3,8 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:teszt"
         mc:Ignorable="d"
         Title="Szoba bejárás" Height="850" Width="850">
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}" x:Key="ImageButtonStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <ContentPresenter/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Rectangle HorizontalAlignment="Right" Height="86" Margin="0,183,16,0" Stroke="Black" VerticalAlignment="Top"
                    Width="160" />
@@ -12,8 +24,6 @@
                    Width="160" />
         <Button x:Name="ButtonMapOpen" Content="Megnyitás&#xA;" Margin="0,78,60,0"
                 VerticalAlignment="Top" Click="button_Click" Height="20" HorizontalAlignment="Right" Width="75" />
-        <Image x:Name="Image" HorizontalAlignment="Left" Height="100" Margin="10,50,0,0" VerticalAlignment="Top"
-               Width="100" IsEnabled="False" />
         <Button x:Name="ButtonMapEdit" Content="Szerkesztés" HorizontalAlignment="Right" Margin="0,98,60,0"
                 VerticalAlignment="Top" Width="75" />
         <Label x:Name="LabelChoose" Content="Algoritmus kiválasztása" HorizontalAlignment="Right" Margin="0,183,39,0"
@@ -69,8 +79,8 @@
                    Width="632" />
         <Label x:Name="LabelMessages" Content="Üzenetek" HorizontalAlignment="Left" Margin="8,704,0,0"
                VerticalAlignment="Top" />
-        <Rectangle HorizontalAlignment="Left" Height="640" Margin="10,50,0,0" Stroke="Black" VerticalAlignment="Top"
-                   Width="632" />
+        <Rectangle HorizontalAlignment="Left" Height="642" Margin="10,50,0,0" Stroke="Black" VerticalAlignment="Top"
+                   Width="642" />
         <Label x:Name="LabelMap" Content="Térkép" HorizontalAlignment="Left" Margin="9,26,0,0" VerticalAlignment="Top" />
         <Label x:Name="LabelMapOptions" Content="Térkép opciók" HorizontalAlignment="Right" Margin="0,52,91,0"
                VerticalAlignment="Top" />
@@ -83,5 +93,8 @@
         <Label x:Name="LabelStatus" Foreground="red" Content="Off" HorizontalAlignment="Left" Margin="83,785,0,0"
                VerticalAlignment="Top" />
         <TextBox x:Name="textBoxMessages" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Left" Height="48" Margin="10,732,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="632" IsReadOnlyCaretVisible="True" SelectionOpacity="1"/>
+        <Button Style="{StaticResource ImageButtonStyle}" Click="ImageButton_Click" Margin="11,51,191,128">
+            <Image x:Name="Image" HorizontalAlignment="Left" Height="640" Margin="0,0,-8,-8" VerticalAlignment="Top" Width="640"/>
+        </Button>
     </Grid>
 </Window>

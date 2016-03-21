@@ -23,6 +23,10 @@ namespace teszt {
             Messages.Write("Uzenet5");
             Messages.Write("Uzenet6");
 
+            byte[] pixels = new byte[640 * 640 * 4];
+            myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, pixels, 640 * 4);
+            Image.Source = myBitmapSource;
+            RenderOptions.SetBitmapScalingMode(Image, BitmapScalingMode.NearestNeighbor);
 
 
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -130,13 +134,21 @@ namespace teszt {
                 RenderOptions.SetBitmapScalingMode(Image, BitmapScalingMode.NearestNeighbor);
 
 
-                if (RadioButtonGenetic.IsChecked != null && RadioButtonGenetic.IsChecked.Value) ;
+                /*if (RadioButtonGenetic.IsChecked != null && RadioButtonGenetic.IsChecked.Value);
                 //genetic
-                else if (RadioButtonHeuristic1.IsChecked != null && RadioButtonHeuristic1.IsChecked.Value) ;
+                else if (RadioButtonHeuristic1.IsChecked != null && RadioButtonHeuristic1.IsChecked.Value);
                 //h1
-                else if (RadioButtonHeuristic2.IsChecked != null && RadioButtonHeuristic2.IsChecked.Value) ;
-                //h2
+                else if (RadioButtonHeuristic2.IsChecked != null && RadioButtonHeuristic2.IsChecked.Value);
+                //h2*/
             }
         }
+
+        private void ImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            Point p1 = Mouse.GetPosition(this);
+            
+            Console.WriteLine(string.Format("Mouse.GetPosition: {0}, {1}", p1.X-11, p1.Y-51));
+        }
+
     }
 }
