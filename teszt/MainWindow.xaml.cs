@@ -10,7 +10,8 @@ using Microsoft.Win32;
 namespace teszt {
     public partial class MainWindow {
         private BitmapSource myBitmapSource;
-
+        private byte[] pixels;
+        private ShapeDrawer sd = new ShapeDrawer();
         public MainWindow() {
             InitializeComponent();
 
@@ -23,7 +24,7 @@ namespace teszt {
             Messages.Write("Uzenet5");
             Messages.Write("Uzenet6");
 
-            byte[] pixels = new byte[640 * 640 * 4];
+            pixels = new byte[640 * 640 * 4];
             myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, pixels, 640 * 4);
             Image.Source = myBitmapSource;
             RenderOptions.SetBitmapScalingMode(Image, BitmapScalingMode.NearestNeighbor);
@@ -145,9 +146,21 @@ namespace teszt {
 
         private void ImageButton_Click(object sender, RoutedEventArgs e)
         {
-            Point p1 = Mouse.GetPosition(this);
             
-            Console.WriteLine(string.Format("Mouse.GetPosition: {0}, {1}", p1.X-11, p1.Y-51));
+            Point p1 = Mouse.GetPosition(this);
+            Console.WriteLine(string.Format("Mouse.GetPosition: {0}, {1}", p1.X - 11, p1.Y - 51));
+            Point newPoint = new Point(p1.X - 11, p1.Y - 51);
+
+            myBitmapSource.CopyPixels(pixels, 640 * 4, 0);
+
+            sd.AddPointToShape(p1);
+            pixels = sd.DrawPoints(pixels, newPoint);
+            
+                
+            myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, pixels, 640 * 4);
+            Image.Source = myBitmapSource;
+            
+            
         }
 
     }
