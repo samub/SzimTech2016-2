@@ -9,14 +9,15 @@ using Microsoft.Win32;
 
 namespace teszt {
     public partial class MainWindow {
+        private readonly ShapeDrawer sd = new ShapeDrawer();
         private BitmapSource myBitmapSource;
         private byte[] pixels;
-        private ShapeDrawer sd = new ShapeDrawer();
+
         public MainWindow() {
             InitializeComponent();
 
             // Üzenetek tesztelése
-            MessageHandler Messages = new MessageHandler(textBoxMessages);
+            var Messages = new MessageHandler(textBoxMessages);
             Messages.Write("Uzenet1");
             Messages.Write("Uzenet2");
             Messages.Write("Uzenet3");
@@ -71,8 +72,7 @@ namespace teszt {
 
                 //  MessageBox.Show(file.Map.GetLength(0) + "x" + file.Map.GetLength(1));
 
-                myBitmapSource = BitmapSource.Create(640, 640, 96, 96,
-                                                     PixelFormats.Pbgra32, null, pixels, 640 * 4);
+                myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, pixels, 640 * 4);
                 Image.Source = myBitmapSource;
                 RenderOptions.SetBitmapScalingMode(Image, BitmapScalingMode.NearestNeighbor);
             }
@@ -97,18 +97,17 @@ namespace teszt {
 
                 var stride = myBitmapSource.PixelWidth * 4;
                 var size = myBitmapSource.PixelHeight * stride;
-                byte[] pixels = new byte[size];
-                myBitmapSource.CopyPixels(pixels, stride, 0);
+                var pixels = new byte[size];
+                //myBitmapSource.CopyPixels(pixels, stride, 0);
                 //MessageBox.Show(myBitmapSource.PixelWidth + " " + myBitmapSource.PixelHeight);
 
 
-                var current = 0;
-                byte[] robotPixels = new byte[robot.Robot1.Map.GetLength(0) * robot.Robot1.Map.GetLength(1) * 4];
+                /*var current = 0;
+                var robotPixels = new byte[robot.Robot1.Map.GetLength(0) * robot.Robot1.Map.GetLength(1) * 4];
 
                 for (var i = 0; i < robot.Robot1.Map.GetLength(0); i++)
                     for (var j = 0; j < robot.Robot1.Map.GetLength(1); j++)
-                        if (robot.Robot1.Map[i, j])
-                        {
+                        if (robot.Robot1.Map[i, j]) {
                             robotPixels[current++] = 255;
                             robotPixels[current++] = 255;
                             robotPixels[current++] = 255;
@@ -119,18 +118,42 @@ namespace teszt {
                             robotPixels[current++] = 0;
                             robotPixels[current++] = 0;
                             robotPixels[current++] = 255;
-                        }
+                        }*/
 
 
                 //combine the two arrays
+                var result = new bool[640, 640];
+                var original = new CsvToMatrix(@"c:\Users\David\Desktop\SzimulációsTechnikák\map03.csv");
+                original.Read();
+
+                for (var i = 0; i < 640; i++) for (var j = 0; j < 640; j++) result[i, j] = original.Map[i, j];
 
 
+                for (var i = 50; i < 50 + robot.Robot1.Map.GetLength(0); i++)
+                    for (var j = 50; j < 50 + robot.Robot1.Map.GetLength(1); j++)
+                        if (original.Map[i, j] && robot.Robot1.Map[i - 50, j - 50]) result[i, j] = true;
+                        else if (!original.Map[i, j] && robot.Robot1.Map[i - 50, j - 50]) result[i, j] = true;
+                        else if (!original.Map[i, j] && !robot.Robot1.Map[i - 50, j - 50]) result[i, j] = false;
+                        else if (original.Map[i, j] && !robot.Robot1.Map[i - 50, j - 50]) result[i, j] = false;
 
 
+                var current = 0;
+                for (var i = 0; i < result.GetLength(0); i++)
+                    for (var j = 0; j < result.GetLength(1); j++)
+                        if (result[i, j]) {
+                            pixels[current++] = 255;
+                            pixels[current++] = 255;
+                            pixels[current++] = 255;
+                            pixels[current++] = 255;
+                        }
+                        else {
+                            pixels[current++] = 0;
+                            pixels[current++] = 0;
+                            pixels[current++] = 0;
+                            pixels[current++] = 255;
+                        }
 
-
-                myBitmapSource = BitmapSource.Create(640, 640, 96, 96,
-                                                     PixelFormats.Pbgra32, null, pixels, 640 * 4);
+                myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, pixels, 640 * 4);
                 Image.Source = myBitmapSource;
                 RenderOptions.SetBitmapScalingMode(Image, BitmapScalingMode.NearestNeighbor);
 
@@ -144,24 +167,19 @@ namespace teszt {
             }
         }
 
-        private void ImageButton_Click(object sender, RoutedEventArgs e)
-        {
-            
-            Point p1 = Mouse.GetPosition(this);
-            Console.WriteLine(string.Format("Mouse.GetPosition: {0}, {1}", p1.X - 11, p1.Y - 51));
-            Point newPoint = new Point(p1.X - 11, p1.Y - 51);
+        private void ImageButton_Click(object sender, RoutedEventArgs e) {
+            var p1 = Mouse.GetPosition(this);
+            Console.WriteLine("Mouse.GetPosition: {0}, {1}", p1.X - 11, p1.Y - 51);
+            var newPoint = new Point(p1.X - 11, p1.Y - 51);
 
             myBitmapSource.CopyPixels(pixels, 640 * 4, 0);
 
             sd.AddPointToShape(p1);
             pixels = sd.DrawPoints(pixels, newPoint);
-            
-                
+
+
             myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, pixels, 640 * 4);
             Image.Source = myBitmapSource;
-            
-            
         }
-
     }
 }
