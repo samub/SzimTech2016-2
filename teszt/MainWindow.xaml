@@ -3,24 +3,21 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:teszt"
         mc:Ignorable="d"
-        Title="Szoba bejárás" SizeToContent="WidthAndHeight" ScrollViewer.HorizontalScrollBarVisibility="Visible" UseLayoutRounding="True" Height="668">
+        Title="Szoba bejárás" SizeToContent="WidthAndHeight" ScrollViewer.HorizontalScrollBarVisibility="Visible"
+        UseLayoutRounding="True" Height="668">
     <Window.Resources>
         <Style TargetType="{x:Type Button}" x:Key="ImageButtonStyle">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <ContentPresenter/>
+                        <ContentPresenter />
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
     </Window.Resources>
     <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Width="974" Height="652" Margin="0,0,0,-11">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
         <Rectangle HorizontalAlignment="Right" Height="97" Margin="0,308,53,0" Stroke="Black" VerticalAlignment="Top"
                    Width="222" RenderTransformOrigin="0.5,0.5">
             <Rectangle.RenderTransform>
@@ -82,20 +79,28 @@
                 VerticalAlignment="Top" Width="102" Height="22" />
         <Button x:Name="ButtonEditCancel" Content="Mégsem" HorizontalAlignment="Right" Margin="0,111,137,0"
                 VerticalAlignment="Top" Width="102" Height="21" />
-        <TextBox x:Name="textBoxForMessages" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Left" Height="105" TextWrapping="Wrap" VerticalAlignment="Top" Width="321" IsReadOnlyCaretVisible="True" SelectionOpacity="1" Margin="645,535,0,0"/>
-        <Button Style="{StaticResource ImageButtonStyle}" Click="ImageButton_Click" Margin="0" Width="640" HorizontalAlignment="Left" VerticalAlignment="Top" Height="640">
-            <Image x:Name="Image" HorizontalAlignment="Left" Height="640" VerticalAlignment="Bottom" Width="640"/>
+        <TextBox x:Name="TextBoxForMessages" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Left"
+                 Height="105" TextWrapping="Wrap" VerticalAlignment="Top" Width="321" IsReadOnlyCaretVisible="True"
+                 SelectionOpacity="1" Margin="645,535,0,0" />
+        <Button Style="{StaticResource ImageButtonStyle}" Click="ImageButton_Click" Margin="0" Width="640"
+                HorizontalAlignment="Left" VerticalAlignment="Top" Height="640">
+            <Image x:Name="Image" HorizontalAlignment="Left" Height="640" VerticalAlignment="Bottom" Width="640" />
         </Button>
         <Rectangle HorizontalAlignment="Right" Height="46" Margin="0,202,123,0" Stroke="Black" VerticalAlignment="Top"
-        	Width="48" />
-        <Label x:Name="LabelChoose_Copy" Content="Legyezőforma kiválasztása" HorizontalAlignment="Right" Margin="0,179,12,0"
-        	VerticalAlignment="Top" Height="25" Width="170" />
-        <RadioButton GroupName="AngleViweChoose" x:Name="radioButton" Content="1" HorizontalAlignment="Left" Margin="808,211,0,0" VerticalAlignment="Top"/>
-        <RadioButton GroupName="AngleViweChoose" x:Name="radioButton1" Content="2" HorizontalAlignment="Left" Margin="808,229,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="checkBoxLogOnOff" Content="Üzenetek Logolása" HorizontalAlignment="Left" Margin="658,418,0,0" VerticalAlignment="Top" Checked="checkBoxLogOnOff_Checked" Unchecked="checkBoxLogOnOff_Unchecked"/>
-        <TextBox Visibility="Hidden" x:Name="textBoxLogFileName" HorizontalAlignment="Left" Height="23" Margin="779,412,0,0" TextWrapping="Wrap" Text="fájlnév" VerticalAlignment="Top" Width="120"/>
-        <Rectangle HorizontalAlignment="Left" Height="640" Stroke="Black" VerticalAlignment="Top" Width="640"/>
+                   Width="48" />
+        <Label x:Name="LabelChooseCopy" Content="Legyezőforma kiválasztása" HorizontalAlignment="Right"
+               Margin="0,179,12,0"
+               VerticalAlignment="Top" Height="25" Width="170" />
+        <RadioButton GroupName="AngleViweChoose" x:Name="RadioButton" Content="1" HorizontalAlignment="Left"
+                     Margin="808,211,0,0" VerticalAlignment="Top" />
+        <RadioButton GroupName="AngleViweChoose" x:Name="RadioButton1" Content="2" HorizontalAlignment="Left"
+                     Margin="808,229,0,0" VerticalAlignment="Top" />
+        <CheckBox x:Name="CheckBoxLogOnOff" Content="Üzenetek Logolása" HorizontalAlignment="Left" Margin="658,418,0,0"
+                  VerticalAlignment="Top" Checked="checkBoxLogOnOff_Checked" Unchecked="checkBoxLogOnOff_Unchecked" />
+        <TextBox Visibility="Hidden" x:Name="TextBoxLogFileName" HorizontalAlignment="Left" Height="23"
+                 Margin="779,412,0,0" TextWrapping="Wrap" Text="fájlnév" VerticalAlignment="Top" Width="120" />
+        <Rectangle HorizontalAlignment="Left" Height="640" Stroke="Black" VerticalAlignment="Top" Width="640" />
         <Rectangle HorizontalAlignment="Right" Height="102" Margin="0,39,123,0" Stroke="Black" VerticalAlignment="Top"
-        	Width="126" />
+                   Width="126" />
     </Grid>
 </Window>

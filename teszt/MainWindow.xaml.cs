@@ -9,7 +9,10 @@ using Microsoft.Win32;
 
 namespace teszt {
     public partial class MainWindow {
+        private const int MyImageSizeX = 640;
+        private const int MyImageSizeY = 640;
         private readonly ShapeDrawer sd = new ShapeDrawer();
+        private CsvToMatrix map;
         private BitmapSource myBitmapSource;
         private byte[] pixels;
 
@@ -17,10 +20,10 @@ namespace teszt {
             InitializeComponent();
 
             // változó inicializálása a MessageHandler osztályban
-            MessageHandler.TextBoxMessages = textBoxForMessages;
+            MessageHandler.TextBoxMessages = TextBoxForMessages;
 
 
-            if (checkBoxLogOnOff.IsChecked.Value) textBoxLogFileName.Visibility = Visibility.Visible;
+            if (CheckBoxLogOnOff.IsChecked.Value) TextBoxLogFileName.Visibility = Visibility.Visible;
 
             pixels = new byte[640 * 640 * 4];
             myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, pixels, 640 * 4);
@@ -42,16 +45,16 @@ namespace teszt {
                                                      };
 
             if (openFileDialog1.ShowDialog() == true) {
-                var file = new CsvToMatrix(openFileDialog1.FileName);
+                map = new CsvToMatrix(openFileDialog1.FileName);
 
-                file.Read();
+                map.Read();
 
-                var pixels = new byte[file.Map.GetLength(0) * file.Map.GetLength(1) * 4];
+                pixels = new byte[MyImageSizeX * MyImageSizeY * 4];
                 var current = 0;
 
-                for (var i = 0; i < file.Map.GetLength(0); i++)
-                    for (var j = 0; j < file.Map.GetLength(1); j++)
-                        if (file.Map[i, j]) {
+                for (var i = 0; i < MyImageSizeX; i++)
+                    for (var j = 0; j < MyImageSizeY; j++)
+                        if (map.Map[i, j]) {
                             pixels[current++] = 255;
                             pixels[current++] = 255;
                             pixels[current++] = 255;
@@ -64,12 +67,8 @@ namespace teszt {
                             pixels[current++] = 255;
                         }
 
-                //Image.Width = file.Map.GetLength(1);
-                //Image.Height = file.Map.GetLength(0);
-
-                //  MessageBox.Show(file.Map.GetLength(0) + "x" + file.Map.GetLength(1));
-
-                myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, pixels, 640 * 4);
+                myBitmapSource = BitmapSource.Create(MyImageSizeX, MyImageSizeY, 96, 96, PixelFormats.Pbgra32, null,
+                                                     pixels, MyImageSizeX * 4);
                 Image.Source = myBitmapSource;
                 RenderOptions.SetBitmapScalingMode(Image, BitmapScalingMode.NearestNeighbor);
             }
@@ -81,58 +80,34 @@ namespace teszt {
         }
 
         private void ButtonStart_Click(object sender, RoutedEventArgs e) {
-            textBoxForMessages.Text = "";
-            var openFileDialog1 = new OpenFileDialog {
-                                                         Filter = "CSV Files|*.csv",
-                                                         Title = "Select a CSV File",
-                                                         InitialDirectory = Assembly.GetExecutingAssembly().Location
-                                                     };
-            if (openFileDialog1.ShowDialog() == true) {
-                var robot = new Robot((int) SliderViweAngle.Value, Convert.ToInt32(TextBoxPositionX.Text),
-                                      Convert.ToInt32(TextBoxPositionY.Text),
-                                      Convert.ToInt32(TextBoxCoveringPercentage.Text), 90, openFileDialog1.FileName);
+            TextBoxForMessages.Text = "";
 
+            Robot robot = null;
+            if (RadioButton.IsChecked != null && RadioButton.IsChecked.Value)
+                robot = new Robot((int) SliderViweAngle.Value, Convert.ToInt32(TextBoxPositionX.Text),
+                                  Convert.ToInt32(TextBoxPositionY.Text),
+                                  Convert.ToInt32(TextBoxCoveringPercentage.Text), 90, "fan50A.csv");
+            else if (RadioButton1.IsChecked != null && RadioButton1.IsChecked.Value)
+                robot = new Robot((int) SliderViweAngle.Value, Convert.ToInt32(TextBoxPositionX.Text),
+                                  Convert.ToInt32(TextBoxPositionY.Text),
+                                  Convert.ToInt32(TextBoxCoveringPercentage.Text), 90, "fan100.csv");
 
+            if (robot != null) {
                 var stride = myBitmapSource.PixelWidth * 4;
                 var size = myBitmapSource.PixelHeight * stride;
-                var pixels = new byte[size];
-                //myBitmapSource.CopyPixels(pixels, stride, 0);
-                //MessageBox.Show(myBitmapSource.PixelWidth + " " + myBitmapSource.PixelHeight);
+                pixels = new byte[size];
 
-
-                /*var current = 0;
-                var robotPixels = new byte[robot.Robot1.Map.GetLength(0) * robot.Robot1.Map.GetLength(1) * 4];
-
-                for (var i = 0; i < robot.Robot1.Map.GetLength(0); i++)
-                    for (var j = 0; j < robot.Robot1.Map.GetLength(1); j++)
-                        if (robot.Robot1.Map[i, j]) {
-                            robotPixels[current++] = 255;
-                            robotPixels[current++] = 255;
-                            robotPixels[current++] = 255;
-                            robotPixels[current++] = 255;
-                        }
-                        else {
-                            robotPixels[current++] = 0;
-                            robotPixels[current++] = 0;
-                            robotPixels[current++] = 0;
-                            robotPixels[current++] = 255;
-                        }*/
-
-
-                //combine the two arrays
                 var result = new bool[640, 640];
-                var original = new CsvToMatrix(@"c:\Users\David\Desktop\SzimulációsTechnikák\map03.csv");
-                original.Read();
 
-                for (var i = 0; i < 640; i++) for (var j = 0; j < 640; j++) result[i, j] = original.Map[i, j];
+                for (var i = 0; i < 640; i++) for (var j = 0; j < 640; j++) result[i, j] = map.Map[i, j];
 
 
                 for (var i = robot.X; i < robot.X + robot.Robot1.Map.GetLength(0); i++)
                     for (var j = robot.Y; j < robot.Y + robot.Robot1.Map.GetLength(1); j++)
-                        if (original.Map[i, j] && robot.Robot1.Map[i - robot.X, j - robot.Y]) result[i, j] = true;
-                        else if (!original.Map[i, j] && robot.Robot1.Map[i - robot.X, j - robot.Y]) result[i, j] = true;
-                        else if (!original.Map[i, j] && !robot.Robot1.Map[i - robot.X, j - robot.Y]) result[i, j] = false;
-                        else if (original.Map[i, j] && !robot.Robot1.Map[i - robot.X, j - robot.Y]) result[i, j] = false;
+                        if (map.Map[i, j] && robot.Robot1.Map[i - robot.X, j - robot.Y]) result[i, j] = true;
+                        else if (!map.Map[i, j] && robot.Robot1.Map[i - robot.X, j - robot.Y]) result[i, j] = true;
+                        else if (!map.Map[i, j] && !robot.Robot1.Map[i - robot.X, j - robot.Y]) result[i, j] = false;
+                        else if (map.Map[i, j] && !robot.Robot1.Map[i - robot.X, j - robot.Y]) result[i, j] = false;
 
 
                 var current = 0;
@@ -151,7 +126,8 @@ namespace teszt {
                             pixels[current++] = 255;
                         }
 
-                myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, pixels, 640 * 4);
+                myBitmapSource = BitmapSource.Create(MyImageSizeX, MyImageSizeY, 96, 96, PixelFormats.Pbgra32, null,
+                                                     pixels, MyImageSizeX * 4);
                 Image.Source = myBitmapSource;
                 RenderOptions.SetBitmapScalingMode(Image, BitmapScalingMode.NearestNeighbor);
 
@@ -163,11 +139,13 @@ namespace teszt {
                 else if (RadioButtonHeuristic2.IsChecked != null && RadioButtonHeuristic2.IsChecked.Value);
                 //h2*/
             }
+            else MessageBox.Show("Kérem válasszon robot típust!");
         }
+
 
         private void ImageButton_Click(object sender, RoutedEventArgs e) {
             var p1 = Mouse.GetPosition(this);
-            Console.WriteLine("Mouse.GetPosition: {0}, {1}", p1.X - 11, p1.Y - 51);
+            Console.WriteLine(@"Mouse.GetPosition: {0}, {1}", p1.X - 11, p1.Y - 51);
             var newPoint = new Point(p1.X - 11, p1.Y - 51);
 
             myBitmapSource.CopyPixels(pixels, 640 * 4, 0);
@@ -180,20 +158,16 @@ namespace teszt {
             Image.Source = myBitmapSource;
         }
 
-        private void checkBoxLogOnOff_Checked(object sender, RoutedEventArgs e)
-        {
-            textBoxLogFileName.Visibility = Visibility.Visible;
-
+        private void checkBoxLogOnOff_Checked(object sender, RoutedEventArgs e) {
+            TextBoxLogFileName.Visibility = Visibility.Visible;
         }
 
-        private void checkBoxLogOnOff_Unchecked(object sender, RoutedEventArgs e)
-        {
-            textBoxLogFileName.Visibility = Visibility.Hidden;
+        private void checkBoxLogOnOff_Unchecked(object sender, RoutedEventArgs e) {
+            TextBoxLogFileName.Visibility = Visibility.Hidden;
         }
 
-        private void ButtonStop_Click(object sender, RoutedEventArgs e)
-        {
-           if (checkBoxLogOnOff.IsChecked.Equals(true)) MessageHandler.ToLog(textBoxLogFileName.Text);
+        private void ButtonStop_Click(object sender, RoutedEventArgs e) {
+            if (CheckBoxLogOnOff.IsChecked.Equals(true)) MessageHandler.ToLog(TextBoxLogFileName.Text);
         }
     }
 }
