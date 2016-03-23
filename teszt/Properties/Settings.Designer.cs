@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WpfMapTest.Properties
+namespace teszt.Properties
 {
 
 
