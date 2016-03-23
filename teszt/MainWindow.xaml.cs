@@ -129,12 +129,12 @@ namespace teszt {
                 for (var i = 0; i < 640; i++) for (var j = 0; j < 640; j++) result[i, j] = original.Map[i, j];
 
 
-                for (var i = 50; i < 50 + robot.Robot1.Map.GetLength(0); i++)
-                    for (var j = 50; j < 50 + robot.Robot1.Map.GetLength(1); j++)
-                        if (original.Map[i, j] && robot.Robot1.Map[i - 50, j - 50]) result[i, j] = true;
-                        else if (!original.Map[i, j] && robot.Robot1.Map[i - 50, j - 50]) result[i, j] = true;
-                        else if (!original.Map[i, j] && !robot.Robot1.Map[i - 50, j - 50]) result[i, j] = false;
-                        else if (original.Map[i, j] && !robot.Robot1.Map[i - 50, j - 50]) result[i, j] = false;
+                for (var i = robot.X; i < robot.X + robot.Robot1.Map.GetLength(0); i++)
+                    for (var j = robot.Y; j < robot.Y + robot.Robot1.Map.GetLength(1); j++)
+                        if (original.Map[i, j] && robot.Robot1.Map[i - robot.X, j - robot.Y]) result[i, j] = true;
+                        else if (!original.Map[i, j] && robot.Robot1.Map[i - robot.X, j - robot.Y]) result[i, j] = true;
+                        else if (!original.Map[i, j] && !robot.Robot1.Map[i - robot.X, j - robot.Y]) result[i, j] = false;
+                        else if (original.Map[i, j] && !robot.Robot1.Map[i - robot.X, j - robot.Y]) result[i, j] = false;
 
 
                 var current = 0;
