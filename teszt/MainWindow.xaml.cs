@@ -16,14 +16,11 @@ namespace teszt {
         public MainWindow() {
             InitializeComponent();
 
-            // Üzenetek tesztelése
-            var Messages = new MessageHandler(textBoxMessages);
-            Messages.Write("Uzenet1");
-            Messages.Write("Uzenet2");
-            Messages.Write("Uzenet3");
-            Messages.Write("Uzenet4");
-            Messages.Write("Uzenet5");
-            Messages.Write("Uzenet6");
+            // változó inicializálása a MessageHandler osztályban
+            MessageHandler.TextBoxMessages = textBoxForMessages;
+
+
+            if (checkBoxLogOnOff.IsChecked.Value) textBoxLogFileName.Visibility = Visibility.Visible;
 
             pixels = new byte[640 * 640 * 4];
             myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, pixels, 640 * 4);
@@ -84,6 +81,7 @@ namespace teszt {
         }
 
         private void ButtonStart_Click(object sender, RoutedEventArgs e) {
+            textBoxForMessages.Text = "";
             var openFileDialog1 = new OpenFileDialog {
                                                          Filter = "CSV Files|*.csv",
                                                          Title = "Select a CSV File",
@@ -180,6 +178,22 @@ namespace teszt {
 
             myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, pixels, 640 * 4);
             Image.Source = myBitmapSource;
+        }
+
+        private void checkBoxLogOnOff_Checked(object sender, RoutedEventArgs e)
+        {
+            textBoxLogFileName.Visibility = Visibility.Visible;
+
+        }
+
+        private void checkBoxLogOnOff_Unchecked(object sender, RoutedEventArgs e)
+        {
+            textBoxLogFileName.Visibility = Visibility.Hidden;
+        }
+
+        private void ButtonStop_Click(object sender, RoutedEventArgs e)
+        {
+           if (checkBoxLogOnOff.IsChecked.Equals(true)) MessageHandler.ToLog(textBoxLogFileName.Text);
         }
     }
 }
