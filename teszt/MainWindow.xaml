@@ -29,8 +29,8 @@
                 </TransformGroup>
             </Rectangle.RenderTransform>
         </Rectangle>
-        <Rectangle HorizontalAlignment="Right" Height="67" Margin="0,203,220,0" Stroke="Black" VerticalAlignment="Top"
-                   Width="96" />
+        <Rectangle HorizontalAlignment="Right" Height="67" Margin="0,204,206,0" Stroke="Black" VerticalAlignment="Top"
+                   Width="110" />
         <Button x:Name="ButtonMapOpen" Content="Megnyitás&#xA;" Margin="0,46,137,0"
                 VerticalAlignment="Top" Click="button_Click" Height="21" HorizontalAlignment="Right" Width="102" />
         <Button x:Name="ButtonMapEdit" Content="Szerkesztés" HorizontalAlignment="Right" Margin="0,67,137,0"
