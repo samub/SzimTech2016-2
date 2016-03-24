@@ -11,10 +11,9 @@ namespace teszt
         Használata:
         Write() osztálymetódussal kiíratunk egy üzenetet a boxba. Az üzeneteket egymás után fűzi.
         ToLog() osztálymetódussal fileba íratjuk a tartalmát, majd ürítjük, majd kijelezzük hogy hova írta ki. Ez a GUI-ból is használható.
-        Start előtte bepipálható, hogy logoljon e, ilyenkor Stop gombot kell használni, hogy ez tényleg meg is történjen.
+        Start előtt bepipálható, hogy logoljon e, ilyenkor Stop gombot kell használni, hogy ez tényleg meg is történjen.
         Start gomb kiüríti a tartalmát.
-        Stop gomb fileba írja(ToLog()) a tartalmát, és kiírja, hogy hova mentette
-   
+        Stop gomb fileba írja(ToLog()) a tartalmát, és kiírja, hogy hova mentette   
     */
     class MessageHandler
     {

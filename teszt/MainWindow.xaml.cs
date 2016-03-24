@@ -205,11 +205,12 @@ namespace teszt {
         }
 
         private void button_Click_1(object sender, RoutedEventArgs e) {
-            _robot.Rotate(-1);
+            _robot.Reposition(Convert.ToInt32(TextBoxPositionX.Text), Convert.ToInt32(TextBoxPositionY.Text), Convert.ToInt32(textBox_TESZT.Text));
             MapRefresh();
         }
 
         private void button1_Click(object sender, RoutedEventArgs e) {
+            _robot.Reposition(120, 120, 50);
             _robot.Rotate(1);
             MapRefresh();
         }
