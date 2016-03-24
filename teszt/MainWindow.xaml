@@ -84,7 +84,7 @@
                  SelectionOpacity="1" Margin="645,535,0,0" />
         <Button Style="{StaticResource ImageButtonStyle}" Click="ImageButton_Click" Margin="0" Width="640"
                 HorizontalAlignment="Left" VerticalAlignment="Top" Height="640">
-            <Image x:Name="Image" HorizontalAlignment="Left" Height="640" VerticalAlignment="Bottom" Width="640" />
+            <Image x:Name="Image" HorizontalAlignment="Left" Height="640" VerticalAlignment="Top" Width="640" />
         </Button>
         <Rectangle HorizontalAlignment="Right" Height="46" Margin="0,202,123,0" Stroke="Black" VerticalAlignment="Top"
                    Width="48" />
