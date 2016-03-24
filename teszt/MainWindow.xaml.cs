@@ -13,6 +13,7 @@ namespace teszt {
         private const int MyImageSizeY = 640;
         private readonly ShapeDrawer sd = new ShapeDrawer();
         private BitmapSource _myOriginalMap;
+        private Robot _robot;
         private CsvToMatrix map;
         private BitmapSource myBitmapSource;
         private byte[] pixels;
@@ -86,83 +87,95 @@ namespace teszt {
         private void ButtonStart_Click(object sender, RoutedEventArgs e) {
             TextBoxForMessages.Text = "";
 
-            Robot robot = null;
+
             if (RadioButton.IsChecked != null && RadioButton.IsChecked.Value)
                 if (TextBoxPositionX.Text.Length != 0 && TextBoxPositionY.Text.Length != 0 &&
                     TextBoxCoveringPercentage.Text.Length != 0)
-                    robot = new Robot((int) SliderViweAngle.Value, Convert.ToInt32(TextBoxPositionX.Text),
-                                      Convert.ToInt32(TextBoxPositionY.Text),
-                                      Convert.ToInt32(TextBoxCoveringPercentage.Text), 90, "fan50A.csv");
+                    _robot = new Robot((int) SliderViweAngle.Value, Convert.ToInt32(TextBoxPositionX.Text),
+                                       Convert.ToInt32(TextBoxPositionY.Text),
+                                       Convert.ToInt32(TextBoxCoveringPercentage.Text), 90, "fan50A.csv");
                 else MessageBox.Show("Adjon meg kezdőértékeket a robotnak!");
             else if (RadioButton1.IsChecked != null && RadioButton1.IsChecked.Value)
                 if (TextBoxPositionX.Text.Length != 0 && TextBoxPositionY.Text.Length != 0 &&
                     TextBoxCoveringPercentage.Text.Length != 0)
-                    robot = new Robot((int) SliderViweAngle.Value, Convert.ToInt32(TextBoxPositionX.Text),
-                                      Convert.ToInt32(TextBoxPositionY.Text),
-                                      Convert.ToInt32(TextBoxCoveringPercentage.Text), 90, "fan100.csv");
+                    _robot = new Robot((int) SliderViweAngle.Value, Convert.ToInt32(TextBoxPositionX.Text),
+                                       Convert.ToInt32(TextBoxPositionY.Text),
+                                       Convert.ToInt32(TextBoxCoveringPercentage.Text), 90, "fan100.csv");
                 else MessageBox.Show("Adjon meg kezdőértékeket a robotnak!");
 
-            if (robot != null) {
-                var stride = myBitmapSource.PixelWidth * 4;
-                var size = myBitmapSource.PixelHeight * stride;
-                pixels = new byte[size];
-                _myOriginalMap.CopyPixels(pixels, stride, 0);
+            if (_robot != null) MapRefresh();
 
-                robot.Rotate(90);
-
-                var stride1 = robot.MyBitmap.PixelWidth * 4;
-                var size1 = robot.MyBitmap.PixelHeight * stride;
-                var robotPix = new byte[size1];
-                robot.MyBitmap.CopyPixels(robotPix, stride1, 0);
-
-
-                for (var i = 0; i < robot.Robot1.Map.GetLength(0) * 4; i += 4)
-                    for (var j = 0; j < robot.Robot1.Map.GetLength(1); j += 1)
-                        if (pixels[i + j * 4 * 640] == 255 && robotPix[i + j * 4 * robot.Robot1.Map.GetLength(1)] == 255) {
-                            pixels[i + j * 4 * 640] = 255;
-                            pixels[i + j * 4 * 640 + 1] = 255;
-                            pixels[i + j * 4 * 640 + 2] = 255;
-                            pixels[i + j * 4 * 640 + 3] = 255;
-                        }
-                        else if (pixels[i + j * 4 * 640] == 0 &&
-                                 robotPix[i + j * 4 * robot.Robot1.Map.GetLength(1)] == 255) {
-                            pixels[i + j * 4 * 640] = 255;
-                            pixels[i + j * 4 * 640 + 1] = 255;
-                            pixels[i + j * 4 * 640 + 2] = 255;
-                            pixels[i + j * 4 * 640 + 3] = 255;
-                        }
-                        else if (pixels[i + j * 4 * 640] == 0 &&
-                                 robotPix[i + j * 4 * robot.Robot1.Map.GetLength(1)] == 0) {
-                            pixels[i + j * 4 * 640] = 0;
-                            pixels[i + j * 4 * 640 + 1] = 0;
-                            pixels[i + j * 4 * 640 + 2] = 0;
-                            pixels[i + j * 4 * 640 + 3] = 255;
-                        }
-                        else if (pixels[i + j * 4 * 640] == 255 &&
-                                 robotPix[i + j * 4 * robot.Robot1.Map.GetLength(1)] == 0) {
-                            pixels[i + j * 4 * 640] = 0;
-                            pixels[i + j * 4 * 640 + 1] = 0;
-                            pixels[i + j * 4 * 640 + 2] = 0;
-                            pixels[i + j * 4 * 640 + 3] = 255;
-                        }
-
-
-                myBitmapSource = BitmapSource.Create(MyImageSizeX, MyImageSizeY, 96, 96, PixelFormats.Pbgra32, null,
-                                                     pixels, MyImageSizeX * 4);
-                Image.Source = myBitmapSource;
-                RenderOptions.SetBitmapScalingMode(Image, BitmapScalingMode.NearestNeighbor);
-
-
-                /*if (RadioButtonGenetic.IsChecked != null && RadioButtonGenetic.IsChecked.Value);
+            /*if (RadioButtonGenetic.IsChecked != null && RadioButtonGenetic.IsChecked.Value);
                 //genetic
                 else if (RadioButtonHeuristic1.IsChecked != null && RadioButtonHeuristic1.IsChecked.Value);
                 //h1
                 else if (RadioButtonHeuristic2.IsChecked != null && RadioButtonHeuristic2.IsChecked.Value);
                 //h2*/
-            }
             else MessageBox.Show("Kérem válasszon robot típust!");
         }
 
+        private void MapRefresh() {
+            if (_robot != null) {
+                var stride = myBitmapSource.PixelWidth * 4;
+                var size = myBitmapSource.PixelHeight * stride;
+                pixels = new byte[size];
+                _myOriginalMap.CopyPixels(pixels, stride, 0);
+
+
+                var stride1 = _robot.MyBitmap.PixelWidth * 4;
+                var size1 = _robot.MyBitmap.PixelHeight * stride;
+                var robotPix = new byte[size1];
+                _robot.MyBitmap.CopyPixels(robotPix, stride1, 0);
+
+                var startPixelX = _robot.X - _robot.Robot1.Map.GetLength(0) / 2;
+                var startPixelY = _robot.Y - _robot.Robot1.Map.GetLength(1) / 2;
+
+                for (var i = startPixelX; i < startPixelX + _robot.Robot1.Map.GetLength(0); i++)
+                    for (var j = startPixelY; j < startPixelY + _robot.Robot1.Map.GetLength(1); j++)
+                        if (pixels[i * 4 + j * 4 * 640] == 255 &&
+                            robotPix[
+                                     i * 4 - startPixelX * 4 + j * 4 * _robot.Robot1.Map.GetLength(1) -
+                                     startPixelY * 4 * _robot.Robot1.Map.GetLength(1)] == 255) {
+                            pixels[i * 4 + j * 4 * 640] = 255;
+                            pixels[i * 4 + j * 4 * 640 + 1] = 255;
+                            pixels[i * 4 + j * 4 * 640 + 2] = 255;
+                            pixels[i * 4 + j * 4 * 640 + 3] = 255;
+                        }
+                        else if (pixels[i * 4 + j * 4 * 640] == 0 &&
+                                 robotPix[
+                                          i * 4 - startPixelX * 4 + j * 4 * _robot.Robot1.Map.GetLength(1) -
+                                          startPixelY * 4 * _robot.Robot1.Map.GetLength(1)] == 255) {
+                            pixels[i * 4 + j * 4 * 640] = 255;
+                            pixels[i * 4 + j * 4 * 640 + 1] = 255;
+                            pixels[i * 4 + j * 4 * 640 + 2] = 255;
+                            pixels[i * 4 + j * 4 * 640 + 3] = 255;
+                        }
+                        else if (pixels[i * 4 + j * 4 * 640] == 0 &&
+                                 robotPix[
+                                          i * 4 - startPixelX * 4 + j * 4 * _robot.Robot1.Map.GetLength(1) -
+                                          startPixelY * 4 * _robot.Robot1.Map.GetLength(1)] == 0) {
+                            pixels[i * 4 + j * 4 * 640] = 0;
+                            pixels[i * 4 + j * 4 * 640 + 1] = 0;
+                            pixels[i * 4 + j * 4 * 640 + 2] = 0;
+                            pixels[i * 4 + j * 4 * 640 + 3] = 255;
+                        }
+                        else if (pixels[i * 4 + j * 4 * 640] == 255 &&
+                                 robotPix[
+                                          i * 4 - startPixelX * 4 + j * 4 * _robot.Robot1.Map.GetLength(1) -
+                                          startPixelY * 4 * _robot.Robot1.Map.GetLength(1)] == 0) {
+                            pixels[i * 4 + j * 4 * 640] = 0;
+                            pixels[i * 4 + j * 4 * 640 + 1] = 0;
+                            pixels[i * 4 + j * 4 * 640 + 2] = 0;
+                            pixels[i * 4 + j * 4 * 640 + 3] = 255;
+                        }
+
+                myBitmapSource = BitmapSource.Create(MyImageSizeX, MyImageSizeY, 96, 96, PixelFormats.Pbgra32, null,
+                                                     pixels, MyImageSizeX * 4);
+                Image.Source = myBitmapSource;
+                RenderOptions.SetBitmapScalingMode(Image, BitmapScalingMode.NearestNeighbor);
+            }
+            else MessageBox.Show("Kérem válasszon robot típust!");
+        }
 
         private void ImageButton_Click(object sender, RoutedEventArgs e) {
             var p1 = Mouse.GetPosition(this);
@@ -189,6 +202,16 @@ namespace teszt {
 
         private void ButtonStop_Click(object sender, RoutedEventArgs e) {
             if (CheckBoxLogOnOff.IsChecked.Equals(true)) MessageHandler.ToLog(TextBoxLogFileName.Text);
+        }
+
+        private void button_Click_1(object sender, RoutedEventArgs e) {
+            _robot.Rotate(-1);
+            MapRefresh();
+        }
+
+        private void button1_Click(object sender, RoutedEventArgs e) {
+            _robot.Rotate(1);
+            MapRefresh();
         }
     }
 }
