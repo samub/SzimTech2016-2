@@ -1,11 +1,17 @@
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Collections.Generic;
 
 namespace teszt {
     internal class Robot {
+        public readonly List<Tuple<int, int, double>> Route = new List<Tuple<int, int, double>>();
+
+        public int X;
+
+        public int Y;
+
         public Robot(int angleview, int x, int y, int cover, double theta, string robotName) {
             Robot1 = new CsvToMatrix(robotName);
             Robot1.Read();
@@ -15,47 +21,17 @@ namespace teszt {
             Y = y;
             Cover = cover;
             Theta = theta;
-
-            // original coordinates init
-            var stride = MyBitmap.PixelWidth * 4;
-            var size = MyBitmap.PixelHeight * stride;
-            var pixArray = new byte[size];
-            var coordX = new float[0];
-            var coordY = new float[0];
-            MyBitmap.CopyPixels(pixArray, stride, 0);
-            for (var i = 0; i < Robot1.Map.GetLength(0) * 4; i += 4)
-                for (var j = 0; j < Robot1.Map.GetLength(1); j += 1)
-                    if (pixArray[i + j * 4 * Robot1.Map.GetLength(1)] == 255)
-                    {
-                        Array.Resize(ref coordX, coordX.Length + 1);
-                        Array.Resize(ref coordY, coordY.Length + 1);
-
-                        coordX[coordX.Length - 1] = i / 4 - MyBitmap.PixelWidth / 2;
-                        coordY[coordY.Length - 1] = j - MyBitmap.PixelHeight / 2;
-                    }
-
-            originalCoordinates = new float[coordX.Length, 2];
-            for (var i = 0; i < coordX.Length; i++)
-            {
-                originalCoordinates[i, 0] = coordX[i];
-                originalCoordinates[i, 1] = coordY[i];
-            }
+            OriginalCoordinates = new float[0, 0];
         }
+
+        public float[,] OriginalCoordinates { get; private set; }
 
         public BitmapSource MyBitmap { get; private set; }
 
         public CsvToMatrix Robot1 { get; }
         public double Theta { get; set; }
 
-        public float[,] originalCoordinates;
-
         public int Cover { get; set; }
-
-        public int Y;
-
-        public int X;
-
-        public List<Tuple<int,int,double>> Route=new List<Tuple<int, int, double>>();
 
         public int AngleView { get; set; }
 
@@ -81,8 +57,7 @@ namespace teszt {
                                            PixelFormats.Pbgra32, null, pixels, Robot1.Map.GetLength(0) * 4);
         }
 
-        public void Reposition(int x, int y, double rotAngle)
-        {
+        public void Reposition(int x, int y, double rotAngle) {
             X = x;
             Y = y;
             var stride = MyBitmap.PixelWidth * 4;
@@ -93,8 +68,7 @@ namespace teszt {
             MyBitmap.CopyPixels(pixArray, stride, 0);
             for (var i = 0; i < Robot1.Map.GetLength(0) * 4; i += 4)
                 for (var j = 0; j < Robot1.Map.GetLength(1); j += 1)
-                    if (pixArray[i + j * 4 * Robot1.Map.GetLength(1)] == 255)
-                    {
+                    if (pixArray[i + j * 4 * Robot1.Map.GetLength(1)] == 255) {
                         Array.Resize(ref coordX, coordX.Length + 1);
                         Array.Resize(ref coordY, coordY.Length + 1);
 
@@ -102,17 +76,24 @@ namespace teszt {
                         coordY[coordY.Length - 1] = j - MyBitmap.PixelHeight / 2;
                     }
 
+            if (OriginalCoordinates.Length == 0) {
+                OriginalCoordinates = new float[coordX.Length, 2];
+                for (var i = 0; i < coordX.Length; i++) {
+                    OriginalCoordinates[i, 0] = coordX[i];
+                    OriginalCoordinates[i, 1] = coordY[i];
+                }
+            }
+
             float[,] rotMatrix = {
                                      {(float) Math.Cos(rotAngle), (float) -Math.Sin(rotAngle)},
                                      {(float) Math.Sin(rotAngle), (float) Math.Cos(rotAngle)}
                                  };
 
-            var resultMatrix = MatrixMult(originalCoordinates, rotMatrix);
+            var resultMatrix = MatrixMult(OriginalCoordinates, rotMatrix);
 
 
             for (var i = 0; i < Robot1.Map.GetLength(0) * 4; i += 4)
-                for (var j = 0; j < Robot1.Map.GetLength(1); j = j + 1)
-                {
+                for (var j = 0; j < Robot1.Map.GetLength(1); j = j + 1) {
                     pixArray[i + j * 4 * Robot1.Map.GetLength(1)] = 0; //r
                     pixArray[i + j * 4 * Robot1.Map.GetLength(1) + 1] = 0; // g 
                     pixArray[i + j * 4 * Robot1.Map.GetLength(1) + 2] = 0; // b 
@@ -120,36 +101,32 @@ namespace teszt {
                 }
 
 
-            for (var i = 0; i < resultMatrix.GetLength(0); i++)
-            {
-                var pixelUp = (int)Math.Ceiling(resultMatrix[i, 0] + MyBitmap.PixelHeight / 2) * 4 +
-                              (int)Math.Ceiling(resultMatrix[i, 1] + MyBitmap.PixelWidth / 2) * 4 *
+            for (var i = 0; i < resultMatrix.GetLength(0); i++) {
+                var pixelUp = (int) Math.Ceiling(resultMatrix[i, 0] + MyBitmap.PixelHeight / 2) * 4 +
+                              (int) Math.Ceiling(resultMatrix[i, 1] + MyBitmap.PixelWidth / 2) * 4 *
                               Robot1.Map.GetLength(1);
-                var pixelDown = (int)Math.Floor(resultMatrix[i, 0] + MyBitmap.PixelHeight / 2) * 4 +
-                                (int)Math.Floor(resultMatrix[i, 1] + MyBitmap.PixelWidth / 2) * 4 *
+                var pixelDown = (int) Math.Floor(resultMatrix[i, 0] + MyBitmap.PixelHeight / 2) * 4 +
+                                (int) Math.Floor(resultMatrix[i, 1] + MyBitmap.PixelWidth / 2) * 4 *
                                 Robot1.Map.GetLength(1);
 
                 try // TODO: remove try-catch
                 {
                     if (pixelUp > 0 &&
-                        pixelUp <= MyBitmap.PixelWidth * 4 + MyBitmap.PixelHeight * 4 * Robot1.Map.GetLength(1))
-                    {
+                        pixelUp <= MyBitmap.PixelWidth * 4 + MyBitmap.PixelHeight * 4 * Robot1.Map.GetLength(1)) {
                         pixArray[pixelUp] = 255; // r
                         pixArray[pixelUp + 1] = 255; // g 
                         pixArray[pixelUp + 2] = 255; // b 
                         pixArray[pixelUp + 3] = 255; // alpha 
                     }
                     if (pixelDown > 0 &&
-                        pixelDown <= MyBitmap.PixelWidth * 4 + MyBitmap.PixelHeight * 4 * Robot1.Map.GetLength(1))
-                    {
+                        pixelDown <= MyBitmap.PixelWidth * 4 + MyBitmap.PixelHeight * 4 * Robot1.Map.GetLength(1)) {
                         pixArray[pixelDown] = 255; // r
                         pixArray[pixelDown + 1] = 255; // g 
                         pixArray[pixelDown + 2] = 255; // b 
                         pixArray[pixelDown + 3] = 255; // alpha 
                     }
                 }
-                catch
-                {
+                catch {
                     // ignored
                 }
             }

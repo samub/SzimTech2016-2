@@ -205,22 +205,18 @@ namespace teszt {
         }
 
         private void button_Click_1(object sender, RoutedEventArgs e) {
-            _robot.Reposition(Convert.ToInt32(TextBoxPositionX.Text), Convert.ToInt32(TextBoxPositionY.Text), Convert.ToInt32(textBox_TESZT.Text));
+            _robot.Reposition(Convert.ToInt32(TextBoxPositionX.Text), Convert.ToInt32(TextBoxPositionY.Text),
+                              Convert.ToInt32(textBox_TESZT.Text));
             MapRefresh();
         }
 
 
         private void button1_Click(object sender, RoutedEventArgs e) {
-            for (int i=1;i<100;i++)
-            {
-                _robot.Route.Add(new Tuple<int,int,double>(i,i,Convert.ToDouble(i)));
-            }
-            for (int i = 1; i < 100; i++)
-            {
+            for (var i = 200; i < 250; i++) _robot.Route.Add(new Tuple<int, int, double>(i, i + 10, Convert.ToDouble(0)));
+            for (var i = 0; i < _robot.Route.Count; i++) {
                 _robot.Reposition(_robot.Route[i].Item1, _robot.Route[i].Item2, _robot.Route[i].Item3);
                 MapRefresh();
             }
-            
         }
     }
 }
