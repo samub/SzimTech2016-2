@@ -209,9 +209,18 @@ namespace teszt {
             MapRefresh();
         }
 
+
         private void button1_Click(object sender, RoutedEventArgs e) {
-            _robot.Reposition(120, 120, 50);
-            MapRefresh();
+            for (int i=1;i<100;i++)
+            {
+                _robot.Route.Add(new Tuple<int,int,double>(i,i,Convert.ToDouble(i)));
+            }
+            for (int i = 1; i < 100; i++)
+            {
+                _robot.Reposition(_robot.Route[i].Item1, _robot.Route[i].Item2, _robot.Route[i].Item3);
+                MapRefresh();
+            }
+            
         }
     }
 }

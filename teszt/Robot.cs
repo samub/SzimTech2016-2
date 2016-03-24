@@ -2,6 +2,7 @@ using System;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Collections.Generic;
 
 namespace teszt {
     internal class Robot {
@@ -53,6 +54,8 @@ namespace teszt {
         public int Y;
 
         public int X;
+
+        public List<Tuple<int,int,double>> Route=new List<Tuple<int, int, double>>();
 
         public int AngleView { get; set; }
 
