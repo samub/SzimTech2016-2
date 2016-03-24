@@ -211,7 +211,6 @@ namespace teszt {
 
         private void button1_Click(object sender, RoutedEventArgs e) {
             _robot.Reposition(120, 120, 50);
-            _robot.Rotate(1);
             MapRefresh();
         }
     }
