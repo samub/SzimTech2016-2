@@ -8,10 +8,6 @@ namespace teszt {
     internal class Robot {
         public readonly List<Tuple<int, int, double>> Route = new List<Tuple<int, int, double>>();
 
-        public int X;
-
-        public int Y;
-
         public Robot(int angleview, int x, int y, int cover, double theta, string robotName) {
             Robot1 = new CsvToMatrix(robotName);
             Robot1.Read();
@@ -24,7 +20,11 @@ namespace teszt {
             OriginalCoordinates = new float[0, 0];
         }
 
-        public float[,] OriginalCoordinates { get; private set; }
+        public int X { get; private set; }
+
+        public int Y { get; private set; }
+
+        private float[,] OriginalCoordinates { get; set; }
 
         public BitmapSource MyBitmap { get; private set; }
 
@@ -34,7 +34,6 @@ namespace teszt {
         public int Cover { get; set; }
 
         public int AngleView { get; set; }
-
 
         private void BoolMatrixToBitmap() {
             var pixels = new byte[Robot1.Map.GetLength(0) * Robot1.Map.GetLength(1) * 4];
@@ -134,7 +133,7 @@ namespace teszt {
                                            PixelFormats.Pbgra32, null, pixArray, Robot1.Map.GetLength(0) * 4);
         }
 
-        private float[,] MatrixMult(float[,] a, float[,] b) {
+        private static float[,] MatrixMult(float[,] a, float[,] b) {
             float[,] c = {};
             if (a.GetLength(1) == b.GetLength(0)) {
                 c = new float[a.GetLength(0), b.GetLength(1)];

@@ -4,33 +4,33 @@ using System.Windows;
 
 namespace teszt {
     internal class ShapeDrawer {
-        private readonly List<Point> ShapePoints = new List<Point>();
+        private readonly List<Point> _shapePoints = new List<Point>();
 
         public void AddPointToShape(Point p) {
-            ShapePoints.Add(p);
+            _shapePoints.Add(p);
         }
 
-        public byte[] DrawPoints(byte[] pixels, Point NextPoint) {
-            var x1 = Convert.ToInt32(ShapePoints[ShapePoints.Count - 1].X);
-            var y1 = Convert.ToInt32(ShapePoints[ShapePoints.Count - 1].Y);
+        public byte[] DrawPoints(byte[] pixels, Point nextPoint) {
+            var x1 = Convert.ToInt32(_shapePoints[_shapePoints.Count - 1].X);
+            var y1 = Convert.ToInt32(_shapePoints[_shapePoints.Count - 1].Y);
 
-            if (ShapePoints.Count == 1) {
-                var y = Convert.ToInt32(ShapePoints[0].Y);
-                var x = Convert.ToInt32(ShapePoints[0].X);
+            if (_shapePoints.Count == 1) {
+                var y = Convert.ToInt32(_shapePoints[0].Y);
+                var x = Convert.ToInt32(_shapePoints[0].X);
                 var startPixel = y * 640 * 4;
                 pixels[startPixel + x * 4] = 0; // r
                 pixels[startPixel + x * 4 + 1] = 0; // g 
                 pixels[startPixel + x * 4 + 2] = 0; // b 
                 pixels[startPixel + x * 4 + 3] = 255; // alpha 
             }
-            else if (ShapePoints.Count >= 2) {
-                LineCalc(Convert.ToInt32(ShapePoints[ShapePoints.Count - 2].X),
-                         Convert.ToInt32(ShapePoints[ShapePoints.Count - 2].Y),
-                         Convert.ToInt32(ShapePoints[ShapePoints.Count - 1].X),
-                         Convert.ToInt32(ShapePoints[ShapePoints.Count - 1].Y));
-                for (var i = 0; i <= ShapePoints.Count - 1; i++) {
-                    var y = Convert.ToInt32(ShapePoints[i].Y);
-                    var x = Convert.ToInt32(ShapePoints[i].X);
+            else if (_shapePoints.Count >= 2) {
+                LineCalc(Convert.ToInt32(_shapePoints[_shapePoints.Count - 2].X),
+                         Convert.ToInt32(_shapePoints[_shapePoints.Count - 2].Y),
+                         Convert.ToInt32(_shapePoints[_shapePoints.Count - 1].X),
+                         Convert.ToInt32(_shapePoints[_shapePoints.Count - 1].Y));
+                for (var i = 0; i <= _shapePoints.Count - 1; i++) {
+                    var y = Convert.ToInt32(_shapePoints[i].Y);
+                    var x = Convert.ToInt32(_shapePoints[i].X);
                     var startPixel = y * 640 * 4;
                     pixels[startPixel + x * 4] = 0; // r
                     pixels[startPixel + x * 4 + 1] = 0; // g 
@@ -39,16 +39,16 @@ namespace teszt {
                 }
             }
 
-            else if (((x1 + 10 <= NextPoint.X) && (y1 + 10 <= NextPoint.Y || y1 - 10 >= NextPoint.Y)) ||
-                     ((x1 - 10 >= NextPoint.X) && (y1 + 10 <= NextPoint.Y || y1 - 10 >= NextPoint.Y))) {
-                ShapePoints.Add(ShapePoints[0]);
-                LineCalc(Convert.ToInt32(ShapePoints[ShapePoints.Count - 2].X),
-                         Convert.ToInt32(ShapePoints[ShapePoints.Count - 2].Y),
-                         Convert.ToInt32(ShapePoints[ShapePoints.Count - 1].X),
-                         Convert.ToInt32(ShapePoints[ShapePoints.Count - 1].Y));
-                for (var i = 0; i <= ShapePoints.Count - 1; i++) {
-                    var y = Convert.ToInt32(ShapePoints[i].Y);
-                    var x = Convert.ToInt32(ShapePoints[i].X);
+            else if (((x1 + 10 <= nextPoint.X) && (y1 + 10 <= nextPoint.Y || y1 - 10 >= nextPoint.Y)) ||
+                     ((x1 - 10 >= nextPoint.X) && (y1 + 10 <= nextPoint.Y || y1 - 10 >= nextPoint.Y))) {
+                _shapePoints.Add(_shapePoints[0]);
+                LineCalc(Convert.ToInt32(_shapePoints[_shapePoints.Count - 2].X),
+                         Convert.ToInt32(_shapePoints[_shapePoints.Count - 2].Y),
+                         Convert.ToInt32(_shapePoints[_shapePoints.Count - 1].X),
+                         Convert.ToInt32(_shapePoints[_shapePoints.Count - 1].Y));
+                for (var i = 0; i <= _shapePoints.Count - 1; i++) {
+                    var y = Convert.ToInt32(_shapePoints[i].Y);
+                    var x = Convert.ToInt32(_shapePoints[i].X);
                     var startPixel = y * 640 * 4;
                     pixels[startPixel + x * 4] = 0; // r
                     pixels[startPixel + x * 4 + 1] = 0; // g 
@@ -83,7 +83,7 @@ namespace teszt {
             }
             var numerator = longest >> 1;
             for (var i = 0; i <= longest; i++) {
-                ShapePoints.Insert(ShapePoints.Count - 2, new Point(x, y));
+                _shapePoints.Insert(_shapePoints.Count - 2, new Point(x, y));
                 numerator += shortest;
                 if (!(numerator < longest)) {
                     numerator -= longest;

@@ -106,6 +106,7 @@
                 VerticalAlignment="Top" Width="75" Click="button_Click_1" />
         <Button x:Name="Button1" Content="Teszt(Bal)" HorizontalAlignment="Left" Margin="874,74,0,0"
                 VerticalAlignment="Top" Width="75" Click="button1_Click" />
-        <TextBox x:Name="textBox_TESZT" HorizontalAlignment="Left" Height="22" Margin="874,104,0,0" TextWrapping="Wrap" Text="50" VerticalAlignment="Top" Width="75"/>
+        <TextBox x:Name="TextBoxTeszt" HorizontalAlignment="Left" Height="22" Margin="874,104,0,0" TextWrapping="Wrap"
+                 Text="50" VerticalAlignment="Top" Width="75" />
     </Grid>
 </Window>
