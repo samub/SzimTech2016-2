@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Szoba bejárás" SizeToContent="WidthAndHeight" ScrollViewer.HorizontalScrollBarVisibility="Visible"
+        Title="Szoba bejárás" Name="Szoba" SizeToContent="WidthAndHeight"
+        ScrollViewer.HorizontalScrollBarVisibility="Visible"
         UseLayoutRounding="True" Height="668">
     <Window.Resources>
         <Style TargetType="{x:Type Button}" x:Key="ImageButtonStyle">
@@ -62,13 +63,13 @@
         <Label x:Name="Label" Content="Bejárás %" HorizontalAlignment="Right" Margin="0,343,185,0"
                VerticalAlignment="Top" Height="24" Width="84" />
         <TextBox x:Name="TextBoxCoveringPercentage" HorizontalAlignment="Right" Height="24" Margin="0,343,61,0"
-                 TextWrapping="Wrap" VerticalAlignment="Top" Width="102" />
+                 TextWrapping="Wrap" VerticalAlignment="Top" Width="102" PreviewTextInput="IntegerValidationTextBox" />
         <Label x:Name="LabelStartingPosition" Content="Kezdőpozíció" HorizontalAlignment="Right" Margin="0,373,169,0"
                VerticalAlignment="Top" Height="25" Width="100" />
         <TextBox x:Name="TextBoxPositionX" HorizontalAlignment="Right" Height="25" Margin="0,373,115,0"
-                 TextWrapping="Wrap" VerticalAlignment="Top" Width="48" PreviewTextInput="NumberValidationTextBox" />
+                 TextWrapping="Wrap" VerticalAlignment="Top" Width="48" PreviewTextInput="IntegerValidationTextBox" />
         <TextBox x:Name="TextBoxPositionY" HorizontalAlignment="Right" Height="25" Margin="0,373,61,0"
-                 TextWrapping="Wrap" VerticalAlignment="Top" Width="48" PreviewTextInput="NumberValidationTextBox" />
+                 TextWrapping="Wrap" VerticalAlignment="Top" Width="48" PreviewTextInput="IntegerValidationTextBox" />
         <Button x:Name="ButtonStart" Content="Start" HorizontalAlignment="Right" Margin="0,455,88,0"
                 VerticalAlignment="Top" Width="176" Height="36" Click="ButtonStart_Click" />
         <Button x:Name="ButtonStop" Content="Stop" HorizontalAlignment="Right" Margin="0,496,117,0"
@@ -102,8 +103,7 @@
         <Rectangle HorizontalAlignment="Left" Height="640" Stroke="Black" VerticalAlignment="Top" Width="640" />
         <Rectangle HorizontalAlignment="Right" Height="102" Margin="0,39,123,0" Stroke="Black" VerticalAlignment="Top"
                    Width="126" />
-        <Button x:Name="Button" Content="Teszt(Jobb)" HorizontalAlignment="Left" Margin="874,46,0,0"
-                VerticalAlignment="Top" Width="75" Click="button_Click_1" />
+        <Button x:Name="Button" Content="Teszt(Jobb)" Margin="874,46,25,586" Click="button_Click_1" />
         <Button x:Name="Button1" Content="Teszt(Bal)" HorizontalAlignment="Left" Margin="874,74,0,0"
                 VerticalAlignment="Top" Width="75" Click="button1_Click" />
         <TextBox x:Name="TextBoxTeszt" HorizontalAlignment="Left" Height="22" Margin="874,104,0,0" TextWrapping="Wrap"
