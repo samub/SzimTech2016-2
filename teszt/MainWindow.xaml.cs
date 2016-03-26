@@ -11,12 +11,12 @@ namespace teszt {
     public partial class MainWindow {
         private const int MyImageSizeX = 640;
         private const int MyImageSizeY = 640;
-        private readonly ShapeDrawer sd = new ShapeDrawer();
+        private readonly ShapeDrawer _sd = new ShapeDrawer();
+        private CsvToMatrix _map;
+        private BitmapSource _myBitmapSource;
         private BitmapSource _myOriginalMap;
+        private byte[] _pixels;
         private Robot _robot;
-        private CsvToMatrix map;
-        private BitmapSource myBitmapSource;
-        private byte[] pixels;
 
         public MainWindow() {
             InitializeComponent();
@@ -24,16 +24,10 @@ namespace teszt {
             // változó inicializálása a MessageHandler osztályban
             MessageHandler.TextBoxMessages = TextBoxForMessages;
 
-
             if (CheckBoxLogOnOff.IsChecked != null && CheckBoxLogOnOff.IsChecked.Value) TextBoxLogFileName.Visibility = Visibility.Visible;
-
-            pixels = new byte[MyImageSizeX * MyImageSizeY * 4];
-            myBitmapSource = BitmapSource.Create(MyImageSizeX, MyImageSizeY, 96, 96, PixelFormats.Pbgra32, null, pixels,
-                                                 MyImageSizeX * 4);
-            Image.Source = myBitmapSource;
             RenderOptions.SetBitmapScalingMode(Image, BitmapScalingMode.NearestNeighbor);
 
-
+            _pixels = new byte[0];
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             Image.Width = 640;
             Image.Height = 640;
@@ -51,35 +45,34 @@ namespace teszt {
                                                      };
 
             if (openFileDialog1.ShowDialog() == true) {
-                map = new CsvToMatrix(openFileDialog1.FileName);
+                _map = new CsvToMatrix(openFileDialog1.FileName);
 
-                map.Read();
+                _map.Read();
 
-                if (map.Map.GetLength(0) == 640 && map.Map.GetLength(1) == 640) {
-                    pixels = new byte[MyImageSizeX * MyImageSizeY * 4];
+                if (_map.Map.GetLength(0) == 640 && _map.Map.GetLength(1) == 640) {
+                    _pixels = new byte[MyImageSizeX * MyImageSizeY * 4];
                     var current = 0;
 
                     for (var i = 0; i < MyImageSizeX; i++)
                         for (var j = 0; j < MyImageSizeY; j++)
-                            if (map.Map[i, j]) {
-                                pixels[current++] = 255;
-                                pixels[current++] = 255;
-                                pixels[current++] = 255;
-                                pixels[current++] = 255;
+                            if (_map.Map[i, j]) {
+                                _pixels[current++] = 255;
+                                _pixels[current++] = 255;
+                                _pixels[current++] = 255;
+                                _pixels[current++] = 255;
                             }
                             else {
-                                pixels[current++] = 0;
-                                pixels[current++] = 0;
-                                pixels[current++] = 0;
-                                pixels[current++] = 255;
+                                _pixels[current++] = 0;
+                                _pixels[current++] = 0;
+                                _pixels[current++] = 0;
+                                _pixels[current++] = 255;
                             }
 
-                    myBitmapSource = BitmapSource.Create(MyImageSizeX, MyImageSizeY, 96, 96, PixelFormats.Pbgra32, null,
-                                                         pixels, MyImageSizeX * 4);
+                    _myBitmapSource = BitmapSource.Create(MyImageSizeX, MyImageSizeY, 96, 96, PixelFormats.Pbgra32, null,
+                                                          _pixels, MyImageSizeX * 4);
                     _myOriginalMap = BitmapSource.Create(MyImageSizeX, MyImageSizeY, 96, 96, PixelFormats.Pbgra32, null,
-                                                         pixels, MyImageSizeX * 4);
-                    Image.Source = myBitmapSource;
-                    RenderOptions.SetBitmapScalingMode(Image, BitmapScalingMode.NearestNeighbor);
+                                                         _pixels, MyImageSizeX * 4);
+                    Image.Source = _myBitmapSource;
                 }
                 else MessageBox.Show("A térkép felbontása 640x640 lehet.", "Figyelmeztetés");
             }
@@ -140,11 +133,11 @@ namespace teszt {
 
         private void MapRefresh() {
             if (_robot != null)
-                if (map != null) {
-                    var stride = myBitmapSource.PixelWidth * 4;
-                    var size = myBitmapSource.PixelHeight * stride;
-                    pixels = new byte[size];
-                    _myOriginalMap.CopyPixels(pixels, stride, 0);
+                if (_myBitmapSource != null) {
+                    var stride = _myBitmapSource.PixelWidth * 4;
+                    var size = _myBitmapSource.PixelHeight * stride;
+                    _pixels = new byte[size];
+                    _myOriginalMap.CopyPixels(_pixels, stride, 0);
 
 
                     var stride1 = _robot.MyBitmap.PixelWidth * 4;
@@ -157,47 +150,46 @@ namespace teszt {
 
                     for (var i = startPixelX; i < startPixelX + _robot.Robot1.Map.GetLength(0); i++)
                         for (var j = startPixelY; j < startPixelY + _robot.Robot1.Map.GetLength(1); j++)
-                            if (pixels[i * 4 + j * 4 * 640] == 255 &&
+                            if (_pixels[i * 4 + j * 4 * 640] == 255 &&
                                 robotPix[
                                          i * 4 - startPixelX * 4 + j * 4 * _robot.Robot1.Map.GetLength(1) -
                                          startPixelY * 4 * _robot.Robot1.Map.GetLength(1)] == 255) {
-                                pixels[i * 4 + j * 4 * 640] = 255;
-                                pixels[i * 4 + j * 4 * 640 + 1] = 255;
-                                pixels[i * 4 + j * 4 * 640 + 2] = 255;
-                                pixels[i * 4 + j * 4 * 640 + 3] = 255;
+                                _pixels[i * 4 + j * 4 * 640] = 255;
+                                _pixels[i * 4 + j * 4 * 640 + 1] = 255;
+                                _pixels[i * 4 + j * 4 * 640 + 2] = 255;
+                                _pixels[i * 4 + j * 4 * 640 + 3] = 255;
                             }
-                            else if (pixels[i * 4 + j * 4 * 640] == 0 &&
+                            else if (_pixels[i * 4 + j * 4 * 640] == 0 &&
                                      robotPix[
                                               i * 4 - startPixelX * 4 + j * 4 * _robot.Robot1.Map.GetLength(1) -
                                               startPixelY * 4 * _robot.Robot1.Map.GetLength(1)] == 255) {
-                                pixels[i * 4 + j * 4 * 640] = 255;
-                                pixels[i * 4 + j * 4 * 640 + 1] = 255;
-                                pixels[i * 4 + j * 4 * 640 + 2] = 255;
-                                pixels[i * 4 + j * 4 * 640 + 3] = 255;
+                                _pixels[i * 4 + j * 4 * 640] = 255;
+                                _pixels[i * 4 + j * 4 * 640 + 1] = 255;
+                                _pixels[i * 4 + j * 4 * 640 + 2] = 255;
+                                _pixels[i * 4 + j * 4 * 640 + 3] = 255;
                             }
-                            else if (pixels[i * 4 + j * 4 * 640] == 0 &&
+                            else if (_pixels[i * 4 + j * 4 * 640] == 0 &&
                                      robotPix[
                                               i * 4 - startPixelX * 4 + j * 4 * _robot.Robot1.Map.GetLength(1) -
                                               startPixelY * 4 * _robot.Robot1.Map.GetLength(1)] == 0) {
-                                pixels[i * 4 + j * 4 * 640] = 0;
-                                pixels[i * 4 + j * 4 * 640 + 1] = 0;
-                                pixels[i * 4 + j * 4 * 640 + 2] = 0;
-                                pixels[i * 4 + j * 4 * 640 + 3] = 255;
+                                _pixels[i * 4 + j * 4 * 640] = 0;
+                                _pixels[i * 4 + j * 4 * 640 + 1] = 0;
+                                _pixels[i * 4 + j * 4 * 640 + 2] = 0;
+                                _pixels[i * 4 + j * 4 * 640 + 3] = 255;
                             }
-                            else if (pixels[i * 4 + j * 4 * 640] == 255 &&
+                            else if (_pixels[i * 4 + j * 4 * 640] == 255 &&
                                      robotPix[
                                               i * 4 - startPixelX * 4 + j * 4 * _robot.Robot1.Map.GetLength(1) -
                                               startPixelY * 4 * _robot.Robot1.Map.GetLength(1)] == 0) {
-                                pixels[i * 4 + j * 4 * 640] = 0;
-                                pixels[i * 4 + j * 4 * 640 + 1] = 0;
-                                pixels[i * 4 + j * 4 * 640 + 2] = 0;
-                                pixels[i * 4 + j * 4 * 640 + 3] = 255;
+                                _pixels[i * 4 + j * 4 * 640] = 0;
+                                _pixels[i * 4 + j * 4 * 640 + 1] = 0;
+                                _pixels[i * 4 + j * 4 * 640 + 2] = 0;
+                                _pixels[i * 4 + j * 4 * 640 + 3] = 255;
                             }
 
-                    myBitmapSource = BitmapSource.Create(MyImageSizeX, MyImageSizeY, 96, 96, PixelFormats.Pbgra32, null,
-                                                         pixels, MyImageSizeX * 4);
-                    Image.Source = myBitmapSource;
-                    RenderOptions.SetBitmapScalingMode(Image, BitmapScalingMode.NearestNeighbor);
+                    _myBitmapSource = BitmapSource.Create(MyImageSizeX, MyImageSizeY, 96, 96, PixelFormats.Pbgra32, null,
+                                                          _pixels, MyImageSizeX * 4);
+                    Image.Source = _myBitmapSource;
                 }
                 else MessageBox.Show("Először töltsön be egy térképet!", "Figyelmeztetés");
             else MessageBox.Show("Kérem válassza ki a robot típusát!", "Figyelmeztetés");
@@ -205,17 +197,21 @@ namespace teszt {
 
         private void ImageButton_Click(object sender, RoutedEventArgs e) {
             var p1 = Mouse.GetPosition(this);
-            Console.WriteLine(@"Mouse.GetPosition: {0}, {1}", p1.X - 11, p1.Y - 51);
-            var newPoint = new Point(p1.X - 11, p1.Y - 51);
 
-            myBitmapSource.CopyPixels(pixels, 640 * 4, 0);
+            //var newPoint = new Point(p1.X, p1.Y);
 
-            sd.AddPointToShape(p1);
-            pixels = sd.DrawPoints(pixels, newPoint);
+            _myBitmapSource.CopyPixels(_pixels, 640 * 4, 0);
 
+            //_sd.AddPointToShape(p1);
+            //_pixels = _sd.DrawPoints(_pixels, newPoint);
 
-            myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, pixels, 640 * 4);
-            Image.Source = myBitmapSource;
+            ShapeDrawer.DrawCircle((int) p1.X, (int) p1.Y, 50, ref _pixels);
+            //MessageBox.Show(@"Mouse.GetPosition: " + p1.X +" " + p1.Y);
+            ShapeDrawer.BasicFill(ref _pixels, (int) p1.X, (int) p1.Y);
+            _myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, _pixels, 640 * 4);
+            _myOriginalMap = BitmapSource.Create(MyImageSizeX, MyImageSizeY, 96, 96, PixelFormats.Pbgra32, null, _pixels,
+                                                 MyImageSizeX * 4);
+            Image.Source = _myBitmapSource;
         }
 
         private void checkBoxLogOnOff_Checked(object sender, RoutedEventArgs e) {
@@ -243,8 +239,29 @@ namespace teszt {
                 _robot.Reposition(t.Item1, t.Item2, t.Item3);
 
                 MapRefresh();
-                MessageBox.Show("");
             }
+        }
+
+        private void BtnEdit_Click(object sender, RoutedEventArgs e) {
+            _myOriginalMap = null;
+            _map = null;
+            _robot = null;
+            _myBitmapSource = null;
+            _pixels = new byte[MyImageSizeX * MyImageSizeY * 4];
+
+            for (var i = 0; i < MyImageSizeX; i++)
+                for (var j = 0; j < MyImageSizeY; j++) {
+                    _pixels[i * 4 + j * 4 * 640] = 0;
+                    _pixels[i * 4 + j * 4 * 640 + 1] = 0;
+                    _pixels[i * 4 + j * 4 * 640 + 2] = 0;
+                    _pixels[i * 4 + j * 4 * 640 + 3] = 255;
+                }
+
+            _myBitmapSource = BitmapSource.Create(MyImageSizeX, MyImageSizeY, 96, 96, PixelFormats.Pbgra32, null,
+                                                  _pixels, MyImageSizeX * 4);
+            _myOriginalMap = BitmapSource.Create(MyImageSizeX, MyImageSizeY, 96, 96, PixelFormats.Pbgra32, null, _pixels,
+                                                 MyImageSizeX * 4);
+            Image.Source = _myBitmapSource;
         }
     }
 }

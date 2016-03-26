@@ -35,7 +35,7 @@
         <Button x:Name="ButtonMapOpen" Content="Megnyitás&#xA;" Margin="0,46,137,0"
                 VerticalAlignment="Top" Click="button_Click" Height="21" HorizontalAlignment="Right" Width="102" />
         <Button x:Name="ButtonMapEdit" Content="Szerkesztés" HorizontalAlignment="Right" Margin="0,67,137,0"
-                VerticalAlignment="Top" Width="102" Height="22" />
+                VerticalAlignment="Top" Width="102" Height="22" Click="BtnEdit_Click" />
         <Label x:Name="LabelChoose" Content="Algoritmus kiválasztása" HorizontalAlignment="Right" Margin="0,179,154,0"
                VerticalAlignment="Top" Height="25" Width="170" />
         <RadioButton x:Name="RadioButtonGenetic" GroupName="AlgoChoose" Content="Genetikus" HorizontalAlignment="Right"
