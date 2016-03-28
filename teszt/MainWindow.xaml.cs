@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -253,11 +254,11 @@ namespace teszt {
         }
 
 
-        private void button1_Click(object sender, RoutedEventArgs e) {
-            for (var i = 200; i < 250; i++) _robot.Route.Add(new Tuple<int, int, double>(i, i + 10, Convert.ToDouble(0)));
+        private async void button1_Click(object sender, RoutedEventArgs e) {
+            for (var i = 100; i < 250; i++) _robot.Route.Add(new Tuple<int, int, double>(i, i + 10, Convert.ToDouble(0)));
             foreach (var t in _robot.Route) {
                 _robot.Reposition(t.Item1, t.Item2, t.Item3);
-
+                await Task.Delay(1);
                 MapRefresh();
             }
         }
