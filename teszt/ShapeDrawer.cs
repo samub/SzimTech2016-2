@@ -104,6 +104,35 @@ namespace teszt {
             pixels[idx + 3] = 255;
         }
 
+        public void DrawRectangle(int x, int y, int length, int breadth, ref byte[] pixels) {
+            DrawLine(x, y, x + length, y, ref pixels);
+            DrawLine(x + length, y, x + length, y - breadth, ref pixels);
+            DrawLine(x + length, y - breadth, x, y - breadth, ref pixels);
+            DrawLine(x, y - breadth, x, y, ref pixels);
+        }
+
+        private void DrawLine(int x0, int y0, int x1, int y1, ref byte[] pixels) {
+            var dx = Math.Abs(x1 - x0);
+            var sx = x0 < x1 ? 1 : -1;
+            var dy = Math.Abs(y1 - y0);
+            var sy = y0 < y1 ? 1 : -1;
+            var err = (dx > dy ? dx : -dy) / 2;
+
+            while (true) {
+                DrawPixel(x0, y0, ref pixels);
+                if (x0 == x1 && y0 == y1) break;
+                var e2 = err;
+                if (e2 > -dx) {
+                    err -= dy;
+                    x0 += sx;
+                }
+                if (e2 < dy) {
+                    err += dx;
+                    y0 += sy;
+                }
+            }
+        }
+
         private void LineCalc(int x, int y, int x2, int y2) {
             var w = x2 - x;
             var h = y2 - y;

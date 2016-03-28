@@ -205,9 +205,15 @@ namespace teszt {
             //_sd.AddPointToShape(p1);
             //_pixels = _sd.DrawPoints(_pixels, newPoint);
 
-            ShapeDrawer.DrawCircle((int) p1.X, (int) p1.Y, 50, ref _pixels);
+            //ShapeDrawer.DrawCircle((int) p1.X, (int) p1.Y, 50, ref _pixels);
             //MessageBox.Show(@"Mouse.GetPosition: " + p1.X +" " + p1.Y);
-            ShapeDrawer.BasicFill(ref _pixels, (int) p1.X, (int) p1.Y);
+            //ShapeDrawer.BasicFill(ref _pixels, (int) p1.X, (int) p1.Y);
+
+            _sd.DrawRectangle((int) p1.X, (int) p1.Y, 70, 100, ref _pixels);
+
+            ShapeDrawer.BasicFill(ref _pixels, (int) p1.X + 50 / 2, (int) p1.Y - 100 / 2);
+
+
             _myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, _pixels, 640 * 4);
             _myOriginalMap = BitmapSource.Create(MyImageSizeX, MyImageSizeY, 96, 96, PixelFormats.Pbgra32, null, _pixels,
                                                  MyImageSizeX * 4);
