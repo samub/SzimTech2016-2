@@ -105,10 +105,20 @@ namespace teszt {
         }
 
         public void DrawRectangle(int x, int y, int length, int breadth, ref byte[] pixels) {
-            DrawLine(x, y, x + length, y, ref pixels);
+            DrawLine(x - breadth / 2, y + length / 2, x + breadth / 2, y + length / 2, ref pixels);
+            DrawLine(x + breadth / 2, y + length / 2, x + breadth / 2, y - length / 2, ref pixels);
+            DrawLine(x + breadth / 2, y - length / 2, x - breadth / 2, y - length / 2, ref pixels);
+            DrawLine(x - breadth / 2, y - length / 2, x - breadth / 2, y + length / 2, ref pixels);
+            /*DrawLine(x, y, x + length, y, ref pixels);
             DrawLine(x + length, y, x + length, y - breadth, ref pixels);
             DrawLine(x + length, y - breadth, x, y - breadth, ref pixels);
-            DrawLine(x, y - breadth, x, y, ref pixels);
+            DrawLine(x, y - breadth, x, y, ref pixels);*/
+        }
+
+        public void DrawTriangle(int a1, int a2, int b1, int b2, int c1, int c2, ref byte[] pixels) {
+            DrawLine(a1, a2, b1, b2, ref pixels);
+            DrawLine(b1, b2, c1, c2, ref pixels);
+            DrawLine(c1, c2, a1, a2, ref pixels);
         }
 
         private void DrawLine(int x0, int y0, int x1, int y1, ref byte[] pixels) {

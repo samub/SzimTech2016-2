@@ -8,11 +8,11 @@ namespace teszt {
     internal class Robot {
         public readonly List<Tuple<int, int, double>> Route = new List<Tuple<int, int, double>>();
 
-        public Robot(int angleview, int x, int y, int cover, double theta, string robotName) {
+        public Robot(int radius, int x, int y, int cover, double theta, string robotName) {
             Robot1 = new CsvToMatrix(robotName);
             Robot1.Read();
             BoolMatrixToBitmap();
-            AngleView = angleview;
+            Radius = radius;
             X = x;
             Y = y;
             Cover = cover;
@@ -33,7 +33,7 @@ namespace teszt {
 
         public int Cover { get; set; }
 
-        public int AngleView { get; set; }
+        public int Radius { get; set; }
 
         private void BoolMatrixToBitmap() {
             var pixels = new byte[Robot1.Map.GetLength(0) * Robot1.Map.GetLength(1) * 4];

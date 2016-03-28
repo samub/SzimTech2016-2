@@ -85,7 +85,10 @@ namespace teszt {
 
         private void ButtonStart_Click(object sender, RoutedEventArgs e) {
             TextBoxForMessages.Text = "";
-
+            ButtonMapEdit.IsEnabled = false;
+            ButtonMapOpen.IsEnabled = false;
+            RadioButtonCircle.IsEnabled = false;
+            RadioButtonRect.IsEnabled = false;
             if (RadioButton.IsChecked != null && !RadioButton.IsChecked.Value && RadioButton1.IsChecked != null &&
                 !RadioButton1.IsChecked.Value) MessageBox.Show("Kérem válassza ki a robot típusát!", "Figyelmeztetés");
             else if (RadioButton.IsChecked != null && RadioButton.IsChecked.Value)
@@ -196,28 +199,33 @@ namespace teszt {
         }
 
         private void ImageButton_Click(object sender, RoutedEventArgs e) {
-            var p1 = Mouse.GetPosition(this);
+            if (ButtonMapEdit.IsEnabled) {
+                var p1 = Mouse.GetPosition(this);
+                _myBitmapSource.CopyPixels(_pixels, 640 * 4, 0);
+                var dialog = new Dialog();
+                if (RadioButtonCircle.IsChecked != null && RadioButtonCircle.IsChecked.Value) {
+                    dialog.Label.Content = "Sugár";
+                    if (dialog.ShowDialog() == true) {
+                        ShapeDrawer.DrawCircle((int) p1.X, (int) p1.Y, Convert.ToInt32(dialog.ResponseText), ref _pixels);
+                        ShapeDrawer.BasicFill(ref _pixels, (int) p1.X, (int) p1.Y);
+                    }
+                }
+                else if (RadioButtonRect.IsChecked != null && RadioButtonRect.IsChecked.Value) {
+                    dialog.Label.Content = "Magasság";
+                    dialog.Label1.Visibility = Visibility.Visible;
+                    dialog.TextBox1.Visibility = Visibility.Visible;
+                    if (dialog.ShowDialog() == true) {
+                        _sd.DrawRectangle((int) p1.X, (int) p1.Y, Convert.ToInt32(dialog.ResponseText),
+                                          Convert.ToInt32(dialog.ResponseText1), ref _pixels);
+                        ShapeDrawer.BasicFill(ref _pixels, (int) p1.X, (int) p1.Y);
+                    }
+                }
 
-            //var newPoint = new Point(p1.X, p1.Y);
-
-            _myBitmapSource.CopyPixels(_pixels, 640 * 4, 0);
-
-            //_sd.AddPointToShape(p1);
-            //_pixels = _sd.DrawPoints(_pixels, newPoint);
-
-            //ShapeDrawer.DrawCircle((int) p1.X, (int) p1.Y, 50, ref _pixels);
-            //MessageBox.Show(@"Mouse.GetPosition: " + p1.X +" " + p1.Y);
-            //ShapeDrawer.BasicFill(ref _pixels, (int) p1.X, (int) p1.Y);
-
-            _sd.DrawRectangle((int) p1.X, (int) p1.Y, 70, 100, ref _pixels);
-
-            ShapeDrawer.BasicFill(ref _pixels, (int) p1.X + 50 / 2, (int) p1.Y - 100 / 2);
-
-
-            _myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, _pixels, 640 * 4);
-            _myOriginalMap = BitmapSource.Create(MyImageSizeX, MyImageSizeY, 96, 96, PixelFormats.Pbgra32, null, _pixels,
-                                                 MyImageSizeX * 4);
-            Image.Source = _myBitmapSource;
+                _myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, _pixels, 640 * 4);
+                _myOriginalMap = BitmapSource.Create(MyImageSizeX, MyImageSizeY, 96, 96, PixelFormats.Pbgra32, null,
+                                                     _pixels, MyImageSizeX * 4);
+                Image.Source = _myBitmapSource;
+            }
         }
 
         private void checkBoxLogOnOff_Checked(object sender, RoutedEventArgs e) {
@@ -230,6 +238,12 @@ namespace teszt {
 
         private void ButtonStop_Click(object sender, RoutedEventArgs e) {
             if (CheckBoxLogOnOff.IsChecked.Equals(true)) MessageHandler.ToLog(TextBoxLogFileName.Text);
+
+            ButtonMapEdit.IsEnabled = true;
+            ButtonMapOpen.IsEnabled = true;
+
+            RadioButtonCircle.IsEnabled = true;
+            RadioButtonRect.IsEnabled = true;
         }
 
         private void button_Click_1(object sender, RoutedEventArgs e) {
@@ -253,6 +267,8 @@ namespace teszt {
             _map = null;
             _robot = null;
             _myBitmapSource = null;
+            RadioButtonCircle.IsEnabled = true;
+            RadioButtonRect.IsEnabled = true;
             _pixels = new byte[MyImageSizeX * MyImageSizeY * 4];
 
             for (var i = 0; i < MyImageSizeX; i++)
