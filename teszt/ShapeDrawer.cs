@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 
-namespace teszt {
+namespace RobotMoverGUI {
     internal class ShapeDrawer {
         private readonly List<Point> _shapePoints = new List<Point>();
 

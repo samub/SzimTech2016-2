@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace teszt {
+namespace RobotMoverGUI {
     internal class Robot {
         public readonly List<Tuple<int, int, double>> Route = new List<Tuple<int, int, double>>();
 

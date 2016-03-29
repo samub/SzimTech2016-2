@@ -30,20 +30,20 @@
                 </TransformGroup>
             </Rectangle.RenderTransform>
         </Rectangle>
-        <Rectangle HorizontalAlignment="Right" Height="67" Margin="0,451,67,0" Stroke="Black" VerticalAlignment="Top"
+        <Rectangle HorizontalAlignment="Right" Height="67" Margin="0,459,67,0" Stroke="Black" VerticalAlignment="Top"
                    Width="110" />
         <Button x:Name="ButtonMapOpen" Content="Megnyitás&#xA;" Margin="0,46,137,0"
                 VerticalAlignment="Top" Click="button_Click" Height="21" HorizontalAlignment="Right" Width="102" />
         <Button x:Name="ButtonMapEdit" Content="Szerkesztés" HorizontalAlignment="Right" Margin="0,67,137,0"
                 VerticalAlignment="Top" Width="102" Height="22" Click="BtnEdit_Click" />
-        <Label x:Name="LabelChoose" Content="Algoritmus kiválasztása" HorizontalAlignment="Right" Margin="0,425,11,0"
+        <Label x:Name="LabelChoose" Content="Algoritmus kiválasztása" HorizontalAlignment="Right" Margin="0,431,11,0"
                VerticalAlignment="Top" Height="25" Width="170" />
         <RadioButton x:Name="RadioButtonGenetic" GroupName="AlgoChoose" Content="Genetikus" HorizontalAlignment="Right"
-                     Margin="0,456,81,0" VerticalAlignment="Top" Height="14" Width="88" IsChecked="True" />
+                     Margin="0,466,81,0" VerticalAlignment="Top" Height="14" Width="88" IsChecked="True" />
         <RadioButton x:Name="RadioButtonHeuristic1" GroupName="AlgoChoose" Content="Heurisztikus 1"
-                     HorizontalAlignment="Right" Margin="0,476,53,0" VerticalAlignment="Top" Height="14" Width="116" />
+                     HorizontalAlignment="Right" Margin="0,486,53,0" VerticalAlignment="Top" Height="14" Width="116" />
         <RadioButton x:Name="RadioButtonHeuristic2" GroupName="AlgoChoose" Content="Heurisztikus 2"
-                     HorizontalAlignment="Right" Margin="0,496,53,0" VerticalAlignment="Top"
+                     HorizontalAlignment="Right" Margin="0,506,53,0" VerticalAlignment="Top"
                      RenderTransformOrigin="0.5,0.5" Height="14" Width="116">
             <RadioButton.RenderTransform>
                 <TransformGroup>
@@ -73,9 +73,9 @@
         <TextBox x:Name="TextBoxPositionY" HorizontalAlignment="Right" Height="25" Margin="0,336,67,0"
                  TextWrapping="Wrap" VerticalAlignment="Top" Width="48" PreviewTextInput="IntegerValidationTextBox"
                  Text="100" />
-        <Button x:Name="ButtonStart" Content="Start" HorizontalAlignment="Right" Margin="0,445,219,0"
+        <Button x:Name="ButtonStart" Content="Start" HorizontalAlignment="Right" Margin="0,450,219,0"
                 VerticalAlignment="Top" Width="97" Height="35" Click="ButtonStart_Click" />
-        <Button x:Name="ButtonStop" Content="Stop" HorizontalAlignment="Right" Margin="0,485,219,0"
+        <Button x:Name="ButtonStop" Content="Stop" HorizontalAlignment="Right" Margin="0,493,219,0"
                 VerticalAlignment="Top" Width="97" Height="35" Click="ButtonStop_Click" />
         <Label x:Name="LabelMapOptions" Content="Térkép opciók" HorizontalAlignment="Right" Margin="0,15,133,0"
                VerticalAlignment="Top" Height="25" Width="108" />
@@ -95,9 +95,9 @@
         <Label x:Name="LabelChooseCopy" Content="Legyezőforma" HorizontalAlignment="Right"
                Margin="0,145,156,0"
                VerticalAlignment="Top" Height="25" Width="170" />
-        <RadioButton GroupName="AngleViweChoose" x:Name="RadioButton" Content="1" HorizontalAlignment="Left"
+        <RadioButton GroupName="AngleViewChoose" x:Name="RadioButton" Content="1" HorizontalAlignment="Left"
                      Margin="658,177,0,0" VerticalAlignment="Top" IsChecked="True" />
-        <RadioButton GroupName="AngleViweChoose" x:Name="RadioButton1" Content="2" HorizontalAlignment="Left"
+        <RadioButton GroupName="AngleViewChoose" x:Name="RadioButton1" Content="2" HorizontalAlignment="Left"
                      Margin="658,195,0,0" VerticalAlignment="Top" />
         <CheckBox x:Name="CheckBoxLogOnOff" Content="Üzenetek Logolása" HorizontalAlignment="Left" Margin="658,412,0,0"
                   VerticalAlignment="Top" Checked="checkBoxLogOnOff_Checked" Unchecked="checkBoxLogOnOff_Unchecked" />

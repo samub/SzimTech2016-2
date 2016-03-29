@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace teszt {
+namespace RobotMoverGUI {
     public partial class Dialog {
         public Dialog() {
             InitializeComponent();
