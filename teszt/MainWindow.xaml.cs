@@ -8,7 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 
-namespace RobotMoverGUI{
+namespace RobotMoverGUI {
     public partial class MainWindow {
         private const int MyImageSizeX = 640;
         private const int MyImageSizeY = 640;
@@ -37,6 +37,8 @@ namespace RobotMoverGUI{
             TextBoxCoveringPercentage.MaxLength = 3;
             Image.Stretch = Stretch.None;
         }
+
+    
 
         private void button_Click(object sender, RoutedEventArgs e) {
             var openFileDialog1 = new OpenFileDialog {
