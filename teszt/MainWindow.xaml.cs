@@ -40,7 +40,7 @@ namespace RobotMoverGUI {
 
     
 
-        private void button_Click(object sender, RoutedEventArgs e) {
+        private void btnOpenFileClick(object sender, RoutedEventArgs e) {
             var openFileDialog1 = new OpenFileDialog {
                                                          Filter = "CSV Files|*.csv",
                                                          Title = "Select a CSV File",
@@ -265,7 +265,7 @@ namespace RobotMoverGUI {
             }
         }
 
-        private void BtnEdit_Click(object sender, RoutedEventArgs e) {
+        private void btnEditClick(object sender, RoutedEventArgs e) {
             _myOriginalMap = null;
             _map = null;
             _robot = null;

@@ -1,4 +1,4 @@
-﻿<Window x:Class="teszt.MainWindow"
+﻿<Window x:Class="RobotMoverGUI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -33,9 +33,9 @@
         <Rectangle HorizontalAlignment="Right" Height="67" Margin="0,459,67,0" Stroke="Black" VerticalAlignment="Top"
                    Width="110" />
         <Button x:Name="ButtonMapOpen" Content="Megnyitás&#xA;" Margin="0,46,137,0"
-                VerticalAlignment="Top" Click="button_Click" Height="21" HorizontalAlignment="Right" Width="102" />
+                VerticalAlignment="Top" Click="btnOpenFileClick" Height="21" HorizontalAlignment="Right" Width="102" />
         <Button x:Name="ButtonMapEdit" Content="Szerkesztés" HorizontalAlignment="Right" Margin="0,67,137,0"
-                VerticalAlignment="Top" Width="102" Height="22" Click="BtnEdit_Click" />
+                VerticalAlignment="Top" Width="102" Height="22" Click="btnEditClick" />
         <Label x:Name="LabelChoose" Content="Algoritmus kiválasztása" HorizontalAlignment="Right" Margin="0,431,11,0"
                VerticalAlignment="Top" Height="25" Width="170" />
         <RadioButton x:Name="RadioButtonGenetic" GroupName="AlgoChoose" Content="Genetikus" HorizontalAlignment="Right"
