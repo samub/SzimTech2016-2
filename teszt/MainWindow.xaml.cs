@@ -248,6 +248,7 @@ namespace teszt {
         }
 
         private void button_Click_1(object sender, RoutedEventArgs e) {
+            //TODO Nullpointer exceptions if I click
             _robot.Reposition(Convert.ToInt32(TextBoxPositionX.Text), Convert.ToInt32(TextBoxPositionY.Text),
                               Convert.ToDouble(TextBoxTeszt.Text) * Math.PI / 180.0);
             MapRefresh();
