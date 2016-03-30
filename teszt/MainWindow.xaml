@@ -113,12 +113,13 @@
                  Text="50" VerticalAlignment="Top" Width="75" />
         <Label x:Name="Label1" Content="Alakzat rajzolása" HorizontalAlignment="Left" Margin="755,146,0,0"
                VerticalAlignment="Top" />
-        <Rectangle HorizontalAlignment="Left" Height="46" Margin="761,170,0,0" Stroke="Black" VerticalAlignment="Top"
+        <Rectangle HorizontalAlignment="Left" Height="64" Margin="761,170,0,0" Stroke="Black" VerticalAlignment="Top"
                    Width="111" />
         <RadioButton x:Name="RadioButtonRect" Content="Téglalap" HorizontalAlignment="Left" Margin="766,177,0,0"
                      VerticalAlignment="Top" IsEnabled="False" />
         <RadioButton x:Name="RadioButtonCircle" Content="Kör" HorizontalAlignment="Left" Margin="766,195,0,0"
                      VerticalAlignment="Top" IsEnabled="False" />
+        <RadioButton x:Name="RadioButtonEllips" Content="Ellipszis" HorizontalAlignment="Left" Margin="767,215,0,0" VerticalAlignment="Top" IsEnabled="False"/>
     </Grid>
 
 </Window>

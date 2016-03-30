@@ -89,6 +89,35 @@ namespace teszt {
             }
         }
 
+        public static void DrawEllipse(int xc, int yc, int width, int height, ref byte[] pixels) {
+            var a2 = width * width;
+            var b2 = height * height;
+            int fa2 = 4 * a2, fb2 = 4 * b2;
+            int x, y, sigma;
+            for (x = 0, y = height, sigma = 2 * b2 + a2 * (1 - 2 * height); b2 * x <= a2 * y; x++) {
+                DrawPixel(xc + x, yc + y, ref pixels);
+                DrawPixel(xc - x, yc + y, ref pixels);
+                DrawPixel(xc + x, yc - y, ref pixels);
+                DrawPixel(xc - x, yc - y, ref pixels);
+                if (sigma >= 0) {
+                    sigma += fa2 * (1 - y);
+                    y--;
+                }
+                sigma += b2 * (4 * x + 6);
+            }
+            for (x = width, y = 0, sigma = 2 * a2 + b2 * (1 - 2 * width); a2 * y <= b2 * x; y++) {
+                DrawPixel(xc + x, yc + y, ref pixels);
+                DrawPixel(xc - x, yc + y, ref pixels);
+                DrawPixel(xc + x, yc - y, ref pixels);
+                DrawPixel(xc - x, yc - y, ref pixels);
+                if (sigma >= 0) {
+                    sigma += fb2 * (1 - x);
+                    x--;
+                }
+                sigma += a2 * (4 * y + 6);
+            }
+        }
+
         public static void BasicFill(ref byte[] array, int x, int y) {
             array[y * 4 * 640 + x * 4] = 255;
             array[y * 4 * 640 + x * 4 + 1] = 255;

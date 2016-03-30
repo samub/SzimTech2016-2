@@ -90,6 +90,7 @@ namespace teszt {
             ButtonMapOpen.IsEnabled = false;
             RadioButtonCircle.IsEnabled = false;
             RadioButtonRect.IsEnabled = false;
+            RadioButtonEllips.IsEnabled = false;
             if (RadioButton.IsChecked != null && !RadioButton.IsChecked.Value && RadioButton1.IsChecked != null &&
                 !RadioButton1.IsChecked.Value) MessageBox.Show("Kérem válassza ki a robot típusát!", "Figyelmeztetés");
             else if (RadioButton.IsChecked != null && RadioButton.IsChecked.Value)
@@ -221,6 +222,16 @@ namespace teszt {
                         ShapeDrawer.BasicFill(ref _pixels, (int) p1.X, (int) p1.Y);
                     }
                 }
+                else if (RadioButtonEllips.IsChecked != null && RadioButtonEllips.IsChecked.Value) {
+                    dialog.Label.Content = "Magasság";
+                    dialog.Label1.Visibility = Visibility.Visible;
+                    dialog.TextBox1.Visibility = Visibility.Visible;
+                    if (dialog.ShowDialog() == true) {
+                        ShapeDrawer.DrawEllipse((int) p1.X, (int) p1.Y, Convert.ToInt32(dialog.ResponseText),
+                                                Convert.ToInt32(dialog.ResponseText1), ref _pixels);
+                        ShapeDrawer.BasicFill(ref _pixels, (int) p1.X, (int) p1.Y);
+                    }
+                }
 
                 _myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, _pixels, 640 * 4);
                 _myOriginalMap = BitmapSource.Create(MyImageSizeX, MyImageSizeY, 96, 96, PixelFormats.Pbgra32, null,
@@ -245,6 +256,7 @@ namespace teszt {
 
             RadioButtonCircle.IsEnabled = true;
             RadioButtonRect.IsEnabled = true;
+            RadioButtonEllips.IsEnabled = true;
         }
 
         private void button_Click_1(object sender, RoutedEventArgs e) {
@@ -271,6 +283,7 @@ namespace teszt {
             _myBitmapSource = null;
             RadioButtonCircle.IsEnabled = true;
             RadioButtonRect.IsEnabled = true;
+            RadioButtonEllips.IsEnabled = true;
             _pixels = new byte[MyImageSizeX * MyImageSizeY * 4];
 
             for (var i = 0; i < MyImageSizeX; i++)
