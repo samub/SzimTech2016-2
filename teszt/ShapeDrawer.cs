@@ -1,15 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Windows;
 
 namespace teszt {
     internal class ShapeDrawer {
+        /*
         private readonly List<Point> _shapePoints = new List<Point>();
+*/
 
+        /*
         public void AddPointToShape(Point p) {
             _shapePoints.Add(p);
         }
+*/
 
+        /*
         public byte[] DrawPoints(byte[] pixels, Point nextPoint) {
             var x1 = Convert.ToInt32(_shapePoints[_shapePoints.Count - 1].X);
             var y1 = Convert.ToInt32(_shapePoints[_shapePoints.Count - 1].Y);
@@ -61,6 +64,7 @@ namespace teszt {
 
             //klikk számolás!!! hogy tudjam hány sarka vagy éle vagy akármilye van az alaknak
         }
+*/
 
         public static void DrawCircle(int x0, int y0, int radius, ref byte[] pixels) {
             var x = radius;
@@ -104,7 +108,7 @@ namespace teszt {
             pixels[idx + 3] = 255;
         }
 
-        public void DrawRectangle(int x, int y, int length, int breadth, ref byte[] pixels) {
+        public static void DrawRectangle(int x, int y, int length, int breadth, ref byte[] pixels) {
             DrawLine(x - breadth / 2, y + length / 2, x + breadth / 2, y + length / 2, ref pixels);
             DrawLine(x + breadth / 2, y + length / 2, x + breadth / 2, y - length / 2, ref pixels);
             DrawLine(x + breadth / 2, y - length / 2, x - breadth / 2, y - length / 2, ref pixels);
@@ -115,13 +119,15 @@ namespace teszt {
             DrawLine(x, y - breadth, x, y, ref pixels);*/
         }
 
+        /*
         public void DrawTriangle(int a1, int a2, int b1, int b2, int c1, int c2, ref byte[] pixels) {
             DrawLine(a1, a2, b1, b2, ref pixels);
             DrawLine(b1, b2, c1, c2, ref pixels);
             DrawLine(c1, c2, a1, a2, ref pixels);
         }
+*/
 
-        private void DrawLine(int x0, int y0, int x1, int y1, ref byte[] pixels) {
+        private static void DrawLine(int x0, int y0, int x1, int y1, ref byte[] pixels) {
             var dx = Math.Abs(x1 - x0);
             var sx = x0 < x1 ? 1 : -1;
             var dy = Math.Abs(y1 - y0);
@@ -143,6 +149,7 @@ namespace teszt {
             }
         }
 
+        /*
         private void LineCalc(int x, int y, int x2, int y2) {
             var w = x2 - x;
             var h = y2 - y;
@@ -177,5 +184,6 @@ namespace teszt {
                 }
             }
         }
+*/
     }
 }
