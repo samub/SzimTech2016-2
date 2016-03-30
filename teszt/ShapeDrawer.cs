@@ -72,14 +72,14 @@ namespace teszt {
             var decisionOver2 = 1 - x;
 
             while (x >= y) {
-                DrawPixel(x + x0, y + y0, ref pixels);
-                DrawPixel(y + x0, x + y0, ref pixels);
-                DrawPixel(-x + x0, y + y0, ref pixels);
-                DrawPixel(-y + x0, x + y0, ref pixels);
-                DrawPixel(-x + x0, -y + y0, ref pixels);
-                DrawPixel(-y + x0, -x + y0, ref pixels);
-                DrawPixel(x + x0, -y + y0, ref pixels);
-                DrawPixel(y + x0, -x + y0, ref pixels);
+                if (x0 + x >= 0 && x0 + x <= 640 - 1 && y0 + y >= 0 && y0 + y <= 640 - 1) DrawPixel(x + x0, y + y0, ref pixels);
+                if (x0 + x >= 0 && x0 + x <= 640 - 1 && y0 - y >= 0 && y0 - y <= 640 - 1) DrawPixel(x + x0, -y + y0, ref pixels);
+                if (x0 - x >= 0 && x0 - x <= 640 - 1 && y0 + y >= 0 && y0 + y <= 640 - 1) DrawPixel(-x + x0, y + y0, ref pixels);
+                if (x0 - x >= 0 && x0 - x <= 640 - 1 && y0 - y >= 0 && y0 - y <= 640 - 1) DrawPixel(-x + x0, -y + y0, ref pixels);
+                if (x0 + y >= 0 && x0 + y <= 640 - 1 && y0 + x >= 0 && y0 + x <= 640 - 1) DrawPixel(y + x0, x + y0, ref pixels);
+                if (x0 + y >= 0 && x0 + y <= 640 - 1 && y0 - x >= 0 && y0 - x <= 640 - 1) DrawPixel(y + x0, -x + y0, ref pixels);
+                if (x0 - y >= 0 && x0 - y <= 640 - 1 && y0 + x >= 0 && y0 + x <= 640 - 1) DrawPixel(-y + x0, x + y0, ref pixels);
+                if (x0 - y >= 0 && x0 - y <= 640 - 1 && y0 - x >= 0 && y0 - x <= 640 - 1) DrawPixel(-y + x0, -x + y0, ref pixels);
                 y++;
                 if (decisionOver2 <= 0) decisionOver2 += 2 * y + 1;
                 else {
