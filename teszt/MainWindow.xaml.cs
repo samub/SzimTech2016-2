@@ -92,6 +92,7 @@ namespace RobotMoverGUI {
             ButtonMapOpen.IsEnabled = false;
             RadioButtonCircle.IsEnabled = false;
             RadioButtonRect.IsEnabled = false;
+            RadioButtonEllips.IsEnabled = false;
             if (RadioButton.IsChecked != null && !RadioButton.IsChecked.Value && RadioButton1.IsChecked != null &&
                 !RadioButton1.IsChecked.Value) MessageBox.Show("Kérem válassza ki a robot típusát!", "Figyelmeztetés");
             else if (RadioButton.IsChecked != null && RadioButton.IsChecked.Value)
@@ -218,8 +219,18 @@ namespace RobotMoverGUI {
                     dialog.Label1.Visibility = Visibility.Visible;
                     dialog.TextBox1.Visibility = Visibility.Visible;
                     if (dialog.ShowDialog() == true) {
-                        _sd.DrawRectangle((int) p1.X, (int) p1.Y, Convert.ToInt32(dialog.ResponseText),
-                                          Convert.ToInt32(dialog.ResponseText1), ref _pixels);
+                        ShapeDrawer.DrawRectangle((int) p1.X, (int) p1.Y, Convert.ToInt32(dialog.ResponseText),
+                                                  Convert.ToInt32(dialog.ResponseText1), ref _pixels);
+                        ShapeDrawer.BasicFill(ref _pixels, (int) p1.X, (int) p1.Y);
+                    }
+                }
+                else if (RadioButtonEllips.IsChecked != null && RadioButtonEllips.IsChecked.Value) {
+                    dialog.Label.Content = "Magasság";
+                    dialog.Label1.Visibility = Visibility.Visible;
+                    dialog.TextBox1.Visibility = Visibility.Visible;
+                    if (dialog.ShowDialog() == true) {
+                        ShapeDrawer.DrawEllipse((int) p1.X, (int) p1.Y, Convert.ToInt32(dialog.ResponseText),
+                                                Convert.ToInt32(dialog.ResponseText1), ref _pixels);
                         ShapeDrawer.BasicFill(ref _pixels, (int) p1.X, (int) p1.Y);
                     }
                 }
@@ -247,6 +258,7 @@ namespace RobotMoverGUI {
 
             RadioButtonCircle.IsEnabled = true;
             RadioButtonRect.IsEnabled = true;
+            RadioButtonEllips.IsEnabled = true;
         }
 
         private void button_Click_1(object sender, RoutedEventArgs e) {
@@ -258,7 +270,7 @@ namespace RobotMoverGUI {
 
 
         private async void button1_Click(object sender, RoutedEventArgs e) {
-            for (var i = 100; i < 250; i++) _robot.Route.Add(new Tuple<int, int, double>(i, i + 10, Convert.ToDouble(i)));
+            for (var i = 100; i < 250; i++) _robot.Route.Add(new Tuple<int, int, double>(i, i + 10, Convert.ToDouble(i * 0.05)));
             foreach (var t in _robot.Route) {
                 _robot.Reposition(t.Item1, t.Item2, t.Item3);
                 await Task.Delay(1);
@@ -273,6 +285,7 @@ namespace RobotMoverGUI {
             _myBitmapSource = null;
             RadioButtonCircle.IsEnabled = true;
             RadioButtonRect.IsEnabled = true;
+            RadioButtonEllips.IsEnabled = true;
             _pixels = new byte[MyImageSizeX * MyImageSizeY * 4];
 
             for (var i = 0; i < MyImageSizeX; i++)

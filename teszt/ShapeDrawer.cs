@@ -1,15 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Windows;
 
 namespace RobotMoverGUI {
     internal class ShapeDrawer {
+        /*
         private readonly List<Point> _shapePoints = new List<Point>();
+*/
 
+        /*
         public void AddPointToShape(Point p) {
             _shapePoints.Add(p);
         }
+*/
 
+        /*
         public byte[] DrawPoints(byte[] pixels, Point nextPoint) {
             var x1 = Convert.ToInt32(_shapePoints[_shapePoints.Count - 1].X);
             var y1 = Convert.ToInt32(_shapePoints[_shapePoints.Count - 1].Y);
@@ -61,6 +64,7 @@ namespace RobotMoverGUI {
 
             //klikk számolás!!! hogy tudjam hány sarka vagy éle vagy akármilye van az alaknak
         }
+*/
 
         public static void DrawCircle(int x0, int y0, int radius, ref byte[] pixels) {
             var x = radius;
@@ -68,20 +72,49 @@ namespace RobotMoverGUI {
             var decisionOver2 = 1 - x;
 
             while (x >= y) {
-                DrawPixel(x + x0, y + y0, ref pixels);
-                DrawPixel(y + x0, x + y0, ref pixels);
-                DrawPixel(-x + x0, y + y0, ref pixels);
-                DrawPixel(-y + x0, x + y0, ref pixels);
-                DrawPixel(-x + x0, -y + y0, ref pixels);
-                DrawPixel(-y + x0, -x + y0, ref pixels);
-                DrawPixel(x + x0, -y + y0, ref pixels);
-                DrawPixel(y + x0, -x + y0, ref pixels);
+                if (x0 + x >= 0 && x0 + x <= 640 - 1 && y0 + y >= 0 && y0 + y <= 640 - 1) DrawPixel(x + x0, y + y0, ref pixels);
+                if (x0 + x >= 0 && x0 + x <= 640 - 1 && y0 - y >= 0 && y0 - y <= 640 - 1) DrawPixel(x + x0, -y + y0, ref pixels);
+                if (x0 - x >= 0 && x0 - x <= 640 - 1 && y0 + y >= 0 && y0 + y <= 640 - 1) DrawPixel(-x + x0, y + y0, ref pixels);
+                if (x0 - x >= 0 && x0 - x <= 640 - 1 && y0 - y >= 0 && y0 - y <= 640 - 1) DrawPixel(-x + x0, -y + y0, ref pixels);
+                if (x0 + y >= 0 && x0 + y <= 640 - 1 && y0 + x >= 0 && y0 + x <= 640 - 1) DrawPixel(y + x0, x + y0, ref pixels);
+                if (x0 + y >= 0 && x0 + y <= 640 - 1 && y0 - x >= 0 && y0 - x <= 640 - 1) DrawPixel(y + x0, -x + y0, ref pixels);
+                if (x0 - y >= 0 && x0 - y <= 640 - 1 && y0 + x >= 0 && y0 + x <= 640 - 1) DrawPixel(-y + x0, x + y0, ref pixels);
+                if (x0 - y >= 0 && x0 - y <= 640 - 1 && y0 - x >= 0 && y0 - x <= 640 - 1) DrawPixel(-y + x0, -x + y0, ref pixels);
                 y++;
                 if (decisionOver2 <= 0) decisionOver2 += 2 * y + 1;
                 else {
                     x--;
                     decisionOver2 += 2 * (y - x) + 1;
                 }
+            }
+        }
+
+        public static void DrawEllipse(int xc, int yc, int width, int height, ref byte[] pixels) {
+            var a2 = width * width;
+            var b2 = height * height;
+            int fa2 = 4 * a2, fb2 = 4 * b2;
+            int x, y, sigma;
+            for (x = 0, y = height, sigma = 2 * b2 + a2 * (1 - 2 * height); b2 * x <= a2 * y; x++) {
+                DrawPixel(xc + x, yc + y, ref pixels);
+                DrawPixel(xc - x, yc + y, ref pixels);
+                DrawPixel(xc + x, yc - y, ref pixels);
+                DrawPixel(xc - x, yc - y, ref pixels);
+                if (sigma >= 0) {
+                    sigma += fa2 * (1 - y);
+                    y--;
+                }
+                sigma += b2 * (4 * x + 6);
+            }
+            for (x = width, y = 0, sigma = 2 * a2 + b2 * (1 - 2 * width); a2 * y <= b2 * x; y++) {
+                DrawPixel(xc + x, yc + y, ref pixels);
+                DrawPixel(xc - x, yc + y, ref pixels);
+                DrawPixel(xc + x, yc - y, ref pixels);
+                DrawPixel(xc - x, yc - y, ref pixels);
+                if (sigma >= 0) {
+                    sigma += fb2 * (1 - x);
+                    x--;
+                }
+                sigma += a2 * (4 * y + 6);
             }
         }
 
@@ -104,7 +137,7 @@ namespace RobotMoverGUI {
             pixels[idx + 3] = 255;
         }
 
-        public void DrawRectangle(int x, int y, int length, int breadth, ref byte[] pixels) {
+        public static void DrawRectangle(int x, int y, int length, int breadth, ref byte[] pixels) {
             DrawLine(x - breadth / 2, y + length / 2, x + breadth / 2, y + length / 2, ref pixels);
             DrawLine(x + breadth / 2, y + length / 2, x + breadth / 2, y - length / 2, ref pixels);
             DrawLine(x + breadth / 2, y - length / 2, x - breadth / 2, y - length / 2, ref pixels);
@@ -115,13 +148,15 @@ namespace RobotMoverGUI {
             DrawLine(x, y - breadth, x, y, ref pixels);*/
         }
 
+        /*
         public void DrawTriangle(int a1, int a2, int b1, int b2, int c1, int c2, ref byte[] pixels) {
             DrawLine(a1, a2, b1, b2, ref pixels);
             DrawLine(b1, b2, c1, c2, ref pixels);
             DrawLine(c1, c2, a1, a2, ref pixels);
         }
+*/
 
-        private void DrawLine(int x0, int y0, int x1, int y1, ref byte[] pixels) {
+        private static void DrawLine(int x0, int y0, int x1, int y1, ref byte[] pixels) {
             var dx = Math.Abs(x1 - x0);
             var sx = x0 < x1 ? 1 : -1;
             var dy = Math.Abs(y1 - y0);
@@ -143,6 +178,7 @@ namespace RobotMoverGUI {
             }
         }
 
+        /*
         private void LineCalc(int x, int y, int x2, int y2) {
             var w = x2 - x;
             var h = y2 - y;
@@ -177,5 +213,6 @@ namespace RobotMoverGUI {
                 }
             }
         }
+*/
     }
 }
