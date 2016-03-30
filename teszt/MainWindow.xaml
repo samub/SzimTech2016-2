@@ -73,31 +73,31 @@
         <TextBox x:Name="TextBoxPositionY" HorizontalAlignment="Right" Height="25" Margin="0,336,67,0"
                  TextWrapping="Wrap" VerticalAlignment="Top" Width="48" PreviewTextInput="IntegerValidationTextBox"
                  Text="100" />
-        <Button x:Name="ButtonStart" Content="Start" HorizontalAlignment="Right" Margin="0,450,219,0"
-                VerticalAlignment="Top" Width="97" Height="35" Click="ButtonStart_Click" />
-        <Button x:Name="ButtonStop" Content="Stop" HorizontalAlignment="Right" Margin="0,493,219,0"
-                VerticalAlignment="Top" Width="97" Height="35" Click="ButtonStop_Click" />
+        <Button x:Name="BtnStart" Content="Start" HorizontalAlignment="Right" Margin="0,450,219,0"
+                VerticalAlignment="Top" Width="97" Height="35" Click="btnStartClick" />
+        <Button x:Name="BtnStop" Content="Stop" HorizontalAlignment="Right" Margin="0,493,219,0"
+                VerticalAlignment="Top" Width="97" Height="35" Click="btnStopClick" />
         <Label x:Name="LabelMapOptions" Content="Térkép opciók" HorizontalAlignment="Right" Margin="0,15,133,0"
                VerticalAlignment="Top" Height="25" Width="108" />
-        <Button x:Name="ButtonEditOk" Content="Mentés" HorizontalAlignment="Right" Margin="0,89,137,0"
+        <Button x:Name="BtnEditOk" Content="Mentés" HorizontalAlignment="Right" Margin="0,89,137,0"
                 VerticalAlignment="Top" Width="102" Height="22" />
-        <Button x:Name="ButtonEditCancel" Content="Mégsem" HorizontalAlignment="Right" Margin="0,111,137,0"
+        <Button x:Name="BtnEditCancel" Content="Mégsem" HorizontalAlignment="Right" Margin="0,111,137,0"
                 VerticalAlignment="Top" Width="102" Height="21" />
         <TextBox x:Name="TextBoxForMessages" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Left"
                  Height="105" TextWrapping="Wrap" VerticalAlignment="Top" Width="321" IsReadOnlyCaretVisible="True"
                  SelectionOpacity="1" Margin="645,535,0,0" />
-        <Button Style="{StaticResource ImageButtonStyle}" Click="ImageButton_Click" Margin="0" Width="640"
+        <Button Style="{StaticResource ImageButtonStyle}" Click="btnImageClick" Margin="0" Width="640"
                 HorizontalAlignment="Left" VerticalAlignment="Top" Height="640">
             <Image x:Name="Image" HorizontalAlignment="Left" Height="640" VerticalAlignment="Top" Width="640" />
         </Button>
         <Rectangle HorizontalAlignment="Right" Height="46" Margin="0,170,273,0" Stroke="Black" VerticalAlignment="Top"
                    Width="48" />
-        <Label x:Name="LabelChooseCopy" Content="Legyezőforma" HorizontalAlignment="Right"
+        <Label x:Name="LblFanShape" Content="Legyezőforma" HorizontalAlignment="Right"
                Margin="0,145,156,0"
                VerticalAlignment="Top" Height="25" Width="170" />
-        <RadioButton GroupName="AngleViewChoose" x:Name="RadioButton" Content="1" HorizontalAlignment="Left"
+        <RadioButton GroupName="AngleViewChoose" x:Name="FanType1" Content="1" HorizontalAlignment="Left"
                      Margin="658,177,0,0" VerticalAlignment="Top" IsChecked="True" />
-        <RadioButton GroupName="AngleViewChoose" x:Name="RadioButton1" Content="2" HorizontalAlignment="Left"
+        <RadioButton GroupName="AngleViewChoose" x:Name="FanType2" Content="2" HorizontalAlignment="Left"
                      Margin="658,195,0,0" VerticalAlignment="Top" />
         <CheckBox x:Name="CheckBoxLogOnOff" Content="Üzenetek Logolása" HorizontalAlignment="Left" Margin="658,412,0,0"
                   VerticalAlignment="Top" Checked="checkBoxLogOnOff_Checked" Unchecked="checkBoxLogOnOff_Unchecked" />
@@ -106,12 +106,12 @@
         <Rectangle HorizontalAlignment="Left" Height="640" Stroke="Black" VerticalAlignment="Top" Width="640" />
         <Rectangle HorizontalAlignment="Right" Height="102" Margin="0,39,123,0" Stroke="Black" VerticalAlignment="Top"
                    Width="126" />
-        <Button x:Name="Button" Content="Teszt(Jobb)" Margin="874,46,25,586" Click="button_Click_1" />
-        <Button x:Name="Button1" Content="Teszt(Bal)" HorizontalAlignment="Left" Margin="874,74,0,0"
-                VerticalAlignment="Top" Width="75" Click="button1_Click" />
+        <Button x:Name="BtnTestRight" Content="Teszt(Jobb)" Margin="874,46,25,586" Click="btnTestRightClick" />
+        <Button x:Name="BtnTestLeft" Content="Teszt(Bal)" HorizontalAlignment="Left" Margin="874,74,0,0"
+                VerticalAlignment="Top" Width="75" Click="btnTestLeftClick" />
         <TextBox x:Name="TextBoxTeszt" HorizontalAlignment="Left" Height="22" Margin="874,104,0,0" TextWrapping="Wrap"
                  Text="50" VerticalAlignment="Top" Width="75" />
-        <Label x:Name="Label1" Content="Alakzat rajzolása" HorizontalAlignment="Left" Margin="755,146,0,0"
+        <Label x:Name="LblShape" Content="Alakzat rajzolása" HorizontalAlignment="Left" Margin="755,146,0,0"
                VerticalAlignment="Top" />
         <Rectangle HorizontalAlignment="Left" Height="64" Margin="761,170,0,0" Stroke="Black" VerticalAlignment="Top"
                    Width="111" />

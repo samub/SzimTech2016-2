@@ -86,16 +86,16 @@ namespace RobotMoverGUI {
             e.Handled = !regex.IsMatch(e.Text);
         }
 
-        private void ButtonStart_Click(object sender, RoutedEventArgs e) {
+        private void btnStartClick(object sender, RoutedEventArgs e) {
             TextBoxForMessages.Text = "";
             ButtonMapEdit.IsEnabled = false;
             ButtonMapOpen.IsEnabled = false;
             RadioButtonCircle.IsEnabled = false;
             RadioButtonRect.IsEnabled = false;
             RadioButtonEllips.IsEnabled = false;
-            if (RadioButton.IsChecked != null && !RadioButton.IsChecked.Value && RadioButton1.IsChecked != null &&
-                !RadioButton1.IsChecked.Value) MessageBox.Show("Kérem válassza ki a robot típusát!", "Figyelmeztetés");
-            else if (RadioButton.IsChecked != null && RadioButton.IsChecked.Value)
+            if (FanType1.IsChecked != null && !FanType1.IsChecked.Value && FanType2.IsChecked != null &&
+                !FanType2.IsChecked.Value) MessageBox.Show("Kérem válassza ki a robot típusát!", "Figyelmeztetés");
+            else if (FanType1.IsChecked != null && FanType1.IsChecked.Value)
                 if (TextBoxPositionX.Text.Length != 0 && TextBoxPositionY.Text.Length != 0 &&
                     TextBoxCoveringPercentage.Text.Length != 0) {
                     _robot = new Robot((int) SliderViweAngle.Value, Convert.ToInt32(TextBoxPositionX.Text),
@@ -111,7 +111,7 @@ namespace RobotMoverGUI {
                     }
                 }
                 else MessageBox.Show("Adjon meg kezdőértékeket a robotnak!", "Figyelmeztetés");
-            else if (RadioButton1.IsChecked != null && RadioButton1.IsChecked.Value)
+            else if (FanType2.IsChecked != null && FanType2.IsChecked.Value)
                 if (TextBoxPositionX.Text.Length != 0 && TextBoxPositionY.Text.Length != 0 &&
                     TextBoxCoveringPercentage.Text.Length != 0) {
                     _robot = new Robot((int) SliderViweAngle.Value, Convert.ToInt32(TextBoxPositionX.Text),
@@ -128,7 +128,7 @@ namespace RobotMoverGUI {
                 }
                 else MessageBox.Show("Adjon meg kezdőértékeket a robotnak!", "Figyelmeztetés");
 
-            if (_robot != null) MapRefresh();
+            if (_robot != null) mapRefresh();
 
             /*if (RadioButtonGenetic.IsChecked != null && RadioButtonGenetic.IsChecked.Value);
                 //genetic
@@ -138,7 +138,7 @@ namespace RobotMoverGUI {
                 //h2*/
         }
 
-        private void MapRefresh() {
+        private void mapRefresh() {
             if (_robot != null)
                 if (_myBitmapSource != null) {
                     var stride = _myBitmapSource.PixelWidth * 4;
@@ -202,7 +202,7 @@ namespace RobotMoverGUI {
             else MessageBox.Show("Kérem válassza ki a robot típusát!", "Figyelmeztetés");
         }
 
-        private void ImageButton_Click(object sender, RoutedEventArgs e) {
+        private void btnImageClick(object sender, RoutedEventArgs e) {
             if (ButtonMapEdit.IsEnabled) {
                 var p1 = Mouse.GetPosition(this);
                 _myBitmapSource.CopyPixels(_pixels, 640 * 4, 0);
@@ -250,7 +250,7 @@ namespace RobotMoverGUI {
             TextBoxLogFileName.Visibility = Visibility.Hidden;
         }
 
-        private void ButtonStop_Click(object sender, RoutedEventArgs e) {
+        private void btnStopClick(object sender, RoutedEventArgs e) {
             if (CheckBoxLogOnOff.IsChecked.Equals(true)) MessageHandler.ToLog(TextBoxLogFileName.Text);
 
             ButtonMapEdit.IsEnabled = true;
@@ -261,20 +261,21 @@ namespace RobotMoverGUI {
             RadioButtonEllips.IsEnabled = true;
         }
 
-        private void button_Click_1(object sender, RoutedEventArgs e) {
+        private void btnTestRightClick(object sender, RoutedEventArgs e) {
             //TODO Nullpointer exceptions if I click
             _robot.Reposition(Convert.ToInt32(TextBoxPositionX.Text), Convert.ToInt32(TextBoxPositionY.Text),
                               Convert.ToDouble(TextBoxTeszt.Text) * Math.PI / 180.0);
-            MapRefresh();
+            mapRefresh();
         }
 
 
-        private async void button1_Click(object sender, RoutedEventArgs e) {
+        private async void btnTestLeftClick(object sender, RoutedEventArgs e) {
+            //TODO Nullpointer exceptions if I click
             for (var i = 100; i < 250; i++) _robot.Route.Add(new Tuple<int, int, double>(i, i + 10, Convert.ToDouble(i * 0.05)));
             foreach (var t in _robot.Route) {
                 _robot.Reposition(t.Item1, t.Item2, t.Item3);
                 await Task.Delay(1);
-                MapRefresh();
+                mapRefresh();
             }
         }
 
