@@ -209,7 +209,7 @@ namespace teszt {
                     dialog.Label.Content = "Sugár";
                     if (dialog.ShowDialog() == true) {
                         ShapeDrawer.DrawCircle((int) p1.X, (int) p1.Y, Convert.ToInt32(dialog.ResponseText), ref _pixels);
-                        ShapeDrawer.BasicFill(ref _pixels, (int) p1.X, (int) p1.Y);
+                        ShapeDrawer.FloodFill(ref _pixels, p1);
                     }
                 }
                 else if (RadioButtonRect.IsChecked != null && RadioButtonRect.IsChecked.Value) {
@@ -219,7 +219,7 @@ namespace teszt {
                     if (dialog.ShowDialog() == true) {
                         ShapeDrawer.DrawRectangle((int) p1.X, (int) p1.Y, Convert.ToInt32(dialog.ResponseText),
                                                   Convert.ToInt32(dialog.ResponseText1), ref _pixels);
-                        ShapeDrawer.BasicFill(ref _pixels, (int) p1.X, (int) p1.Y);
+                        ShapeDrawer.FloodFill(ref _pixels, p1);
                     }
                 }
                 else if (RadioButtonEllips.IsChecked != null && RadioButtonEllips.IsChecked.Value) {
@@ -229,7 +229,7 @@ namespace teszt {
                     if (dialog.ShowDialog() == true) {
                         ShapeDrawer.DrawEllipse((int) p1.X, (int) p1.Y, Convert.ToInt32(dialog.ResponseText),
                                                 Convert.ToInt32(dialog.ResponseText1), ref _pixels);
-                        ShapeDrawer.BasicFill(ref _pixels, (int) p1.X, (int) p1.Y);
+                        ShapeDrawer.FloodFill(ref _pixels, p1);
                     }
                 }
 
@@ -303,8 +303,8 @@ namespace teszt {
 
         private void BtnRobot_Click(object sender, RoutedEventArgs e) {
             var dialog = new Dialog();
-            var start = 290;
-            var end = 560;
+            const int start = 315;
+            const int end = 585;
             dialog.Label.Content = "X";
             dialog.Label1.Content = "Y";
             dialog.Label2.Content = "Sugár";
@@ -331,7 +331,7 @@ namespace teszt {
                 ShapeDrawer.DrawLine(centerX, centerY, (int) xstart, (int) ystart, ref _pixels);
                 ShapeDrawer.DrawLine(centerX, centerY, (int) xend, (int) yend, ref _pixels);
 
-                ShapeDrawer.BasicFill(ref _pixels, centerX, centerY);
+                ShapeDrawer.FloodFill(ref _pixels, new Point(centerX - 5, centerY - 5));
 
                 _myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, _pixels, 640 * 4);
                 Image.Source = _myBitmapSource;
