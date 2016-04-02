@@ -119,7 +119,8 @@
                      VerticalAlignment="Top" IsEnabled="False" />
         <RadioButton x:Name="RadioButtonCircle" Content="Kör" HorizontalAlignment="Left" Margin="766,195,0,0"
                      VerticalAlignment="Top" IsEnabled="False" />
-        <RadioButton x:Name="RadioButtonEllips" Content="Ellipszis" HorizontalAlignment="Left" Margin="767,215,0,0" VerticalAlignment="Top" IsEnabled="False"/>
+        <RadioButton x:Name="RadioButtonEllips" Content="Ellipszis" HorizontalAlignment="Left" Margin="767,215,0,0"
+                     VerticalAlignment="Top" IsEnabled="False" />
     </Grid>
 
 </Window>
