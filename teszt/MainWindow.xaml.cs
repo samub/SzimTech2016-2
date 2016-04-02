@@ -300,5 +300,42 @@ namespace teszt {
                                                  MyImageSizeX * 4);
             Image.Source = _myBitmapSource;
         }
+
+        private void BtnRobot_Click(object sender, RoutedEventArgs e) {
+            var dialog = new Dialog();
+            var start = 290;
+            var end = 560;
+            dialog.Label.Content = "X";
+            dialog.Label1.Content = "Y";
+            dialog.Label2.Content = "Sugár";
+            dialog.Label2.Visibility = Visibility.Visible;
+            dialog.Label1.Visibility = Visibility.Visible;
+            dialog.TextBox1.Visibility = Visibility.Visible;
+            dialog.TextBox2.Visibility = Visibility.Visible;
+
+            if (dialog.ShowDialog() == true) {
+                var centerX = Convert.ToInt32(dialog.ResponseText);
+                var centerY = Convert.ToInt32(dialog.ResponseText1);
+                var radius = Convert.ToInt32(dialog.ResponseText2);
+
+                ShapeDrawer.DrawCircle(centerX, centerY, radius, start, end, ref _pixels);
+
+                var xstart = centerX + radius * Math.Cos(Math.PI / 180.0 * start);
+                var ystart = centerY - radius * Math.Sin(Math.PI / 180.0 * start);
+
+                var xend = centerX + radius * Math.Cos(Math.PI / 180.0 * end);
+                var yend = centerY - radius * Math.Sin(Math.PI / 180.0 * end);
+
+                if (start + 270 > 360) ShapeDrawer.DrawCircle(centerX, centerY, radius, 0, end - 360, ref _pixels);
+
+                ShapeDrawer.DrawLine(centerX, centerY, (int) xstart, (int) ystart, ref _pixels);
+                ShapeDrawer.DrawLine(centerX, centerY, (int) xend, (int) yend, ref _pixels);
+
+                ShapeDrawer.BasicFill(ref _pixels, centerX, centerY);
+
+                _myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, _pixels, 640 * 4);
+                Image.Source = _myBitmapSource;
+            }
+        }
     }
 }

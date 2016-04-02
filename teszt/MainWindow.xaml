@@ -121,6 +121,7 @@
                      VerticalAlignment="Top" IsEnabled="False" />
         <RadioButton x:Name="RadioButtonEllips" Content="Ellipszis" HorizontalAlignment="Left" Margin="767,215,0,0"
                      VerticalAlignment="Top" IsEnabled="False" />
+        <Button x:Name="BtnRobot" Content="Robot lerak" HorizontalAlignment="Left" Margin="874,131,0,0" VerticalAlignment="Top" Width="75" Click="BtnRobot_Click"/>
     </Grid>
 
 </Window>

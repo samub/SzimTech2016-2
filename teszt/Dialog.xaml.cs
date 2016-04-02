@@ -15,6 +15,8 @@ namespace teszt {
 
         public string ResponseText1 => TextBox1.Text;
 
+        public string ResponseText2 => TextBox2.Text;
+
         private void button_Click(object sender, RoutedEventArgs e) {
             DialogResult = true;
         }
