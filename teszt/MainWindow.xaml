@@ -39,7 +39,7 @@
         <Label x:Name="LabelChoose" Content="Algoritmus kiválasztása" HorizontalAlignment="Right" Margin="0,425,11,0"
                VerticalAlignment="Top" Height="25" Width="170" />
         <RadioButton x:Name="RadioButtonGenetic" GroupName="AlgoChoose" Content="Genetikus" HorizontalAlignment="Right"
-                     Margin="0,456,81,0" VerticalAlignment="Top" Height="14" Width="88" IsChecked="True" />
+                     Margin="0,456,81,0" VerticalAlignment="Top" Height="14" Width="88" />
         <RadioButton x:Name="RadioButtonHeuristic1" GroupName="AlgoChoose" Content="Heurisztikus 1"
                      HorizontalAlignment="Right" Margin="0,476,53,0" VerticalAlignment="Top" Height="14" Width="116" />
         <RadioButton x:Name="RadioButtonHeuristic2" GroupName="AlgoChoose" Content="Heurisztikus 2"
@@ -57,7 +57,7 @@
         <Label x:Name="LabelOptions" Content="Opciók" HorizontalAlignment="Right" Margin="0,246,225,0"
                VerticalAlignment="Top" Height="25" Width="60" />
         <Slider x:Name="SliderViweAngle" HorizontalAlignment="Right" Margin="0,276,67,0" VerticalAlignment="Top"
-                Width="102" RenderTransformOrigin="0.154,-0.167" Height="22" />
+                Width="102" RenderTransformOrigin="0.154,-0.167" Height="22" Minimum="30" Maximum="100" />
         <Label x:Name="LabelViewAngle" Content="Látószög" HorizontalAlignment="Right" Margin="0,276,201,0"
                VerticalAlignment="Top" RenderTransformOrigin="0.204,0.014" Height="24" Width="74" />
         <Label x:Name="Label" Content="Bejárás %" HorizontalAlignment="Right" Margin="0,306,191,0"
@@ -96,7 +96,7 @@
                Margin="0,145,156,0"
                VerticalAlignment="Top" Height="25" Width="170" />
         <RadioButton GroupName="AngleViweChoose" x:Name="RadioButton" Content="1" HorizontalAlignment="Left"
-                     Margin="658,177,0,0" VerticalAlignment="Top" IsChecked="True" />
+                     Margin="658,177,0,0" VerticalAlignment="Top" />
         <RadioButton GroupName="AngleViweChoose" x:Name="RadioButton1" Content="2" HorizontalAlignment="Left"
                      Margin="658,195,0,0" VerticalAlignment="Top" />
         <CheckBox x:Name="CheckBoxLogOnOff" Content="Üzenetek Logolása" HorizontalAlignment="Left" Margin="658,412,0,0"
@@ -121,7 +121,9 @@
                      VerticalAlignment="Top" IsEnabled="False" />
         <RadioButton x:Name="RadioButtonEllips" Content="Ellipszis" HorizontalAlignment="Left" Margin="767,215,0,0"
                      VerticalAlignment="Top" IsEnabled="False" />
-        <Button x:Name="BtnRobot" Content="Robot lerak" HorizontalAlignment="Left" Margin="874,131,0,0" VerticalAlignment="Top" Width="75" Click="BtnRobot_Click"/>
+        <CheckBox x:Name="CheckBox" Content="Robot fájlból" HorizontalAlignment="Left" Margin="653,222,0,0"
+                  VerticalAlignment="Top" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" />
+        <Label x:Name="label" Content="Label" HorizontalAlignment="Left" Margin="907,146,0,0" VerticalAlignment="Top"/>
     </Grid>
 
 </Window>
