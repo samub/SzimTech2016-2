@@ -38,6 +38,8 @@ namespace teszt {
             TextBoxCoveringPercentage.MaxLength = 3;
             Image.Stretch = Stretch.None;
             _isFile = false;
+            RadioButton.IsEnabled = false;
+            RadioButton1.IsEnabled = false;
         }
 
         private void button_Click(object sender, RoutedEventArgs e) {
@@ -133,7 +135,7 @@ namespace teszt {
                      TextBoxCoveringPercentage.Text.Length != 0) {
                 _robot = new Robot((int) SliderViweAngle.Value, Convert.ToInt32(TextBoxPositionX.Text),
                                    Convert.ToInt32(TextBoxPositionY.Text),
-                                   Convert.ToInt32(TextBoxCoveringPercentage.Text), 315);
+                                   Convert.ToInt32(TextBoxCoveringPercentage.Text), 0);
                 if (Convert.ToInt32(TextBoxPositionX.Text) < _robot.Radius ||
                     Convert.ToInt32(TextBoxPositionY.Text) < _robot.Radius ||
                     Convert.ToInt32(TextBoxPositionX.Text) > MyImageSizeX - _robot.Radius ||
@@ -240,7 +242,13 @@ namespace teszt {
                         ShapeDrawer.DrawLine(_robot.X, _robot.Y, (int) xstart, (int) ystart, ref _pixels);
                         ShapeDrawer.DrawLine(_robot.X, _robot.Y, (int) xend, (int) yend, ref _pixels);
 
-                        if (_robot.Theta >= 300 && _robot.Theta <= 360 || _robot.Theta >= 0 && _robot.Theta <= 150) ShapeDrawer.FloodFill(ref _pixels, new Point(_robot.X - 10, _robot.Y));
+                        var r = new Random();
+                        var randAngle = _robot.Theta + r.NextDouble() * (_robot.Theta + 270 - _robot.Theta);
+                        var randRadius = r.NextDouble() * _robot.Radius;
+                        var randX = _robot.X + randRadius * Math.Cos(Math.PI / 180.0 * randAngle);
+                        var randY = _robot.Y - randRadius * Math.Sin(Math.PI / 180.0 * randAngle);
+
+                        ShapeDrawer.FloodFill(ref _pixels, new Point((int) randX, (int) randY));
 
                         _myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, _pixels,
                                                               640 * 4);
@@ -353,10 +361,14 @@ namespace teszt {
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e) {
             _isFile = true;
+            RadioButton.IsEnabled = true;
+            RadioButton1.IsEnabled = true;
         }
 
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e) {
             _isFile = false;
+            RadioButton.IsEnabled = false;
+            RadioButton1.IsEnabled = false;
         }
     }
 }

@@ -115,11 +115,14 @@
                VerticalAlignment="Top" />
         <Rectangle HorizontalAlignment="Left" Height="64" Margin="761,170,0,0" Stroke="Black" VerticalAlignment="Top"
                    Width="111" />
-        <RadioButton x:Name="RadioButtonRect" Content="Téglalap" HorizontalAlignment="Left" Margin="766,177,0,0"
+        <RadioButton GroupName="ShapeChoose" x:Name="RadioButtonRect" Content="Téglalap" HorizontalAlignment="Left"
+                     Margin="766,177,0,0"
                      VerticalAlignment="Top" IsEnabled="False" />
-        <RadioButton x:Name="RadioButtonCircle" Content="Kör" HorizontalAlignment="Left" Margin="766,195,0,0"
+        <RadioButton GroupName="ShapeChoose" x:Name="RadioButtonCircle" Content="Kör" HorizontalAlignment="Left"
+                     Margin="766,195,0,0"
                      VerticalAlignment="Top" IsEnabled="False" />
-        <RadioButton x:Name="RadioButtonEllips" Content="Ellipszis" HorizontalAlignment="Left" Margin="767,215,0,0"
+        <RadioButton GroupName="ShapeChoose" x:Name="RadioButtonEllips" Content="Ellipszis" HorizontalAlignment="Left"
+                     Margin="767,215,0,0"
                      VerticalAlignment="Top" IsEnabled="False" />
         <CheckBox x:Name="CheckBox" Content="Robot fájlból" HorizontalAlignment="Left" Margin="653,222,0,0"
                   VerticalAlignment="Top" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" />
