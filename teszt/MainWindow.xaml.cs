@@ -314,7 +314,6 @@ namespace teszt {
             _robot.Reposition(Convert.ToInt32(TextBoxPositionX.Text), Convert.ToInt32(TextBoxPositionY.Text),
                               Convert.ToInt32(TextBoxTeszt.Text), _isFile);
             MapRefresh(_isFile);
-            label.Content = _robot.Theta;
         }
 
 

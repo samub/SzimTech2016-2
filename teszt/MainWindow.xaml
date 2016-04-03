@@ -123,7 +123,6 @@
                      VerticalAlignment="Top" IsEnabled="False" />
         <CheckBox x:Name="CheckBox" Content="Robot fájlból" HorizontalAlignment="Left" Margin="653,222,0,0"
                   VerticalAlignment="Top" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" />
-        <Label x:Name="label" Content="Label" HorizontalAlignment="Left" Margin="907,146,0,0" VerticalAlignment="Top"/>
     </Grid>
 
 </Window>
