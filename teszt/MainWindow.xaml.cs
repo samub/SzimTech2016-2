@@ -135,7 +135,7 @@ namespace teszt {
                      TextBoxCoveringPercentage.Text.Length != 0) {
                 _robot = new Robot((int) SliderViweAngle.Value, Convert.ToInt32(TextBoxPositionX.Text),
                                    Convert.ToInt32(TextBoxPositionY.Text),
-                                   Convert.ToInt32(TextBoxCoveringPercentage.Text), 0);
+                                   Convert.ToInt32(TextBoxCoveringPercentage.Text), 223);
                 if (Convert.ToInt32(TextBoxPositionX.Text) < _robot.Radius ||
                     Convert.ToInt32(TextBoxPositionY.Text) < _robot.Radius ||
                     Convert.ToInt32(TextBoxPositionX.Text) > MyImageSizeX - _robot.Radius ||
@@ -239,8 +239,10 @@ namespace teszt {
                             ShapeDrawer.DrawCircle(_robot.X, _robot.Y, _robot.Radius, 0, _robot.Theta + 270 - 360,
                                                    ref _pixels);
 
-                        ShapeDrawer.DrawLine(_robot.X, _robot.Y, (int) xstart, (int) ystart, ref _pixels);
-                        ShapeDrawer.DrawLine(_robot.X, _robot.Y, (int) xend, (int) yend, ref _pixels);
+                        ShapeDrawer.DrawLine(_robot.X, _robot.Y, (int) Math.Round(xstart), (int) Math.Round(ystart),
+                                             ref _pixels);
+                        ShapeDrawer.DrawLine(_robot.X, _robot.Y, (int) Math.Round(xend), (int) Math.Round(yend),
+                                             ref _pixels);
 
                         var r = new Random();
                         var randAngle = _robot.Theta + r.NextDouble() * (_robot.Theta + 270 - _robot.Theta);
@@ -248,7 +250,7 @@ namespace teszt {
                         var randX = _robot.X + randRadius * Math.Cos(Math.PI / 180.0 * randAngle);
                         var randY = _robot.Y - randRadius * Math.Sin(Math.PI / 180.0 * randAngle);
 
-                        ShapeDrawer.FloodFill(ref _pixels, new Point((int) randX, (int) randY));
+                        ShapeDrawer.FloodFill(ref _pixels, new Point((int) Math.Floor(randX), (int) Math.Floor(randY)));
 
                         _myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, _pixels,
                                                               640 * 4);

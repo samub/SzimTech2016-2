@@ -69,10 +69,10 @@
                VerticalAlignment="Top" Height="25" Width="100" />
         <TextBox x:Name="TextBoxPositionX" HorizontalAlignment="Right" Height="25" Margin="0,336,121,0"
                  TextWrapping="Wrap" VerticalAlignment="Top" Width="48" PreviewTextInput="IntegerValidationTextBox"
-                 Text="100" />
+                 Text="320" />
         <TextBox x:Name="TextBoxPositionY" HorizontalAlignment="Right" Height="25" Margin="0,336,67,0"
                  TextWrapping="Wrap" VerticalAlignment="Top" Width="48" PreviewTextInput="IntegerValidationTextBox"
-                 Text="100" />
+                 Text="320" />
         <Button x:Name="ButtonStart" Content="Start" HorizontalAlignment="Right" Margin="0,445,219,0"
                 VerticalAlignment="Top" Width="97" Height="35" Click="ButtonStart_Click" />
         <Button x:Name="ButtonStop" Content="Stop" HorizontalAlignment="Right" Margin="0,485,219,0"
@@ -110,7 +110,7 @@
         <Button x:Name="Button1" Content="Teszt(Bal)" HorizontalAlignment="Left" Margin="874,74,0,0"
                 VerticalAlignment="Top" Width="75" Click="button1_Click" />
         <TextBox x:Name="TextBoxTeszt" HorizontalAlignment="Left" Height="22" Margin="874,104,0,0" TextWrapping="Wrap"
-                 Text="50" VerticalAlignment="Top" Width="75" />
+                 Text="1" VerticalAlignment="Top" Width="75" />
         <Label x:Name="Label1" Content="Alakzat rajzolása" HorizontalAlignment="Left" Margin="755,146,0,0"
                VerticalAlignment="Top" />
         <Rectangle HorizontalAlignment="Left" Height="64" Margin="761,170,0,0" Stroke="Black" VerticalAlignment="Top"
