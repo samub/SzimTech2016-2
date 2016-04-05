@@ -149,12 +149,9 @@ namespace teszt {
 
             if (_robot != null) MapRefresh(_isFile);
 
-            /*if (RadioButtonGenetic.IsChecked != null && RadioButtonGenetic.IsChecked.Value);
-                //genetic
-                else if (RadioButtonHeuristic1.IsChecked != null && RadioButtonHeuristic1.IsChecked.Value);
-                //h1
-                else if (RadioButtonHeuristic2.IsChecked != null && RadioButtonHeuristic2.IsChecked.Value);
-                //h2*/
+            if (RadioButtonGenetic.IsChecked != null && RadioButtonGenetic.IsChecked.Value) MessageBox.Show("Generikus");
+            else if (RadioButtonHeuristic1.IsChecked != null && RadioButtonHeuristic1.IsChecked.Value) MessageBox.Show("H1");
+            else if (RadioButtonHeuristic2.IsChecked != null && RadioButtonHeuristic2.IsChecked.Value) MessageBox.Show("H2");
         }
 
         private void MapRefresh(bool method) {
