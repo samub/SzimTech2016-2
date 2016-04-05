@@ -332,7 +332,7 @@ namespace teszt {
 
 
         private async void button1_Click(object sender, RoutedEventArgs e) {
-            for (var i = 100; i < 250; i++) _robot.Route.Add(new Tuple<int, int, double>(i, i + 10, Convert.ToDouble(i * 0.05)));
+            for (var i = 100; i < 320; i++) _robot.Route.Add(new Tuple<int, int, double>(i, i + 1, Convert.ToDouble(i * 0.05)));
             foreach (var t in _robot.Route) {
                 _robot.Reposition(t.Item1, t.Item2, t.Item3, _isFile);
                 await Task.Delay(1);
