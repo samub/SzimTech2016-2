@@ -57,7 +57,7 @@
         <Label x:Name="LabelOptions" Content="Opciók" HorizontalAlignment="Right" Margin="0,246,225,0"
                VerticalAlignment="Top" Height="25" Width="60" />
         <Slider x:Name="SliderViweAngle" HorizontalAlignment="Right" Margin="0,276,67,0" VerticalAlignment="Top"
-                Width="102" RenderTransformOrigin="0.154,-0.167" Height="22" Minimum="30" Maximum="100" />
+                Width="102" RenderTransformOrigin="0.154,-0.167" Height="22" Minimum="20" Maximum="120" />
         <Label x:Name="LabelViewAngle" Content="Látószög" HorizontalAlignment="Right" Margin="0,276,201,0"
                VerticalAlignment="Top" RenderTransformOrigin="0.204,0.014" Height="24" Width="74" />
         <Label x:Name="Label" Content="Bejárás %" HorizontalAlignment="Right" Margin="0,306,191,0"

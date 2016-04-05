@@ -244,9 +244,9 @@ namespace teszt {
                         ShapeDrawer.DrawLine(_robot.X, _robot.Y, (int) Math.Round(xend), (int) Math.Round(yend),
                                              ref _pixels);
 
-                        var r = new Random();
-                        var randAngle = _robot.Theta + r.NextDouble() * (_robot.Theta + 270 - _robot.Theta);
-                        var randRadius = r.NextDouble() * _robot.Radius;
+                        //var r = new Random();
+                        var randAngle = _robot.Theta + 0.2 * (_robot.Theta + 270 - _robot.Theta);
+                        var randRadius = 0.2 * _robot.Radius;
                         var randX = _robot.X + randRadius * Math.Cos(Math.PI / 180.0 * randAngle);
                         var randY = _robot.Y - randRadius * Math.Sin(Math.PI / 180.0 * randAngle);
 
@@ -321,8 +321,12 @@ namespace teszt {
 
         private void button_Click_1(object sender, RoutedEventArgs e) {
             //TODO Nullpointer exceptions if I click
-            _robot.Reposition(Convert.ToInt32(TextBoxPositionX.Text), Convert.ToInt32(TextBoxPositionY.Text),
-                              Convert.ToInt32(TextBoxTeszt.Text), _isFile);
+            double angle;
+            if (!_isFile) angle = Convert.ToInt32(TextBoxTeszt.Text);
+            else angle = Convert.ToInt32(TextBoxTeszt.Text) * Math.PI / 180.0;
+
+            _robot.Reposition(Convert.ToInt32(TextBoxPositionX.Text), Convert.ToInt32(TextBoxPositionY.Text), angle,
+                              _isFile);
             MapRefresh(_isFile);
         }
 
