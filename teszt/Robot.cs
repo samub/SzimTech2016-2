@@ -6,6 +6,8 @@ using System.Windows.Media.Imaging;
 
 namespace teszt {
     internal class Robot {
+
+        // A robot mozgását a koordinátái és szögébõl alkotott hármasokból álló listában rögzítjük. 
         public readonly List<Tuple<int, int, double>> Route = new List<Tuple<int, int, double>>();
 
         public Robot(int radius, int x, int y, int cover, double theta, string robotName) {
@@ -64,6 +66,7 @@ namespace teszt {
                                            PixelFormats.Pbgra32, null, pixels, Robot1.Map.GetLength(0) * 4);
         }
 
+        // Átrajzolja a robotot x y koordinátákra  rotAngle szögben. robot.Route-tal feedelhetõ
         public void Reposition(int x, int y, double rotAngle, bool method) {
             if (method)
                 if (x < Robot1.Map.GetLength(0) / 2 || y < Robot1.Map.GetLength(1) / 2 ||
