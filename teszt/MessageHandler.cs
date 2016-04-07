@@ -14,6 +14,7 @@ namespace teszt {
 
     internal static class MessageHandler {
         public static TextBox TextBoxMessages;
+        
 
         public static void Write(string message) {
             if (TextBoxMessages.Text != "") TextBoxMessages.AppendText("\r\n");

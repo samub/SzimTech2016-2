@@ -3,3 +3,6 @@ teszt/obj/Debug/*
 teszt/bin/Debug/teszt.exe.config
 teszt/bin/Debug/teszt.vshost.exe.config
 teszt/bin/Debug/teszt.vshost.exe.manifest
+teszt/bin/Debug/teszt.exe
+teszt/bin/Debug/teszt.pdb
+teszt/bin/Debug/teszt.vshost.exe
