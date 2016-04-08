@@ -8,13 +8,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 
-namespace teszt
-{
-    public partial class MainWindow
-    {
+namespace teszt {
+    public partial class MainWindow {
         private const int MyImageSizeX = 640;
         private const int MyImageSizeY = 640;
+        /*
         private readonly ShapeDrawer _sd = new ShapeDrawer();
+*/
         private bool _isFile;
         private CsvToMatrix _map;
         private BitmapSource _myBitmapSource;
@@ -22,8 +22,7 @@ namespace teszt
         private byte[] _pixels;
         private Robot _robot;
 
-        public MainWindow()
-        {
+        public MainWindow() {
             InitializeComponent();
 
             // változó inicializálása a MessageHandler osztályban
@@ -45,37 +44,37 @@ namespace teszt
             RadioButton1.IsEnabled = false;
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-            var openFileDialog1 = new OpenFileDialog
-            {
-                Filter = "CSV Files|*.csv",
-                Title = "Select a CSV File",
-                InitialDirectory = Assembly.GetExecutingAssembly().Location
-            };
+        /// <summary>
+        ///     Megnyitás gomb hatására kapunk egy fájlmegnyitó dialógus ablakot melyben tetszőles
+        ///     CSV formátumú térképet tudunk megnyitni melyet a program megfelelően lekezel és kirajzol az image-re
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button_Click(object sender, RoutedEventArgs e) {
+            var openFileDialog1 = new OpenFileDialog {
+                                                         Filter = "CSV Files|*.csv",
+                                                         Title = "Select a CSV File",
+                                                         InitialDirectory = Assembly.GetExecutingAssembly().Location
+                                                     };
 
-            if (openFileDialog1.ShowDialog() == true)
-            {
+            if (openFileDialog1.ShowDialog() == true) {
                 _map = new CsvToMatrix(openFileDialog1.FileName);
 
                 _map.Read();
 
-                if (_map.Map.GetLength(0) == 640 && _map.Map.GetLength(1) == 640)
-                {
+                if (_map.Map.GetLength(0) == 640 && _map.Map.GetLength(1) == 640) {
                     _pixels = new byte[MyImageSizeX * MyImageSizeY * 4];
                     var current = 0;
 
                     for (var i = 0; i < MyImageSizeX; i++)
                         for (var j = 0; j < MyImageSizeY; j++)
-                            if (_map.Map[i, j])
-                            {
+                            if (_map.Map[i, j]) {
                                 _pixels[current++] = 255;
                                 _pixels[current++] = 255;
                                 _pixels[current++] = 255;
                                 _pixels[current++] = 255;
                             }
-                            else
-                            {
+                            else {
                                 _pixels[current++] = 0;
                                 _pixels[current++] = 0;
                                 _pixels[current++] = 0;
@@ -92,36 +91,38 @@ namespace teszt
             }
         }
 
-        private void IntegerValidationTextBox(object sender, TextCompositionEventArgs e)
-        {
+        private void IntegerValidationTextBox(object sender, TextCompositionEventArgs e) {
             var regex = new Regex(@"^\d$");
             e.Handled = !regex.IsMatch(e.Text);
         }
 
-        private void ButtonStart_Click(object sender, RoutedEventArgs e)
-        {
+        /// <summary>
+        ///     Start gomb lenyomására létrehozunk egy robot referenciát.
+        ///     A robot megkapja a formon megadott kezdőértékeket és lerakásra került a térképre.
+        ///     Ezt követően a kiválasztott algoritmus hívása következik majd.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonStart_Click(object sender, RoutedEventArgs e) {
             TextBoxForMessages.Text = "";
             ButtonMapEdit.IsEnabled = false;
             ButtonMapOpen.IsEnabled = false;
             RadioButtonCircle.IsEnabled = false;
             RadioButtonRect.IsEnabled = false;
             RadioButtonEllips.IsEnabled = false;
-            if (_isFile)
-            {
+            if (_isFile) {
                 if (RadioButton.IsChecked != null && !RadioButton.IsChecked.Value && RadioButton1.IsChecked != null &&
                     !RadioButton1.IsChecked.Value) MessageBox.Show("Kérem válassza ki a robot típusát!", "Figyelmeztetés");
                 else if (RadioButton.IsChecked != null && RadioButton.IsChecked.Value)
                     if (TextBoxPositionX.Text.Length != 0 && TextBoxPositionY.Text.Length != 0 &&
-                        TextBoxCoveringPercentage.Text.Length != 0)
-                    {
+                        TextBoxCoveringPercentage.Text.Length != 0) {
                         _robot = new Robot(20, Convert.ToInt32(TextBoxPositionX.Text),
                                            Convert.ToInt32(TextBoxPositionY.Text),
                                            Convert.ToInt32(TextBoxCoveringPercentage.Text), 90, "fan50A.csv");
                         if (Convert.ToInt32(TextBoxPositionX.Text) < _robot.Robot1.Map.GetLength(0) / 2 ||
                             Convert.ToInt32(TextBoxPositionY.Text) < _robot.Robot1.Map.GetLength(1) / 2 ||
                             Convert.ToInt32(TextBoxPositionX.Text) > MyImageSizeX - _robot.Robot1.Map.GetLength(0) / 2 ||
-                            Convert.ToInt32(TextBoxPositionY.Text) > MyImageSizeY - _robot.Robot1.Map.GetLength(1) / 2)
-                        {
+                            Convert.ToInt32(TextBoxPositionY.Text) > MyImageSizeY - _robot.Robot1.Map.GetLength(1) / 2) {
                             MessageBox.Show("A robot nem lóghat le a térképről, inicializálja újra!", "Figyelmeztetés");
                             _robot = null;
                             Image.Source = _myOriginalMap;
@@ -130,16 +131,14 @@ namespace teszt
                     else MessageBox.Show("Adjon meg kezdőértékeket a robotnak!", "Figyelmeztetés");
                 else if (RadioButton1.IsChecked != null && RadioButton1.IsChecked.Value)
                     if (TextBoxPositionX.Text.Length != 0 && TextBoxPositionY.Text.Length != 0 &&
-                        TextBoxCoveringPercentage.Text.Length != 0)
-                    {
+                        TextBoxCoveringPercentage.Text.Length != 0) {
                         _robot = new Robot(41, Convert.ToInt32(TextBoxPositionX.Text),
                                            Convert.ToInt32(TextBoxPositionY.Text),
                                            Convert.ToInt32(TextBoxCoveringPercentage.Text), 90, "fan100.csv");
                         if (Convert.ToInt32(TextBoxPositionX.Text) < _robot.Robot1.Map.GetLength(0) / 2 ||
                             Convert.ToInt32(TextBoxPositionY.Text) < _robot.Robot1.Map.GetLength(1) / 2 ||
                             Convert.ToInt32(TextBoxPositionX.Text) > MyImageSizeX - _robot.Robot1.Map.GetLength(0) / 2 ||
-                            Convert.ToInt32(TextBoxPositionY.Text) > MyImageSizeY - _robot.Robot1.Map.GetLength(1) / 2)
-                        {
+                            Convert.ToInt32(TextBoxPositionY.Text) > MyImageSizeY - _robot.Robot1.Map.GetLength(1) / 2) {
                             MessageBox.Show("A robot nem lóghat le a térképről, inicializálja újra!", "Figyelmeztetés");
                             _robot = null;
                             Image.Source = _myOriginalMap;
@@ -148,16 +147,14 @@ namespace teszt
                     else MessageBox.Show("Adjon meg kezdőértékeket a robotnak!", "Figyelmeztetés");
             }
             else if (TextBoxPositionX.Text.Length != 0 && TextBoxPositionY.Text.Length != 0 &&
-                     TextBoxCoveringPercentage.Text.Length != 0)
-            {
-                _robot = new Robot((int)SliderViweAngle.Value, Convert.ToInt32(TextBoxPositionX.Text),
+                     TextBoxCoveringPercentage.Text.Length != 0) {
+                _robot = new Robot((int) SliderViweAngle.Value, Convert.ToInt32(TextBoxPositionX.Text),
                                    Convert.ToInt32(TextBoxPositionY.Text),
                                    Convert.ToInt32(TextBoxCoveringPercentage.Text), 223);
                 if (Convert.ToInt32(TextBoxPositionX.Text) < _robot.Radius ||
                     Convert.ToInt32(TextBoxPositionY.Text) < _robot.Radius ||
                     Convert.ToInt32(TextBoxPositionX.Text) > MyImageSizeX - _robot.Radius ||
-                    Convert.ToInt32(TextBoxPositionY.Text) > MyImageSizeY - _robot.Radius)
-                {
+                    Convert.ToInt32(TextBoxPositionY.Text) > MyImageSizeY - _robot.Radius) {
                     MessageBox.Show("A robot nem lóghat le a térképről, inicializálja újra!", "Figyelmeztetés");
                     _robot = null;
                     Image.Source = _myOriginalMap;
@@ -172,13 +169,16 @@ namespace teszt
             else if (RadioButtonHeuristic2.IsChecked != null && RadioButtonHeuristic2.IsChecked.Value) MessageBox.Show("H2");
         }
 
-        private void MapRefresh(bool method)
-        {
+        /// <summary>
+        ///     Bármilyen robot mozgás után a térkép frissítésére van szükség. Az előző helyről eltünteni illetve
+        ///     az új helyre lerakni a robotot. A method paramétertől függően forgatás és mozgatás következik be illetve
+        ///     ha nem fájlból olvastuk a robotot akkor újra lesz rajzolva.
+        /// </summary>
+        /// <param name="method"></param>
+        private void MapRefresh(bool method) {
             if (_robot != null)
-                if (_myBitmapSource != null)
-                {
-                    if (method)
-                    {
+                if (_myBitmapSource != null) {
+                    if (method) {
                         var stride = _myBitmapSource.PixelWidth * 4;
                         var size = _myBitmapSource.PixelHeight * stride;
                         _pixels = new byte[size];
@@ -198,8 +198,7 @@ namespace teszt
                                 if (_pixels[i * 4 + j * 4 * 640] == 255 &&
                                     robotPix[
                                              i * 4 - startPixelX * 4 + j * 4 * _robot.Robot1.Map.GetLength(1) -
-                                             startPixelY * 4 * _robot.Robot1.Map.GetLength(1)] == 255)
-                                {
+                                             startPixelY * 4 * _robot.Robot1.Map.GetLength(1)] == 255) {
                                     _pixels[i * 4 + j * 4 * 640] = 255;
                                     _pixels[i * 4 + j * 4 * 640 + 1] = 255;
                                     _pixels[i * 4 + j * 4 * 640 + 2] = 255;
@@ -208,8 +207,7 @@ namespace teszt
                                 else if (_pixels[i * 4 + j * 4 * 640] == 0 &&
                                          robotPix[
                                                   i * 4 - startPixelX * 4 + j * 4 * _robot.Robot1.Map.GetLength(1) -
-                                                  startPixelY * 4 * _robot.Robot1.Map.GetLength(1)] == 255)
-                                {
+                                                  startPixelY * 4 * _robot.Robot1.Map.GetLength(1)] == 255) {
                                     _pixels[i * 4 + j * 4 * 640] = 255;
                                     _pixels[i * 4 + j * 4 * 640 + 1] = 255;
                                     _pixels[i * 4 + j * 4 * 640 + 2] = 255;
@@ -218,8 +216,7 @@ namespace teszt
                                 else if (_pixels[i * 4 + j * 4 * 640] == 0 &&
                                          robotPix[
                                                   i * 4 - startPixelX * 4 + j * 4 * _robot.Robot1.Map.GetLength(1) -
-                                                  startPixelY * 4 * _robot.Robot1.Map.GetLength(1)] == 0)
-                                {
+                                                  startPixelY * 4 * _robot.Robot1.Map.GetLength(1)] == 0) {
                                     _pixels[i * 4 + j * 4 * 640] = 0;
                                     _pixels[i * 4 + j * 4 * 640 + 1] = 0;
                                     _pixels[i * 4 + j * 4 * 640 + 2] = 0;
@@ -229,8 +226,7 @@ namespace teszt
                                          robotPix[
                                                   i * 4 - startPixelX * 4 +
                                                   j * 4 * _robot.Robot1.Map.GetLength(1) -
-                                                  startPixelY * 4 * _robot.Robot1.Map.GetLength(1)] == 0)
-                                {
+                                                  startPixelY * 4 * _robot.Robot1.Map.GetLength(1)] == 0) {
                                     _pixels[i * 4 + j * 4 * 640] = 0;
                                     _pixels[i * 4 + j * 4 * 640 + 1] = 0;
                                     _pixels[i * 4 + j * 4 * 640 + 2] = 0;
@@ -241,8 +237,7 @@ namespace teszt
                                                               null, _pixels, MyImageSizeX * 4);
                         Image.Source = _myBitmapSource;
                     }
-                    else
-                    {
+                    else {
                         _myOriginalMap.CopyPixels(_pixels, 640 * 4, 0);
 
                         _myBitmapSource = BitmapSource.Create(MyImageSizeX, MyImageSizeY, 96, 96, PixelFormats.Pbgra32,
@@ -262,9 +257,9 @@ namespace teszt
                             ShapeDrawer.DrawCircle(_robot.X, _robot.Y, _robot.Radius, 0, _robot.Theta + 270 - 360,
                                                    ref _pixels);
 
-                        ShapeDrawer.DrawLine(_robot.X, _robot.Y, (int)Math.Round(xstart), (int)Math.Round(ystart),
+                        ShapeDrawer.DrawLine(_robot.X, _robot.Y, (int) Math.Round(xstart), (int) Math.Round(ystart),
                                              ref _pixels);
-                        ShapeDrawer.DrawLine(_robot.X, _robot.Y, (int)Math.Round(xend), (int)Math.Round(yend),
+                        ShapeDrawer.DrawLine(_robot.X, _robot.Y, (int) Math.Round(xend), (int) Math.Round(yend),
                                              ref _pixels);
 
                         //var r = new Random();
@@ -273,54 +268,53 @@ namespace teszt
                         var randX = _robot.X + randRadius * Math.Cos(Math.PI / 180.0 * randAngle);
                         var randY = _robot.Y - randRadius * Math.Sin(Math.PI / 180.0 * randAngle);
 
-                        ShapeDrawer.FloodFill(ref _pixels, new Point((int)Math.Floor(randX), (int)Math.Floor(randY)));
+                        ShapeDrawer.FloodFill(ref _pixels, new Point((int) Math.Floor(randX), (int) Math.Floor(randY)));
 
                         _myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, _pixels,
                                                               640 * 4);
                         Image.Source = _myBitmapSource;
                     }
-                    _robot.setCurrentlyCoveredArea(_myBitmapSource);
+                    _robot.SetCurrentlyCoveredArea(_myBitmapSource);
                 }
                 else MessageBox.Show("Először töltsön be egy térképet!", "Figyelmeztetés");
             else MessageBox.Show("Kérem válassza ki a robot típusát!", "Figyelmeztetés");
         }
 
-        private void ImageButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (ButtonMapEdit.IsEnabled)
-            {
+        /// <summary>
+        ///     Mikor a szerkesztés gombot lenyomtuk és mikor ez a gomb aktív akkor az image kattintható.
+        ///     Ekkor kört, téglalapot , ellipszist tudunk rajzolni a térképre melynek a közzéppontja az
+        ///     image-en kattintott pont lesz. Előjön egy dialógusablak melyben a különféle alakzatokat tudjuk paraméterezni.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ImageButton_Click(object sender, RoutedEventArgs e) {
+            if (ButtonMapEdit.IsEnabled) {
                 var p1 = Mouse.GetPosition(this);
                 _myBitmapSource.CopyPixels(_pixels, 640 * 4, 0);
                 var dialog = new Dialog();
-                if (RadioButtonCircle.IsChecked != null && RadioButtonCircle.IsChecked.Value)
-                {
+                if (RadioButtonCircle.IsChecked != null && RadioButtonCircle.IsChecked.Value) {
                     dialog.Label.Content = "Sugár";
-                    if (dialog.ShowDialog() == true)
-                    {
-                        ShapeDrawer.DrawCircle((int)p1.X, (int)p1.Y, Convert.ToInt32(dialog.ResponseText), ref _pixels);
+                    if (dialog.ShowDialog() == true) {
+                        ShapeDrawer.DrawCircle((int) p1.X, (int) p1.Y, Convert.ToInt32(dialog.ResponseText), ref _pixels);
                         ShapeDrawer.FloodFill(ref _pixels, p1);
                     }
                 }
-                else if (RadioButtonRect.IsChecked != null && RadioButtonRect.IsChecked.Value)
-                {
+                else if (RadioButtonRect.IsChecked != null && RadioButtonRect.IsChecked.Value) {
                     dialog.Label.Content = "Magasság";
                     dialog.Label1.Visibility = Visibility.Visible;
                     dialog.TextBox1.Visibility = Visibility.Visible;
-                    if (dialog.ShowDialog() == true)
-                    {
-                        ShapeDrawer.DrawRectangle((int)p1.X, (int)p1.Y, Convert.ToInt32(dialog.ResponseText),
+                    if (dialog.ShowDialog() == true) {
+                        ShapeDrawer.DrawRectangle((int) p1.X, (int) p1.Y, Convert.ToInt32(dialog.ResponseText),
                                                   Convert.ToInt32(dialog.ResponseText1), ref _pixels);
                         ShapeDrawer.FloodFill(ref _pixels, p1);
                     }
                 }
-                else if (RadioButtonEllips.IsChecked != null && RadioButtonEllips.IsChecked.Value)
-                {
+                else if (RadioButtonEllips.IsChecked != null && RadioButtonEllips.IsChecked.Value) {
                     dialog.Label.Content = "Magasság";
                     dialog.Label1.Visibility = Visibility.Visible;
                     dialog.TextBox1.Visibility = Visibility.Visible;
-                    if (dialog.ShowDialog() == true)
-                    {
-                        ShapeDrawer.DrawEllipse((int)p1.X, (int)p1.Y, Convert.ToInt32(dialog.ResponseText),
+                    if (dialog.ShowDialog() == true) {
+                        ShapeDrawer.DrawEllipse((int) p1.X, (int) p1.Y, Convert.ToInt32(dialog.ResponseText),
                                                 Convert.ToInt32(dialog.ResponseText1), ref _pixels);
                         ShapeDrawer.FloodFill(ref _pixels, p1);
                     }
@@ -333,18 +327,15 @@ namespace teszt
             }
         }
 
-        private void checkBoxLogOnOff_Checked(object sender, RoutedEventArgs e)
-        {
+        private void checkBoxLogOnOff_Checked(object sender, RoutedEventArgs e) {
             TextBoxLogFileName.Visibility = Visibility.Visible;
         }
 
-        private void checkBoxLogOnOff_Unchecked(object sender, RoutedEventArgs e)
-        {
+        private void checkBoxLogOnOff_Unchecked(object sender, RoutedEventArgs e) {
             TextBoxLogFileName.Visibility = Visibility.Hidden;
         }
 
-        private void ButtonStop_Click(object sender, RoutedEventArgs e)
-        {
+        private void ButtonStop_Click(object sender, RoutedEventArgs e) {
             if (CheckBoxLogOnOff.IsChecked.Equals(true)) MessageHandler.ToLog(TextBoxLogFileName.Text);
 
             ButtonMapEdit.IsEnabled = true;
@@ -355,32 +346,34 @@ namespace teszt
             RadioButtonEllips.IsEnabled = true;
         }
 
-        private void button_Click_1(object sender, RoutedEventArgs e)
-        {
+        private void button_Click_1(object sender, RoutedEventArgs e) {
             //TODO Nullpointer exceptions if I click
             double angle;
             if (!_isFile) angle = Convert.ToInt32(TextBoxTeszt.Text);
             else angle = Convert.ToInt32(TextBoxTeszt.Text) * Math.PI / 180.0;
 
-            _robot.Reposition(Convert.ToInt32(TextBoxPositionX.Text), Convert.ToInt32(TextBoxPositionY.Text), angle, 
+            _robot.Reposition(Convert.ToInt32(TextBoxPositionX.Text), Convert.ToInt32(TextBoxPositionY.Text), angle,
                               _isFile);
             MapRefresh(_isFile);
         }
 
 
-        private async void button1_Click(object sender, RoutedEventArgs e)
-        {
+        private async void button1_Click(object sender, RoutedEventArgs e) {
             for (var i = 100; i < 320; i++) _robot.Route.Add(new Tuple<int, int, double>(i, i + 1, Convert.ToDouble(i * 0.05)));
-            foreach (var t in _robot.Route)
-            {
+            foreach (var t in _robot.Route) {
                 _robot.Reposition(t.Item1, t.Item2, t.Item3, _isFile);
                 await Task.Delay(1);
                 MapRefresh(_isFile);
             }
         }
 
-        private void BtnEdit_Click(object sender, RoutedEventArgs e)
-        {
+        /// <summary>
+        ///     Szerkeszt gomb megnyomására visszaállítunk mindent "alaphelyzetbe" és egy teljesen
+        ///     fekete térképet kapunk. ERre tudunk akadályokat rakni.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnEdit_Click(object sender, RoutedEventArgs e) {
             _myOriginalMap = null;
             _map = null;
             _robot = null;
@@ -391,8 +384,7 @@ namespace teszt
             _pixels = new byte[MyImageSizeX * MyImageSizeY * 4];
 
             for (var i = 0; i < MyImageSizeX; i++)
-                for (var j = 0; j < MyImageSizeY; j++)
-                {
+                for (var j = 0; j < MyImageSizeY; j++) {
                     _pixels[i * 4 + j * 4 * 640] = 0;
                     _pixels[i * 4 + j * 4 * 640 + 1] = 0;
                     _pixels[i * 4 + j * 4 * 640 + 2] = 0;
@@ -406,15 +398,13 @@ namespace teszt
             Image.Source = _myBitmapSource;
         }
 
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
-        {
+        private void CheckBox_Checked(object sender, RoutedEventArgs e) {
             _isFile = true;
             RadioButton.IsEnabled = true;
             RadioButton1.IsEnabled = true;
         }
 
-        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e) {
             _isFile = false;
             RadioButton.IsEnabled = false;
             RadioButton1.IsEnabled = false;
