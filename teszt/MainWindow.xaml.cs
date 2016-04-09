@@ -314,8 +314,8 @@ namespace teszt {
                     dialog.Label1.Visibility = Visibility.Visible;
                     dialog.TextBox1.Visibility = Visibility.Visible;
                     if (dialog.ShowDialog() == true) {
-                        ShapeDrawer.DrawEllipse((int) p1.X, (int) p1.Y, Convert.ToInt32(dialog.ResponseText),
-                                                Convert.ToInt32(dialog.ResponseText1), ref _pixels);
+                        ShapeDrawer.DrawEllipse((int) p1.X, (int) p1.Y, Convert.ToInt32(dialog.ResponseText1),
+                                                Convert.ToInt32(dialog.ResponseText), ref _pixels);
                         ShapeDrawer.FloodFill(ref _pixels, p1);
                     }
                 }
