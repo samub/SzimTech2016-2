@@ -39,11 +39,11 @@
         <Label x:Name="LabelChoose" Content="Algoritmus kiválasztása" HorizontalAlignment="Right" Margin="0,431,11,0"
                VerticalAlignment="Top" Height="25" Width="170" />
         <RadioButton x:Name="RadioButtonGenetic" GroupName="AlgoChoose" Content="Genetikus" HorizontalAlignment="Right"
-                     Margin="0,466,81,0" VerticalAlignment="Top" Height="14" Width="88" IsChecked="True" />
+                     Margin="0,456,81,0" VerticalAlignment="Top" Height="14" Width="88" />
         <RadioButton x:Name="RadioButtonHeuristic1" GroupName="AlgoChoose" Content="Heurisztikus 1"
-                     HorizontalAlignment="Right" Margin="0,486,53,0" VerticalAlignment="Top" Height="14" Width="116" />
+                     HorizontalAlignment="Right" Margin="0,476,53,0" VerticalAlignment="Top" Height="14" Width="116" />
         <RadioButton x:Name="RadioButtonHeuristic2" GroupName="AlgoChoose" Content="Heurisztikus 2"
-                     HorizontalAlignment="Right" Margin="0,506,53,0" VerticalAlignment="Top"
+                     HorizontalAlignment="Right" Margin="0,496,53,0" VerticalAlignment="Top"
                      RenderTransformOrigin="0.5,0.5" Height="14" Width="116">
             <RadioButton.RenderTransform>
                 <TransformGroup>
@@ -69,10 +69,10 @@
                VerticalAlignment="Top" Height="25" Width="100" />
         <TextBox x:Name="TextBoxPositionX" HorizontalAlignment="Right" Height="25" Margin="0,336,121,0"
                  TextWrapping="Wrap" VerticalAlignment="Top" Width="48" PreviewTextInput="IntegerValidationTextBox"
-                 Text="100" />
+                 Text="320" />
         <TextBox x:Name="TextBoxPositionY" HorizontalAlignment="Right" Height="25" Margin="0,336,67,0"
                  TextWrapping="Wrap" VerticalAlignment="Top" Width="48" PreviewTextInput="IntegerValidationTextBox"
-                 Text="100" />
+                 Text="320" />
         <Button x:Name="BtnStart" Content="Start" HorizontalAlignment="Right" Margin="0,450,219,0"
                 VerticalAlignment="Top" Width="97" Height="35" Click="btnStartClick" />
         <Button x:Name="BtnStop" Content="Stop" HorizontalAlignment="Right" Margin="0,493,219,0"
@@ -96,7 +96,7 @@
                Margin="0,145,156,0"
                VerticalAlignment="Top" Height="25" Width="170" />
         <RadioButton GroupName="AngleViewChoose" x:Name="FanType1" Content="1" HorizontalAlignment="Left"
-                     Margin="658,177,0,0" VerticalAlignment="Top" IsChecked="True" />
+                     Margin="658,177,0,0" VerticalAlignment="Top" />
         <RadioButton GroupName="AngleViewChoose" x:Name="FanType2" Content="2" HorizontalAlignment="Left"
                      Margin="658,195,0,0" VerticalAlignment="Top" />
         <CheckBox x:Name="CheckBoxLogOnOff" Content="Üzenetek Logolása" HorizontalAlignment="Left" Margin="658,412,0,0"
@@ -110,7 +110,7 @@
         <Button x:Name="BtnTestLeft" Content="Teszt(Bal)" HorizontalAlignment="Left" Margin="874,74,0,0"
                 VerticalAlignment="Top" Width="75" Click="btnTestLeftClick" />
         <TextBox x:Name="TextBoxTeszt" HorizontalAlignment="Left" Height="22" Margin="874,104,0,0" TextWrapping="Wrap"
-                 Text="50" VerticalAlignment="Top" Width="75" />
+                 Text="1" VerticalAlignment="Top" Width="75" />
         <Label x:Name="LblShape" Content="Alakzat rajzolása" HorizontalAlignment="Left" Margin="755,146,0,0"
                VerticalAlignment="Top" />
         <Rectangle HorizontalAlignment="Left" Height="64" Margin="761,170,0,0" Stroke="Black" VerticalAlignment="Top"
@@ -119,7 +119,11 @@
                      VerticalAlignment="Top" IsEnabled="False" />
         <RadioButton x:Name="RadioButtonCircle" Content="Kör" HorizontalAlignment="Left" Margin="766,195,0,0"
                      VerticalAlignment="Top" IsEnabled="False" />
-        <RadioButton x:Name="RadioButtonEllips" Content="Ellipszis" HorizontalAlignment="Left" Margin="767,215,0,0" VerticalAlignment="Top" IsEnabled="False"/>
+        <RadioButton GroupName="ShapeChoose" x:Name="RadioButtonEllips" Content="Ellipszis" HorizontalAlignment="Left"
+                     Margin="767,215,0,0"
+                     VerticalAlignment="Top" IsEnabled="False" />
+        <CheckBox x:Name="CheckBox" Content="Robot fájlból" HorizontalAlignment="Left" Margin="653,222,0,0"
+                  VerticalAlignment="Top" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" />
     </Grid>
 
 </Window>
