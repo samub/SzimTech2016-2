@@ -164,13 +164,13 @@ namespace teszt {
             else MessageBox.Show("Adjon meg kezdőértékeket a robotnak!", "Figyelmeztetés");
 
             if (_robot != null) {
-                MapRefresh(_isFile);
+                MapRefresh();
 
                 if (RadioButtonGenetic.IsChecked != null && RadioButtonGenetic.IsChecked.Value) MessageBox.Show("Generikus");
                 else if (RadioButtonHeuristic1.IsChecked != null && RadioButtonHeuristic1.IsChecked.Value) {
                     _mapToBool = BitmapToBools(_myOriginalMap);
-
-
+                    
+                    
                     MessageBox.Show("H1 " + _mapToBool.GetLength(0) + "x" + _mapToBool.GetLength(1));
                 }
                 else if (RadioButtonHeuristic2.IsChecked != null && RadioButtonHeuristic2.IsChecked.Value) MessageBox.Show("H2");
@@ -198,10 +198,10 @@ namespace teszt {
         ///     ha nem fájlból olvastuk a robotot akkor újra lesz rajzolva.
         /// </summary>
         /// <param name="method"></param>
-        private void MapRefresh(bool method) {
+        private void MapRefresh() {
             if (_robot != null)
                 if (_myBitmapSource != null) {
-                    if (method) {
+                    if (_isFile) {
                         var stride = _myBitmapSource.PixelWidth * 4;
                         var size = _myBitmapSource.PixelHeight * stride;
                         _pixels = new byte[size];
@@ -377,7 +377,7 @@ namespace teszt {
 
             _robot.Reposition(Convert.ToInt32(TextBoxPositionX.Text), Convert.ToInt32(TextBoxPositionY.Text), angle,
                               _isFile);
-            MapRefresh(_isFile);
+            MapRefresh();
         }
 
 
@@ -386,7 +386,7 @@ namespace teszt {
             foreach (var t in _robot.Route) {
                 _robot.Reposition(t.Item1, t.Item2, t.Item3, _isFile);
                 await Task.Delay(1);
-                MapRefresh(_isFile);
+                MapRefresh();
             }
         }
 
