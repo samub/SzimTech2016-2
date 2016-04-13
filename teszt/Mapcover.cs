@@ -8,17 +8,20 @@ namespace teszt
 {
     class Mapcover
     {
-        private bool[,] fcmap = new bool[640 , 640];
-        private double[,] optmap = new double[640 , 640];
-        private double[,] fullmap = new double[640, 640];
+        private const int m_size = 640;
+        private bool[,] fcmap = new bool[m_size, m_size];
+        private double[,] optmap = new double[m_size, m_size];
+        private double[,] fullmap = new double[m_size, m_size];
+        private Robot _robot;
+        private CsvToMatrix _csvtomatrix;
 
         private void fullMapCover()
         {
             MessageHandler.Write("Középpontok lehelyezése.");
 
-            for (int i = 1; i < 10; i += 2)
+            for (int i = _robot.Radius; i < m_size; i += (2 * _robot.Radius))
             {
-                for (int j = 1; j < 10; j += 2)
+                for (int j = _robot.Radius; j < m_size; j += (2 * _robot.Radius))
                 {
                     fcmap[i, j] = true;
 
@@ -32,11 +35,11 @@ namespace teszt
         {
             MessageHandler.Write("Akadályoknál lévő középpontok eltávolítása.");
 
-            for (int i = 1; i < 10; i += 1)
+            for (int i = 0; i < m_size; i++)
             {
-                for (int j = 1; j < 10; j += 1)
+                for (int j = 0; j < m_size; j++)
                 {
-                    if (Map[i, j] == fcmap[i, j])
+                    if (_csvtomatrix.Map[i, j] == fcmap[i, j])
                     {
                         fcmap[i, j] = false;
                     }
@@ -50,15 +53,15 @@ namespace teszt
          private double[,] createMap()
         {
             MessageHandler.Write("Lefedési térkép létrehozása");
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < m_size; i++)
             {
-                for (int j = 0; j < 10; j++)
+                for (int j = 0; j < m_size; j++)
                 {
                     if (fcmap[i, j] == true)
                     {
-                        for (int k = i - Radius; (k < 10) && (k < i + Radius + 1); k++)
+                        for (int k = i - _robot.Radius; (k < m_size) && (k <= i + _robot.Radius); k++)
                         {
-                            for (int l = j - Radius; (l < 10) && (l < j + Radius + 1); l++)
+                            for (int l = j - _robot.Radius; (l < m_size) && (l <= j + _robot.Radius); l++)
                             {
                                 optmap[k, l] = 0.5;
                             }
@@ -66,11 +69,11 @@ namespace teszt
                     }
                 }
             }
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < m_size; i++)
             {
-                for (int j = 0; j < 10; j++)
+                for (int j = 0; j < m_size; j++)
                 {
-                    if ((Map[i, j]) == true)
+                    if ((_csvtomatrix.Map[i, j]) == true)
                     {
                         optmap[i, j] = 1;
                     }
@@ -87,9 +90,9 @@ namespace teszt
             double percent = 0;
 
             MessageHandler.Write("Lefedés optimalizáltságának vizsgálata.");
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < m_size; i++)
             {
-                for (int j = 0; j < 10; j++)
+                for (int j = 0; j < m_size; j++)
                 {
                     if (optmap[i, j] == 0.5)
                     {
@@ -97,9 +100,9 @@ namespace teszt
                     }
                 }
             }
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < m_size; i++)
             {
-                for (int j = 0; j < 10; j++)
+                for (int j = 0; j < m_size; j++)
                 {
                     if (fcmap[i, j] == false)
                     {
@@ -116,18 +119,17 @@ namespace teszt
         {
             int x = 0, y = 0;
             bool ok;
-            int Radius = 1;
 
             MessageHandler.Write("Meghatározott lefedési százalék elérése a középpontok optimalizálásával.");
 
-            if ((isTheMapOptimized() < 90))
+            if ((isTheMapOptimized() < _robot.Cover))
             {
                 do
                 {
                     ok = false;
-                    for (int i = 0; i < 10; i++)
+                    for (int i = 0; i < m_size; i++)
                     {
-                        for (int j = 0; j < 10; j++)
+                        for (int j = 0; j < m_size; j++)
                         {
                             if ((optmap[i, j] == 0) && (!ok))
                             {
@@ -138,11 +140,11 @@ namespace teszt
                             }
                         }
                     }
-                    if ((x >= Radius) && (y >= Radius))
+                    if ((x >= _robot.Radius) && (y >= _robot.Radius))
                     {
-                        for (int k = x - Radius; (k < 10) && (k < x + Radius + 1); k++)
+                        for (int k = x - _robot.Radius; (k < m_size) && (k <= x + _robot.Radius); k++)
                         {
-                            for (int l = y - Radius; (l < 10) && (l < y + Radius + 1); l++)
+                            for (int l = y - _robot.Radius; (l < m_size) && (l <= y + _robot.Radius ); l++)
                             {
                                 if (optmap[k, l] == 0)
                                 {
@@ -153,9 +155,9 @@ namespace teszt
                     }
                     else
                     {
-                        for (int k = x; (k < 10) && (k < x + Radius + 1); k++)
+                        for (int k = x; (k < m_size) && (k < x + _robot.Radius + 1); k++)
                         {
-                            for (int l = y; (l < 10) && (l < y + Radius + 1); l++)
+                            for (int l = y; (l < m_size) && (l < y + _robot.Radius + 1); l++)
                             {
                                 if (optmap[k, l] == 0)
                                 {
@@ -164,7 +166,7 @@ namespace teszt
                             }
                         }
                     }
-                } while ((isTheMapOptimized() < 90));
+                } while ((isTheMapOptimized() < _robot.Cover));
 
             }
             MessageHandler.Write("Meghatározott lefedési százalék elérése a középpontok optimalizálásával, megtörtént.");
@@ -173,15 +175,15 @@ namespace teszt
         private void createFullmap()
         {
             MessageHandler.Write("Gráfbejárásnál szükséges mátrix létrehozása.");
-            for (int i = 0; i < 640; i++)
+            for (int i = 0; i < m_size; i++)
             {
-                for(int j = 0; j < 640; j++)
+                for(int j = 0; j < m_size; j++)
                 {
                     if(fcmap[i,j] == true)
                     {
                         fullmap[i,j] = 0.5;
                     }
-                    if(Map[i,j] == true)
+                    if(_csvtomatrix.Map[i,j] == true)
                     {
                         fullmap[i, j] = 1;
                     }
