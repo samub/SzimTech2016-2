@@ -1,18 +1,18 @@
 ﻿using System;						// Math.Abs, Math.Sqrt, Math.Atan, Math.PI
 using System.Collections.Generic;	// List
 
-namespace heuristic_one
+namespace teszt
 {
 	class Auxilary
 	{
 
-		public static void Bresenham(int x, int y, int x2, int y2, ref List<Point> list)
+		public static void Bresenham(int x, int y, int x2, int y2, ref List<PointHOne> list)
 		{
 			//x and y represents the starting postition of the line
 			//x2 and y2 represents the ending postition of the line
 			int xOriginal = x;
 			int yOriginal = y;
-
+            
 			int w = x2 - x; // Width
 			int h = y2 - y; // Height
 			int dx1 = 0, dy1 = 0, dx2 = 0, dy2 = 0;
@@ -34,7 +34,7 @@ namespace heuristic_one
 				//Console.SetCursorPosition(x, y);
 				//if ((x == xOriginal && y == yOriginal) || (x == x2 && y == y2)) Console.Write("0");
 				//else Console.Write("X");
-				list.Add(new Point(x, y, 0.0));
+				list.Add(new PointHOne(x, y, 0.0));
 
 				numerator += shortest;
 				if (!(numerator < longest))
@@ -56,10 +56,10 @@ namespace heuristic_one
 		/// akadályig vagy a térkép széléig.
 		/// A vonal pontjainak listáját adja vissza.
 		/// </summary>	
-		public static List<Point> Bresenham2(Point Start, double Direction, ref int[,] Matrix)
+		public static List<PointHOne> Bresenham2(PointHOne Start, double Direction, ref int[,] Matrix)
 		{
 			if (Start == null || Matrix == null) return null;
-			List<Point> L = new List<Point>();
+			List<PointHOne> L = new List<PointHOne>();
 			int x = Start.x;
 			int y = Start.y;
 			int dx, dy;
@@ -104,7 +104,7 @@ namespace heuristic_one
 				&& y < Matrix.GetLength(0)
 				&& Matrix[y, x] != 1
 			) {
-				L.Add(new Point(x,y,Direction));
+				L.Add(new PointHOne(x,y,Direction));
 
 				if (Steepness <= 1) {
 					x += dx;
@@ -124,7 +124,7 @@ namespace heuristic_one
 			}
 		}
 
-		public static double Distance(Point p1, Point p2) {
+		public static double Distance(PointHOne p1, PointHOne p2) {
 			return Math.Sqrt( 
 				(double)(p1.x - p2.x) * (p1.x - p2.x) + 
 				(p1.y - p2.y) * (p1.y - p2.y) 
@@ -135,7 +135,7 @@ namespace heuristic_one
 			return Math.Atan(tg) * 180.0 / Math.PI;
 		}
 
-		public static double Angle(Point p1, Point p2) {
+		public static double Angle(PointHOne p1, PointHOne p2) {
 			int xDist = p2.x - p1.x;
 			int yDist = p2.y - p1.y;
 

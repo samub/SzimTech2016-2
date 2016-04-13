@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace heuristic_one
+namespace teszt
 {
 	/// <summary>
 	/// Ez az osztály a lehetséges utak adatait tárolja és
@@ -11,14 +11,14 @@ namespace heuristic_one
 	/// </summary>
 	class Path
 	{
-		public Point	Start;
-		public Point	End;
+		public PointHOne	Start;
+		public PointHOne	End;
 		public double	Length;
 		public double	Rotation;
 		//public double	Újonnan lefedett terület súlyának átlaga
 		public double	Importance;
 
-		public Path(Point Start, Point End) {
+		public Path(PointHOne Start, PointHOne End) {
 			this.Start = Start;
 			this.End = End;
 			this.Length = Auxilary.Distance(Start, End);
