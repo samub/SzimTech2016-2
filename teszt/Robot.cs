@@ -172,24 +172,6 @@ namespace RobotMoverGUI {
                         var pixelDown = (int) Math.Floor(resultMatrix[i, 0] + MyBitmap.PixelHeight / 2) * 4 +
                                         (int) Math.Floor(resultMatrix[i, 1] + MyBitmap.PixelWidth / 2) * 4 *
                                         Robot1.Map.GetLength(1);
-
-                        try // TODO: remove try-catch
-                        {
-                            if (pixelUp > 0 &&
-                                pixelUp <= MyBitmap.PixelWidth * 4 + MyBitmap.PixelHeight * 4 * Robot1.Map.GetLength(1)) {
-                                pixArray[pixelUp] = 255; // r                                
-                            }
-                            if (pixelDown > 0 &&
-                                pixelDown <=
-                                MyBitmap.PixelWidth * 4 + MyBitmap.PixelHeight * 4 * Robot1.Map.GetLength(1)) {
-                                pixArray[pixelDown] = 255; // r
-                                pixArray[pixelDown + 1] = 255; // g 
-                               
-                            }
-                        }
-                        catch {
-                            // ignored
-                        }
                     }
                     MyBitmap = BitmapSource.Create(Robot1.Map.GetLength(0), Robot1.Map.GetLength(1), 96, 96,
                                                    PixelFormats.Pbgra32, null, pixArray, Robot1.Map.GetLength(0) * 4);
