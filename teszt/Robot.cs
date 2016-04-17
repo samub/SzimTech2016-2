@@ -177,18 +177,14 @@ namespace RobotMoverGUI {
                         {
                             if (pixelUp > 0 &&
                                 pixelUp <= MyBitmap.PixelWidth * 4 + MyBitmap.PixelHeight * 4 * Robot1.Map.GetLength(1)) {
-                                pixArray[pixelUp] = 255; // r
-                                pixArray[pixelUp + 1] = 255; // g 
-                                pixArray[pixelUp + 2] = 255; // b 
-                                pixArray[pixelUp + 3] = 255; // alpha 
+                                pixArray[pixelUp] = 255; // r                                
                             }
                             if (pixelDown > 0 &&
                                 pixelDown <=
                                 MyBitmap.PixelWidth * 4 + MyBitmap.PixelHeight * 4 * Robot1.Map.GetLength(1)) {
                                 pixArray[pixelDown] = 255; // r
                                 pixArray[pixelDown + 1] = 255; // g 
-                                pixArray[pixelDown + 2] = 255; // b 
-                                pixArray[pixelDown + 3] = 255; // alpha 
+                               
                             }
                         }
                         catch {
