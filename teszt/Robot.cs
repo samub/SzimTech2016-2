@@ -7,7 +7,8 @@ using System.Windows.Media.Imaging;
 namespace teszt {
     internal class Robot {
         // A robot mozgását a koordinátái és szögébõl alkotott hármasokból álló listában rögzítjük. 
-        public readonly List<Tuple<int, int, double>> Route = new List<Tuple<int, int, double>>();
+        public List<Tuple<int, int, double>> Route = new List<Tuple<int, int, double>>();
+        public RobotHandler RobotH;
 
         /// <summary>
         ///     Ezt a konstruktort akkor használjuk mikor a robotot fájból olvassuk.
@@ -28,6 +29,8 @@ namespace teszt {
             Cover = cover;
             Theta = theta;
             OriginalCoordinates = new float[0, 0];
+            RobotH = new RobotHandler();
+
         }
 
         /// <summary>
