@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 
 namespace RobotMoverGUI {
-    internal class ShapeDrawer {
+    internal static class ShapeDrawer {
         public static void DrawCircle(int x0, int y0, int radius, ref byte[] pixels) {
             var x = radius;
             var y = 0;

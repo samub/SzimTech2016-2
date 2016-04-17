@@ -10,12 +10,6 @@ namespace RobotMoverGUI {
         public readonly List<Tuple<int, int, double>> Route = new List<Tuple<int, int, double>>();
 
         /// <summary>
-        ///     Egy lista amely a robot aktuális állását tehát a robot által jelenleg lefedett területet tarja nyilán
-        ///     oly módon, hogy a lefedett terület (x,y) koordinátáit tárolja.
-        /// </summary>
-        private List<Tuple<int, int>> _currentlyCoveredArea = new List<Tuple<int, int>>();
-
-        /// <summary>
         ///     Ezt a konstruktort akkor használjuk mikor a robotot fájból olvassuk.
         /// </summary>
         /// <param name="radius"></param>
@@ -52,6 +46,12 @@ namespace RobotMoverGUI {
             Theta = theta;
         }
 
+        /// <summary>
+        ///     Egy lista amely a robot aktuális állását tehát a robot által jelenleg lefedett területet tarja nyilán
+        ///     oly módon, hogy a lefedett terület (x,y) koordinátáit tárolja.
+        /// </summary>
+        public List<Tuple<int, int>> CurrentlyCoveredArea { get; private set; } = new List<Tuple<int, int>>();
+
         public int X { get; set; }
         public int Y { get; set; }
 
@@ -73,7 +73,7 @@ namespace RobotMoverGUI {
         /// </summary>
         /// <param name="map"></param>
         public void SetCurrentlyCoveredArea(BitmapSource map) {
-            _currentlyCoveredArea = new List<Tuple<int, int>>();
+            CurrentlyCoveredArea = new List<Tuple<int, int>>();
             var stride = map.PixelWidth * 4;
             var size = map.PixelHeight * stride;
             var pixels = new byte[size];
@@ -82,7 +82,7 @@ namespace RobotMoverGUI {
             for (var i = X - Radius; i <= X - Radius + 2 * Radius; i++)
                 for (var j = Y - Radius; j <= Y - Radius + 2 * Radius; j++)
                     if (pixels[i * 4 + j * 4 * 640] == 255 && pixels[i * 4 + j * 4 * 640 + 1] == 255 &&
-                        pixels[i * 4 + j * 4 * 640 + 2] == 255 && pixels[i * 4 + j * 4 * 640 + 3] == 255) _currentlyCoveredArea.Add(new Tuple<int, int>(i, j));
+                        pixels[i * 4 + j * 4 * 640 + 2] == 255 && pixels[i * 4 + j * 4 * 640 + 3] == 255) CurrentlyCoveredArea.Add(new Tuple<int, int>(i, j));
             // for (int i = 0; i < CurrentlyCoveredArea.Count; i++)
             //MessageHandler.Write(CurrentlyCoveredArea[i].ToString());
         }

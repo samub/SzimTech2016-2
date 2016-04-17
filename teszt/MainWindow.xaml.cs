@@ -17,6 +17,7 @@ namespace RobotMoverGUI {
 */
         private bool _isFile;
         private CsvToMatrix _map;
+        private bool[,] _mapToBool;
         private BitmapSource _myBitmapSource;
         private BitmapSource _myOriginalMap;
         private byte[] _pixels;
@@ -161,11 +162,33 @@ namespace RobotMoverGUI {
             }
             else MessageBox.Show("Adjon meg kezdőértékeket a robotnak!", "Figyelmeztetés");
 
-            if (_robot != null) MapRefresh(_isFile);
+            if (_robot != null) {
+                MapRefresh();
 
-            if (RadioButtonGenetic.IsChecked != null && RadioButtonGenetic.IsChecked.Value) MessageBox.Show("Generikus");
-            else if (RadioButtonHeuristic1.IsChecked != null && RadioButtonHeuristic1.IsChecked.Value) MessageBox.Show("H1");
-            else if (RadioButtonHeuristic2.IsChecked != null && RadioButtonHeuristic2.IsChecked.Value) MessageBox.Show("H2");
+                if (RadioButtonGenetic.IsChecked != null && RadioButtonGenetic.IsChecked.Value) MessageBox.Show("Generikus");
+                else if (RadioButtonHeuristic1.IsChecked != null && RadioButtonHeuristic1.IsChecked.Value) {
+                    _mapToBool = BitmapToBools(_myOriginalMap);
+                    
+                    
+                    MessageBox.Show("H1 " + _mapToBool.GetLength(0) + "x" + _mapToBool.GetLength(1));
+                }
+                else if (RadioButtonHeuristic2.IsChecked != null && RadioButtonHeuristic2.IsChecked.Value) MessageBox.Show("H2");
+            }
+        }
+
+        private static bool[,] BitmapToBools(BitmapSource map) {
+            var stride = map.PixelWidth * 4;
+            var size = map.PixelHeight * stride;
+            var pixels = new byte[size];
+            map.CopyPixels(pixels, stride, 0);
+            var retVal = new bool[MyImageSizeX, MyImageSizeY];
+
+            for (var i = 0; i < MyImageSizeX; i++)
+                for (var j = 0; j < MyImageSizeY; j++)
+                    if (pixels[i * 4 + j * 640 * 4] == 255 && pixels[i * 4 + j * 640 * 4 + 1] == 255 &&
+                        pixels[i * 4 + j * 640 * 4 + 2] == 255 && pixels[i * 4 + j * 640 * 4 + 3] == 255) retVal[j, i] = true;
+                    else retVal[j, i] = false;
+            return retVal;
         }
 
         /// <summary>
@@ -174,10 +197,10 @@ namespace RobotMoverGUI {
         ///     ha nem fájlból olvastuk a robotot akkor újra lesz rajzolva.
         /// </summary>
         /// <param name="method"></param>
-        private void MapRefresh(bool method) {
+        private void MapRefresh() {
             if (_robot != null)
                 if (_myBitmapSource != null) {
-                    if (method) {
+                    if (_isFile) {
                         var stride = _myBitmapSource.PixelWidth * 4;
                         var size = _myBitmapSource.PixelHeight * stride;
                         _pixels = new byte[size];
@@ -313,8 +336,8 @@ namespace RobotMoverGUI {
                     dialog.Label1.Visibility = Visibility.Visible;
                     dialog.TextBox1.Visibility = Visibility.Visible;
                     if (dialog.ShowDialog() == true) {
-                        ShapeDrawer.DrawEllipse((int) p1.X, (int) p1.Y, Convert.ToInt32(dialog.ResponseText),
-                                                Convert.ToInt32(dialog.ResponseText1), ref _pixels);
+                        ShapeDrawer.DrawEllipse((int) p1.X, (int) p1.Y, Convert.ToInt32(dialog.ResponseText1),
+                                                Convert.ToInt32(dialog.ResponseText), ref _pixels);
                         ShapeDrawer.FloodFill(ref _pixels, p1);
                     }
                 }
@@ -353,7 +376,7 @@ namespace RobotMoverGUI {
 
             _robot.Reposition(Convert.ToInt32(TextBoxPositionX.Text), Convert.ToInt32(TextBoxPositionY.Text), angle,
                               _isFile);
-            MapRefresh(_isFile);
+            MapRefresh();
         }
 
 
@@ -362,7 +385,7 @@ namespace RobotMoverGUI {
             foreach (var t in _robot.Route) {
                 _robot.Reposition(t.Item1, t.Item2, t.Item3, _isFile);
                 await Task.Delay(1);
-                MapRefresh(_isFile);
+                MapRefresh();
             }
         }
 
