@@ -40,8 +40,8 @@ namespace RobotMoverGUI {
             TextBoxCoveringPercentage.MaxLength = 3;
             Image.Stretch = Stretch.None;
             _isFile = false;
-            RadioButton.IsEnabled = false;
-            RadioButton1.IsEnabled = false;
+            FanType1.IsEnabled = false;
+            FanType2.IsEnabled = false;
         }
 
         /// <summary>
@@ -400,14 +400,14 @@ private void btnEditClick(object sender, RoutedEventArgs e) {
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e) {
             _isFile = true;
-            RadioButton.IsEnabled = true;
-            RadioButton1.IsEnabled = true;
+            FanType1.IsEnabled = true;
+            FanType2.IsEnabled = true;
         }
 
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e) {
             _isFile = false;
-            RadioButton.IsEnabled = false;
-            RadioButton1.IsEnabled = false;
+            FanType1.IsEnabled = false;
+            FanType2.IsEnabled = false;
         }
     }
 }
