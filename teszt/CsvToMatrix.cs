@@ -24,7 +24,7 @@ namespace RobotMoverGUI {
             while (_sr.ReadLine() != null) lineNum ++;
             return lineNum;
         }
-
+        //Read the csv from file
         public void Read() {
             var lineCount = LineCount();
             _sr.DiscardBufferedData();

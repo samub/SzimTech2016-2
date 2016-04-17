@@ -21,10 +21,10 @@ namespace RobotMoverGUI {
         public Robot(int radius, int x, int y, int cover, double theta, string robotName) {
             Robot1 = new CsvToMatrix(robotName);
             Robot1.Read();
-            BoolMatrixToBitmap();
-            Radius = radius;
+            BoolMatrixToBitmap();//Logikai matrixbol BitMap-et csinál
+            Radius = radius; //a kör sugara
             X = x;
-            Y = y;
+            Y = y;  
             Cover = cover;
             Theta = theta;
             OriginalCoordinates = new float[0, 0];
