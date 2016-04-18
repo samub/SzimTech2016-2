@@ -169,8 +169,8 @@ namespace RobotMover {
                 if (RadioButtonGenetic.IsChecked != null && RadioButtonGenetic.IsChecked.Value) MessageBox.Show("Generikus");
                 else if (RadioButtonHeuristic1.IsChecked != null && RadioButtonHeuristic1.IsChecked.Value) {
                     _mapToBool = BitmapToBools(_myOriginalMap);
-                    
-                    
+
+
                     MessageBox.Show("H1 " + _mapToBool.GetLength(0) + "x" + _mapToBool.GetLength(1));
                 }
                 else if (RadioButtonHeuristic2.IsChecked != null && RadioButtonHeuristic2.IsChecked.Value) MessageBox.Show("H2");
@@ -197,7 +197,6 @@ namespace RobotMover {
         ///     az új helyre lerakni a robotot. A method paramétertől függően forgatás és mozgatás következik be illetve
         ///     ha nem fájlból olvastuk a robotot akkor újra lesz rajzolva.
         /// </summary>
-        /// <param name="method"></param>
         private void MapRefresh() {
             if (_robot != null)
                 if (_myBitmapSource != null) {
