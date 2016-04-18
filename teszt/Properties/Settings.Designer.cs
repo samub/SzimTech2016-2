@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RobotMoverGUI.Properties
+namespace teszt.Properties
 {
 
 

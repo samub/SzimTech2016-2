@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace RobotMoverGUI
+namespace teszt
 {
     /// <summary>
     /// Interaction logic for App.xaml

@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace RobotMoverGUI {
+namespace teszt {
     public partial class Dialog {
         public Dialog() {
             InitializeComponent();

@@ -8,7 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 
-namespace RobotMoverGUI {
+namespace teszt {
     public partial class MainWindow {
         private const int MyImageSizeX = 640;
         private const int MyImageSizeY = 640;
@@ -41,8 +41,8 @@ namespace RobotMoverGUI {
             TextBoxCoveringPercentage.MaxLength = 3;
             Image.Stretch = Stretch.None;
             _isFile = false;
-            FanType1.IsEnabled = false;
-            FanType2.IsEnabled = false;
+            RadioButton.IsEnabled = false;
+            RadioButton1.IsEnabled = false;
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace RobotMoverGUI {
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnOpenFileClick(object sender, RoutedEventArgs e) {
+        private void button_Click(object sender, RoutedEventArgs e) {
             var openFileDialog1 = new OpenFileDialog {
                                                          Filter = "CSV Files|*.csv",
                                                          Title = "Select a CSV File",
@@ -97,12 +97,14 @@ namespace RobotMoverGUI {
             e.Handled = !regex.IsMatch(e.Text);
         }
 
+        /// <summary>
+        ///     Start gomb lenyomására létrehozunk egy robot referenciát.
         ///     A robot megkapja a formon megadott kezdőértékeket és lerakásra került a térképre.
         ///     Ezt követően a kiválasztott algoritmus hívása következik majd.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnStartClick(object sender, RoutedEventArgs e) {
+        private void ButtonStart_Click(object sender, RoutedEventArgs e) {
             TextBoxForMessages.Text = "";
             ButtonMapEdit.IsEnabled = false;
             ButtonMapOpen.IsEnabled = false;
@@ -110,10 +112,9 @@ namespace RobotMoverGUI {
             RadioButtonRect.IsEnabled = false;
             RadioButtonEllips.IsEnabled = false;
             if (_isFile) {
-            if (FanType1.IsChecked != null && !FanType1.IsChecked.Value && FanType2.IsChecked != null &&
-                !FanType2.IsChecked.Value) MessageBox.Show("Kérem válassza ki a robot típusát!", "Figyelmeztetés");
-            else if (FanType1.IsChecked != null && FanType1.IsChecked.Value)
-
+                if (RadioButton.IsChecked != null && !RadioButton.IsChecked.Value && RadioButton1.IsChecked != null &&
+                    !RadioButton1.IsChecked.Value) MessageBox.Show("Kérem válassza ki a robot típusát!", "Figyelmeztetés");
+                else if (RadioButton.IsChecked != null && RadioButton.IsChecked.Value)
                     if (TextBoxPositionX.Text.Length != 0 && TextBoxPositionY.Text.Length != 0 &&
                         TextBoxCoveringPercentage.Text.Length != 0) {
                         _robot = new Robot(20, Convert.ToInt32(TextBoxPositionX.Text),
@@ -129,7 +130,7 @@ namespace RobotMoverGUI {
                         }
                     }
                     else MessageBox.Show("Adjon meg kezdőértékeket a robotnak!", "Figyelmeztetés");
-            else if (FanType2.IsChecked != null && FanType2.IsChecked.Value)
+                else if (RadioButton1.IsChecked != null && RadioButton1.IsChecked.Value)
                     if (TextBoxPositionX.Text.Length != 0 && TextBoxPositionY.Text.Length != 0 &&
                         TextBoxCoveringPercentage.Text.Length != 0) {
                         _robot = new Robot(41, Convert.ToInt32(TextBoxPositionX.Text),
@@ -309,7 +310,7 @@ namespace RobotMoverGUI {
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnImageClick(object sender, RoutedEventArgs e) {
+        private void ImageButton_Click(object sender, RoutedEventArgs e) {
             if (ButtonMapEdit.IsEnabled) {
                 var p1 = Mouse.GetPosition(this);
                 _myBitmapSource.CopyPixels(_pixels, 640 * 4, 0);
@@ -357,7 +358,7 @@ namespace RobotMoverGUI {
             TextBoxLogFileName.Visibility = Visibility.Hidden;
         }
 
-        private void btnStopClick(object sender, RoutedEventArgs e) {
+        private void ButtonStop_Click(object sender, RoutedEventArgs e) {
             if (CheckBoxLogOnOff.IsChecked.Equals(true)) MessageHandler.ToLog(TextBoxLogFileName.Text);
 
             ButtonMapEdit.IsEnabled = true;
@@ -368,7 +369,7 @@ namespace RobotMoverGUI {
             RadioButtonEllips.IsEnabled = true;
         }
 
-        private void btnTestRightClick(object sender, RoutedEventArgs e) {
+        private void button_Click_1(object sender, RoutedEventArgs e) {
             //TODO Nullpointer exceptions if I click
             double angle;
             if (!_isFile) angle = Convert.ToInt32(TextBoxTeszt.Text);
@@ -380,7 +381,7 @@ namespace RobotMoverGUI {
         }
 
 
-        private async void btnTestLeftClick(object sender, RoutedEventArgs e) {
+        private async void button1_Click(object sender, RoutedEventArgs e) {
             for (var i = 100; i < 320; i++) _robot.Route.Add(new Tuple<int, int, double>(i, i + 1, Convert.ToDouble(i * 0.05)));
             foreach (var t in _robot.Route) {
                 _robot.Reposition(t.Item1, t.Item2, t.Item3, _isFile);
@@ -395,8 +396,7 @@ namespace RobotMoverGUI {
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-private void btnEditClick(object sender, RoutedEventArgs e) {
-
+        private void BtnEdit_Click(object sender, RoutedEventArgs e) {
             _myOriginalMap = null;
             _map = null;
             _robot = null;
@@ -423,14 +423,14 @@ private void btnEditClick(object sender, RoutedEventArgs e) {
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e) {
             _isFile = true;
-            FanType1.IsEnabled = true;
-            FanType2.IsEnabled = true;
+            RadioButton.IsEnabled = true;
+            RadioButton1.IsEnabled = true;
         }
 
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e) {
             _isFile = false;
-            FanType1.IsEnabled = false;
-            FanType2.IsEnabled = false;
+            RadioButton.IsEnabled = false;
+            RadioButton1.IsEnabled = false;
         }
     }
 }
