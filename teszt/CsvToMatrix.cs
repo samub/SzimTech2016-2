@@ -1,7 +1,7 @@
 using System.IO;
 using System.Text;
 
-namespace teszt {
+namespace RobotMover {
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>

@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace teszt {
+namespace RobotMover {
     internal class Robot {
         // A robot mozgását a koordinátái és szögébõl alkotott hármasokból álló listában rögzítjük. 
         public readonly List<Tuple<int, int, double>> Route = new List<Tuple<int, int, double>>();
