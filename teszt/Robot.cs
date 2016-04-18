@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace teszt {
+namespace RobotMoverGUI {
     internal class Robot {
         // A robot mozgását a koordinátái és szögébõl alkotott hármasokból álló listában rögzítjük. 
         public List<Tuple<int, int, double>> Route = new List<Tuple<int, int, double>>();
@@ -175,28 +175,6 @@ namespace teszt {
                         var pixelDown = (int) Math.Floor(resultMatrix[i, 0] + MyBitmap.PixelHeight / 2) * 4 +
                                         (int) Math.Floor(resultMatrix[i, 1] + MyBitmap.PixelWidth / 2) * 4 *
                                         Robot1.Map.GetLength(1);
-
-                        try // TODO: remove try-catch
-                        {
-                            if (pixelUp > 0 &&
-                                pixelUp <= MyBitmap.PixelWidth * 4 + MyBitmap.PixelHeight * 4 * Robot1.Map.GetLength(1)) {
-                                pixArray[pixelUp] = 255; // r
-                                pixArray[pixelUp + 1] = 255; // g 
-                                pixArray[pixelUp + 2] = 255; // b 
-                                pixArray[pixelUp + 3] = 255; // alpha 
-                            }
-                            if (pixelDown > 0 &&
-                                pixelDown <=
-                                MyBitmap.PixelWidth * 4 + MyBitmap.PixelHeight * 4 * Robot1.Map.GetLength(1)) {
-                                pixArray[pixelDown] = 255; // r
-                                pixArray[pixelDown + 1] = 255; // g 
-                                pixArray[pixelDown + 2] = 255; // b 
-                                pixArray[pixelDown + 3] = 255; // alpha 
-                            }
-                        }
-                        catch {
-                            // ignored
-                        }
                     }
                     MyBitmap = BitmapSource.Create(Robot1.Map.GetLength(0), Robot1.Map.GetLength(1), 96, 96,
                                                    PixelFormats.Pbgra32, null, pixArray, Robot1.Map.GetLength(0) * 4);
