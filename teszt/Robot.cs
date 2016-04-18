@@ -8,7 +8,7 @@ namespace RobotMoverGUI {
     internal class Robot {
         // A robot mozgását a koordinátái és szögébõl alkotott hármasokból álló listában rögzítjük. 
         public List<Tuple<int, int, double>> Route = new List<Tuple<int, int, double>>();
-        public RobotHandler RobotH;
+        
 
         /// <summary>
         ///     Ezt a konstruktort akkor használjuk mikor a robotot fájból olvassuk.
@@ -29,7 +29,7 @@ namespace RobotMoverGUI {
             Cover = cover;
             Theta = theta;
             OriginalCoordinates = new float[0, 0];
-            RobotH = new RobotHandler();
+           
 
         }
 
