@@ -1,20 +1,130 @@
-﻿<Window x:Class="teszt.MainWindow"
+﻿<Window x:Class="RobotMover.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Szoba bejárás" Height="640" Width="850">
-    <Grid>
-        <Button x:Name="Button" Content="Megnyitás&#xD;&#xA;" Margin="0,68,90,0"
-                VerticalAlignment="Top" Click="button_Click" Height="20" HorizontalAlignment="Right" Width="75" IsEnabled="False"/>
-        <Image x:Name="Image" HorizontalAlignment="Left" Height="100" Margin="10,10,0,0" VerticalAlignment="Top"
-               Width="100" IsEnabled="False" />
-        <RadioButton x:Name="RadioButton" Content="Szerkesztés" HorizontalAlignment="Right" Margin="0,48,48,0"
-                     VerticalAlignment="Top" Checked="radioButton_Checked" />
-        <RadioButton x:Name="RadioButton1" Content="Beolvasás" HorizontalAlignment="Right" Margin="0,28,57,0"
-                     VerticalAlignment="Top" Checked="radioButton1_Checked"/>
-        <Button x:Name="Button1" Content="Szerkeszt" HorizontalAlignment="Right" Margin="0,68,10,0"
-                VerticalAlignment="Top" Width="75" IsEnabled="False" Click="Button1_Click"/>
+        Title="Szoba bejárás" SizeToContent="WidthAndHeight"
+        ScrollViewer.HorizontalScrollBarVisibility="Visible"
+        UseLayoutRounding="True" Height="668">
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}" x:Key="ImageButtonStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <ContentPresenter />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Width="974" Height="652" Margin="0,0,0,-11">
+        <Rectangle HorizontalAlignment="Right" Height="97" Margin="0,271,59,0" Stroke="Black" VerticalAlignment="Top"
+                   Width="222" RenderTransformOrigin="0.5,0.5">
+            <Rectangle.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="-1" />
+                    <SkewTransform />
+                    <RotateTransform />
+                    <TranslateTransform />
+                </TransformGroup>
+            </Rectangle.RenderTransform>
+        </Rectangle>
+        <Rectangle HorizontalAlignment="Right" Height="67" Margin="0,451,67,0" Stroke="Black" VerticalAlignment="Top"
+                   Width="110" />
+        <Button x:Name="ButtonMapOpen" Content="Megnyitás&#xA;" Margin="0,46,137,0"
+                VerticalAlignment="Top" Click="button_Click" Height="21" HorizontalAlignment="Right" Width="102" />
+        <Button x:Name="ButtonMapEdit" Content="Szerkesztés" HorizontalAlignment="Right" Margin="0,67,137,0"
+                VerticalAlignment="Top" Width="102" Height="22" Click="BtnEdit_Click" />
+        <Label Content="Algoritmus kiválasztása" HorizontalAlignment="Right" Margin="0,425,11,0"
+               VerticalAlignment="Top" Height="25" Width="170" />
+        <RadioButton x:Name="RadioButtonGenetic" GroupName="AlgoChoose" Content="Genetikus" HorizontalAlignment="Right"
+                     Margin="0,456,81,0" VerticalAlignment="Top" Height="14" Width="88" />
+        <RadioButton x:Name="RadioButtonHeuristic1" GroupName="AlgoChoose" Content="Heurisztikus 1"
+                     HorizontalAlignment="Right" Margin="0,476,53,0" VerticalAlignment="Top" Height="14" Width="116" />
+        <RadioButton x:Name="RadioButtonHeuristic2" GroupName="AlgoChoose" Content="Heurisztikus 2"
+                     HorizontalAlignment="Right" Margin="0,496,53,0" VerticalAlignment="Top"
+                     RenderTransformOrigin="0.5,0.5" Height="14" Width="116">
+            <RadioButton.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform />
+                    <SkewTransform AngleX="2.451" />
+                    <RotateTransform />
+                    <TranslateTransform X="-0.217" />
+                </TransformGroup>
+            </RadioButton.RenderTransform>
+        </RadioButton>
+        <Label Content="Opciók" HorizontalAlignment="Right" Margin="0,246,225,0"
+               VerticalAlignment="Top" Height="25" Width="60" />
+        <Slider x:Name="SliderViweAngle" HorizontalAlignment="Right" Margin="0,276,67,0" VerticalAlignment="Top"
+                Width="102" RenderTransformOrigin="0.154,-0.167" Height="22" Minimum="20" Maximum="120" />
+        <Label Content="Látószög" HorizontalAlignment="Right" Margin="0,276,201,0"
+               VerticalAlignment="Top" RenderTransformOrigin="0.204,0.014" Height="24" Width="74" />
+        <Label Content="Bejárás %" HorizontalAlignment="Right" Margin="0,306,191,0"
+               VerticalAlignment="Top" Height="24" Width="84" />
+        <TextBox x:Name="TextBoxCoveringPercentage" HorizontalAlignment="Right" Height="24" Margin="0,306,67,0"
+                 TextWrapping="Wrap" VerticalAlignment="Top" Width="102" PreviewTextInput="IntegerValidationTextBox"
+                 Text="100" />
+        <Label Content="Kezdőpozíció" HorizontalAlignment="Right" Margin="0,336,175,0"
+               VerticalAlignment="Top" Height="25" Width="100" />
+        <TextBox x:Name="TextBoxPositionX" HorizontalAlignment="Right" Height="25" Margin="0,336,121,0"
+                 TextWrapping="Wrap" VerticalAlignment="Top" Width="48" PreviewTextInput="IntegerValidationTextBox"
+                 Text="320" />
+        <TextBox x:Name="TextBoxPositionY" HorizontalAlignment="Right" Height="25" Margin="0,336,67,0"
+                 TextWrapping="Wrap" VerticalAlignment="Top" Width="48" PreviewTextInput="IntegerValidationTextBox"
+                 Text="320" />
+        <Button x:Name="ButtonStart" Content="Start" HorizontalAlignment="Right" Margin="0,445,219,0"
+                VerticalAlignment="Top" Width="97" Height="35" Click="ButtonStart_Click" />
+        <Button x:Name="ButtonStop" Content="Stop" HorizontalAlignment="Right" Margin="0,485,219,0"
+                VerticalAlignment="Top" Width="97" Height="35" Click="ButtonStop_Click" />
+        <Label Content="Térkép opciók" HorizontalAlignment="Right" Margin="0,15,133,0"
+               VerticalAlignment="Top" Height="25" Width="108" />
+        <Button x:Name="ButtonEditOk" Content="Mentés" HorizontalAlignment="Right" Margin="0,89,137,0"
+                VerticalAlignment="Top" Width="102" Height="22" />
+        <Button x:Name="ButtonEditCancel" Content="Mégsem" HorizontalAlignment="Right" Margin="0,111,137,0"
+                VerticalAlignment="Top" Width="102" Height="21" />
+        <TextBox x:Name="TextBoxForMessages" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Left"
+                 Height="105" TextWrapping="Wrap" VerticalAlignment="Top" Width="321" IsReadOnlyCaretVisible="True"
+                 SelectionOpacity="1" Margin="645,535,0,0" />
+        <Button Style="{StaticResource ImageButtonStyle}" Click="ImageButton_Click" Margin="0" Width="640"
+                HorizontalAlignment="Left" VerticalAlignment="Top" Height="640">
+            <Image x:Name="Image" HorizontalAlignment="Left" Height="640" VerticalAlignment="Top" Width="640" />
+        </Button>
+        <Rectangle HorizontalAlignment="Right" Height="46" Margin="0,170,273,0" Stroke="Black" VerticalAlignment="Top"
+                   Width="48" />
+        <Label Content="Legyezőforma" HorizontalAlignment="Right"
+               Margin="0,145,156,0"
+               VerticalAlignment="Top" Height="25" Width="170" />
+        <RadioButton GroupName="AngleViweChoose" x:Name="RadioButton" Content="1" HorizontalAlignment="Left"
+                     Margin="658,177,0,0" VerticalAlignment="Top" />
+        <RadioButton GroupName="AngleViweChoose" x:Name="RadioButton1" Content="2" HorizontalAlignment="Left"
+                     Margin="658,195,0,0" VerticalAlignment="Top" />
+        <CheckBox x:Name="CheckBoxLogOnOff" Content="Üzenetek Logolása" HorizontalAlignment="Left" Margin="658,412,0,0"
+                  VerticalAlignment="Top" Checked="checkBoxLogOnOff_Checked" Unchecked="checkBoxLogOnOff_Unchecked" />
+        <TextBox Visibility="Hidden" x:Name="TextBoxLogFileName" HorizontalAlignment="Left" Height="23"
+                 Margin="779,412,0,0" TextWrapping="Wrap" Text="fájlnév" VerticalAlignment="Top" Width="120" />
+        <Rectangle HorizontalAlignment="Left" Height="640" Stroke="Black" VerticalAlignment="Top" Width="640" />
+        <Rectangle HorizontalAlignment="Right" Height="102" Margin="0,39,123,0" Stroke="Black" VerticalAlignment="Top"
+                   Width="126" />
+        <Button Content="Teszt(Jobb)" Margin="874,46,25,586" Click="button_Click_1" />
+        <Button Content="Teszt(Bal)" Margin="874,74,25,558" Click="button1_Click" />
+        <TextBox x:Name="TextBoxTeszt" HorizontalAlignment="Left" Height="22" Margin="874,104,0,0" TextWrapping="Wrap"
+                 Text="1" VerticalAlignment="Top" Width="75" />
+        <Label Content="Alakzat rajzolása" HorizontalAlignment="Left" Margin="755,146,0,0"
+               VerticalAlignment="Top" />
+        <Rectangle HorizontalAlignment="Left" Height="64" Margin="761,170,0,0" Stroke="Black" VerticalAlignment="Top"
+                   Width="111" />
+        <RadioButton GroupName="ShapeChoose" x:Name="RadioButtonRect" Content="Téglalap" HorizontalAlignment="Left"
+                     Margin="766,177,0,0"
+                     VerticalAlignment="Top" IsEnabled="False" />
+        <RadioButton GroupName="ShapeChoose" x:Name="RadioButtonCircle" Content="Kör" HorizontalAlignment="Left"
+                     Margin="766,195,0,0"
+                     VerticalAlignment="Top" IsEnabled="False" />
+        <RadioButton GroupName="ShapeChoose" x:Name="RadioButtonEllips" Content="Ellipszis" HorizontalAlignment="Left"
+                     Margin="767,215,0,0"
+                     VerticalAlignment="Top" IsEnabled="False" />
+        <CheckBox x:Name="CheckBox" Content="Robot fájlból" HorizontalAlignment="Left" Margin="653,222,0,0"
+                  VerticalAlignment="Top" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" />
     </Grid>
+
 </Window>
