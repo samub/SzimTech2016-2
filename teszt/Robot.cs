@@ -8,6 +8,8 @@ namespace RobotMover {
     internal class Robot {
         // A robot mozgását a koordinátái és szögébõl alkotott hármasokból álló listában rögzítjük. 
         public readonly List<Tuple<int, int, double>> Route = new List<Tuple<int, int, double>>();
+        
+      
 
         /// <summary>
         ///     Ezt a konstruktort akkor használjuk mikor a robotot fájból olvassuk.
@@ -223,6 +225,17 @@ namespace RobotMover {
             }
             else MessageBox.Show("Matrix size mismatch.");
             return c;
+        }
+        public Robot getRobot()
+        {
+            return this;
+        }
+    }
+    public static class RobotSender {
+        public delegate void SimpleDelegate();
+        public static void sendRobot(Action del)
+        {
+            Console.WriteLine("called");
         }
     }
 }

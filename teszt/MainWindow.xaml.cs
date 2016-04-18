@@ -120,6 +120,10 @@ namespace RobotMover {
                         _robot = new Robot(20, Convert.ToInt32(TextBoxPositionX.Text),
                                            Convert.ToInt32(TextBoxPositionY.Text),
                                            Convert.ToInt32(TextBoxCoveringPercentage.Text), 90, "fan50A.csv");
+                        Console.WriteLine("Robooot");
+                        SimulateAlgos.setRobot(ref _robot);
+                        Console.WriteLine("Cover in robot.cs" + _robot.Cover);
+
                         if (Convert.ToInt32(TextBoxPositionX.Text) < _robot.Robot1.Map.GetLength(0) / 2 ||
                             Convert.ToInt32(TextBoxPositionY.Text) < _robot.Robot1.Map.GetLength(1) / 2 ||
                             Convert.ToInt32(TextBoxPositionX.Text) > MyImageSizeX - _robot.Robot1.Map.GetLength(0) / 2 ||
@@ -152,6 +156,9 @@ namespace RobotMover {
                 _robot = new Robot((int) SliderViweAngle.Value, Convert.ToInt32(TextBoxPositionX.Text),
                                    Convert.ToInt32(TextBoxPositionY.Text),
                                    Convert.ToInt32(TextBoxCoveringPercentage.Text), 223);
+                Console.WriteLine("Robooot1");
+                SimulateAlgos.setRobot(ref _robot);
+                Console.WriteLine("Cover in robot.cs " + _robot.Cover);
                 if (Convert.ToInt32(TextBoxPositionX.Text) < _robot.Radius ||
                     Convert.ToInt32(TextBoxPositionY.Text) < _robot.Radius ||
                     Convert.ToInt32(TextBoxPositionX.Text) > MyImageSizeX - _robot.Radius ||
