@@ -100,7 +100,9 @@ namespace RobotMover {
             // for (int i = 0; i < CurrentlyCoveredArea.Count; i++)
             //MessageHandler.Write(CurrentlyCoveredArea[i].ToString());
         }
-
+        /// <summary>
+        ///     A robot aktuális útját (Route) kisebb Delay-ekkel kirajzolja a mapra.
+        /// </summary>
         public async void ExecuteRobot() {
             for (var i = 100; i < 320; i++) Route.Add(new Tuple<int, int, double>(i, i + 1, Convert.ToDouble(i * 0.05)));
             foreach (var t in Route) {
