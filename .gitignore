@@ -1,2 +1,3 @@
 teszt/obj/Debug/*
-
+.vs/teszt/*
+teszt/bin/Debug/*
