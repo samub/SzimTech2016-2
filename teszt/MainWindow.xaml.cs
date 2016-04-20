@@ -379,7 +379,7 @@ namespace RobotMover {
             if (!_isFile) angle = Convert.ToInt32(TextBoxTeszt.Text);
             else angle = Convert.ToInt32(TextBoxTeszt.Text) * Math.PI / 180.0;
 
-            _robot.Reposition(Convert.ToInt32(TextBoxPositionX.Text), Convert.ToInt32(TextBoxPositionY.Text), angle);
+            _robot.ExecuteRobot();
             MapRefresh(_isFile);
         }
 
