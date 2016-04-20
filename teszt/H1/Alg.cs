@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,6 +54,10 @@ namespace RobotMover
                     y += dy2;
                 }
             }
+        }
+
+        public static void start(Robot robot, bool[,] map) {
+            MessageBox.Show("H1 start method");
         }
     }
 }
