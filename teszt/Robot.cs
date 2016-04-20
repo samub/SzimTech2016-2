@@ -222,7 +222,6 @@ namespace RobotMover {
                     MyBitmap = BitmapSource.Create(Robot1.Map.GetLength(0), Robot1.Map.GetLength(1), 96, 96,
                                                    PixelFormats.Pbgra32, null, pixArray, Robot1.Map.GetLength(0) * 4);
                 }
-            }
             else {
                 if (x >= 0 && x <= 640 - Radius && y >= 0 && y <= 640 - Radius) {
                     X = x;
