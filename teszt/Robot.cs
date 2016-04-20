@@ -102,7 +102,7 @@ namespace RobotMover {
         }
 
         public async void ExecuteRobot() {
-            for (var i = 100; i < 320; i++) Route.Add(new Tuple<int, int, double>(i, i + 1, Convert.ToDouble(i * 0.05)));
+            for (var i = 100; i < 320; i++) Route.Add(new Tuple<int, int, double>(i, i, Convert.ToDouble(i * 0.02)));
             foreach (var t in Route) {
                 Reposition(t.Item1, t.Item2, t.Item3);
                 await Task.Delay(1);
@@ -139,10 +139,9 @@ namespace RobotMover {
         /// <param name="y"></param>
         /// <param name="rotAngle"></param>
         public void Reposition(int x, int y, double rotAngle) {
-            if (IsFile)
-                if (x < Robot1.Map.GetLength(0) / 2 || y < Robot1.Map.GetLength(1) / 2 ||
-                    x > 640 - Robot1.Map.GetLength(0) / 2 || y > 640 - Robot1.Map.GetLength(1) / 2) ;
-                else {
+            if (IsFile) {
+                if (x >= Robot1.Map.GetLength(0) / 2 && y >= Robot1.Map.GetLength(1) / 2 &&
+                    x <= 640 - Robot1.Map.GetLength(0) / 2 && y <= 640 - Robot1.Map.GetLength(1) / 2) {
                     X = x;
                     Y = y;
 
@@ -220,15 +219,18 @@ namespace RobotMover {
                     MyBitmap = BitmapSource.Create(Robot1.Map.GetLength(0), Robot1.Map.GetLength(1), 96, 96,
                                                    PixelFormats.Pbgra32, null, pixArray, Robot1.Map.GetLength(0) * 4);
                 }
+            }
             else {
-                X = x;
-                Y = y;
-                if (rotAngle > 0) {
-                    if (Theta + rotAngle > 360) Theta = 0;
-                }
-                else if (Theta + rotAngle < 0) Theta = 360;
+                if (x >= 0 && x <= 640 - Radius && y >= 0 && y <= 640 - Radius) {
+                    X = x;
+                    Y = y;
+                    if (rotAngle > 0) {
+                        if (Theta + rotAngle > 360) Theta = 0;
+                    }
+                    else if (Theta + rotAngle < 0) Theta = 360;
 
-                Theta = Theta + rotAngle;
+                    Theta = Theta + rotAngle;
+                }
             }
         }
 
