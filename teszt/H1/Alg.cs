@@ -9,6 +9,8 @@ namespace RobotMover
 {
     class Alg
     {
+        static int[,] myIntMap = new int[640, 640];
+        
         public static void line(int x, int y, int x2, int y2, List<PointHOne> list)
         {
             
@@ -57,7 +59,23 @@ namespace RobotMover
         }
 
         public static void start(Robot robot, bool[,] map) {
+
             MessageBox.Show("H1 start method");
+            myIntMap = BoolToIntMap(map); 
         }
+        public static int [,] BoolToIntMap(bool[,] boolmap) {
+            var intmap = new int[640, 640];
+            for (int i = 0; i < 640; i++) {
+                for (int j = 0; j < 640; j++) {
+                    if (boolmap[i, j]) intmap[i, j] = 1;
+                    else intmap[i, j] = 0;
+                }
+            }
+            return intmap;
+        }
+
+
+
+
     }
 }
