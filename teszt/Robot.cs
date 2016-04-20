@@ -20,7 +20,10 @@ namespace RobotMover {
         /// <param name="cover"></param>
         /// <param name="theta"></param>
         /// <param name="robotName"></param>
-        public Robot(int radius, int x, int y, int cover, double theta, string robotName, Action<bool> methodName, bool _isFile) {
+        /// <param name="methodName"></param>
+        /// <param name="isFile"></param>
+        public Robot(int radius, int x, int y, int cover, double theta, string robotName, Action<bool> methodName,
+                     bool isFile) {
             Robot1 = new CsvToMatrix(robotName);
             Robot1.Read();
             BoolMatrixToBitmap();
@@ -31,7 +34,7 @@ namespace RobotMover {
             Theta = theta;
             OriginalCoordinates = new float[0, 0];
             _refresh = methodName;
-            isFile = _isFile;
+            IsFile = isFile;
         }
 
         /// <summary>
@@ -42,14 +45,16 @@ namespace RobotMover {
         /// <param name="y"></param>
         /// <param name="cover"></param>
         /// <param name="theta"></param>
-        public Robot(int radius, int x, int y, int cover, double theta, Action<bool> methodName, bool _isFile) {
+        /// <param name="methodName"></param>
+        /// <param name="isFile"></param>
+        public Robot(int radius, int x, int y, int cover, double theta, Action<bool> methodName, bool isFile) {
             Radius = radius;
             X = x;
             Y = y;
             Cover = cover;
             Theta = theta;
             _refresh = methodName;
-            isFile = _isFile;
+            IsFile = isFile;
         }
 
         /// <summary>
@@ -61,7 +66,7 @@ namespace RobotMover {
         public int X { get; set; }
         public int Y { get; set; }
 
-        private bool isFile { get; }
+        private bool IsFile { get; }
 
         private float[,] OriginalCoordinates { get; set; }
 
@@ -101,7 +106,7 @@ namespace RobotMover {
             foreach (var t in Route) {
                 Reposition(t.Item1, t.Item2, t.Item3);
                 await Task.Delay(1);
-                _refresh(isFile);
+                _refresh(IsFile);
             }
         }
 
@@ -133,9 +138,8 @@ namespace RobotMover {
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="rotAngle"></param>
-        /// <param name="method"></param>
         public void Reposition(int x, int y, double rotAngle) {
-            if (isFile)
+            if (IsFile)
                 if (x < Robot1.Map.GetLength(0) / 2 || y < Robot1.Map.GetLength(1) / 2 ||
                     x > 640 - Robot1.Map.GetLength(0) / 2 || y > 640 - Robot1.Map.GetLength(1) / 2) ;
                 else {
@@ -243,7 +247,7 @@ namespace RobotMover {
             return c;
         }
 
-        public Robot getRobot() {
+        public Robot GetRobot() {
             return this;
         }
     }

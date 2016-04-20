@@ -11,9 +11,6 @@ namespace RobotMover {
     public partial class MainWindow {
         private const int MyImageSizeX = 640;
         private const int MyImageSizeY = 640;
-        /*
-        private readonly ShapeDrawer _sd = new ShapeDrawer();
-*/
         private bool _isFile;
         private CsvToMatrix _map;
         private bool[,] _mapToBool;
@@ -118,10 +115,11 @@ namespace RobotMover {
                         TextBoxCoveringPercentage.Text.Length != 0) {
                         _robot = new Robot(20, Convert.ToInt32(TextBoxPositionX.Text),
                                            Convert.ToInt32(TextBoxPositionY.Text),
-                                           Convert.ToInt32(TextBoxCoveringPercentage.Text), 90, "fan50A.csv", MapRefresh,_isFile);
-                        Console.WriteLine("Robooot");
+                                           Convert.ToInt32(TextBoxCoveringPercentage.Text), 90, "fan50A.csv", MapRefresh,
+                                           _isFile);
+                        Console.WriteLine(@"Robooot");
                         SimulateAlgos.setRobot(ref _robot);
-                        Console.WriteLine("Cover in robot.cs" + _robot.Cover);
+                        Console.WriteLine(@"Cover in robot.cs" + _robot.Cover);
 
                         if (Convert.ToInt32(TextBoxPositionX.Text) < _robot.Robot1.Map.GetLength(0) / 2 ||
                             Convert.ToInt32(TextBoxPositionY.Text) < _robot.Robot1.Map.GetLength(1) / 2 ||
@@ -138,7 +136,8 @@ namespace RobotMover {
                         TextBoxCoveringPercentage.Text.Length != 0) {
                         _robot = new Robot(41, Convert.ToInt32(TextBoxPositionX.Text),
                                            Convert.ToInt32(TextBoxPositionY.Text),
-                                           Convert.ToInt32(TextBoxCoveringPercentage.Text), 90, "fan100.csv", MapRefresh, _isFile);
+                                           Convert.ToInt32(TextBoxCoveringPercentage.Text), 90, "fan100.csv", MapRefresh,
+                                           _isFile);
                         if (Convert.ToInt32(TextBoxPositionX.Text) < _robot.Robot1.Map.GetLength(0) / 2 ||
                             Convert.ToInt32(TextBoxPositionY.Text) < _robot.Robot1.Map.GetLength(1) / 2 ||
                             Convert.ToInt32(TextBoxPositionX.Text) > MyImageSizeX - _robot.Robot1.Map.GetLength(0) / 2 ||
@@ -155,9 +154,9 @@ namespace RobotMover {
                 _robot = new Robot((int) SliderViweAngle.Value, Convert.ToInt32(TextBoxPositionX.Text),
                                    Convert.ToInt32(TextBoxPositionY.Text),
                                    Convert.ToInt32(TextBoxCoveringPercentage.Text), 223, MapRefresh, _isFile);
-                Console.WriteLine("Robooot1");
+                Console.WriteLine(@"Robooot1");
                 SimulateAlgos.setRobot(ref _robot);
-                Console.WriteLine("Cover in robot.cs " + _robot.Cover);
+                Console.WriteLine(@"Cover in robot.cs " + _robot.Cover);
                 if (Convert.ToInt32(TextBoxPositionX.Text) < _robot.Radius ||
                     Convert.ToInt32(TextBoxPositionY.Text) < _robot.Radius ||
                     Convert.ToInt32(TextBoxPositionX.Text) > MyImageSizeX - _robot.Radius ||
