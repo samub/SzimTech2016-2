@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace RobotMover {
     internal class Robot {
-        private readonly Action<bool> _refresh;
         // A robot mozgását a koordinátái és szögébõl alkotott hármasokból álló listában rögzítjük. 
         public readonly List<Tuple<int, int, double>> Route = new List<Tuple<int, int, double>>();
 
@@ -20,10 +18,7 @@ namespace RobotMover {
         /// <param name="cover"></param>
         /// <param name="theta"></param>
         /// <param name="robotName"></param>
-        /// <param name="methodName"></param>
-        /// <param name="isFile"></param>
-        public Robot(int radius, int x, int y, int cover, double theta, string robotName, Action<bool> methodName,
-                     bool isFile) {
+        public Robot(int radius, int x, int y, int cover, double theta, string robotName) {
             Robot1 = new CsvToMatrix(robotName);
             Robot1.Read();
             BoolMatrixToBitmap();
@@ -33,8 +28,6 @@ namespace RobotMover {
             Cover = cover;
             Theta = theta;
             OriginalCoordinates = new float[0, 0];
-            _refresh = methodName;
-            IsFile = isFile;
         }
 
         /// <summary>
@@ -45,16 +38,12 @@ namespace RobotMover {
         /// <param name="y"></param>
         /// <param name="cover"></param>
         /// <param name="theta"></param>
-        /// <param name="methodName"></param>
-        /// <param name="isFile"></param>
-        public Robot(int radius, int x, int y, int cover, double theta, Action<bool> methodName, bool isFile) {
+        public Robot(int radius, int x, int y, int cover, double theta) {
             Radius = radius;
             X = x;
             Y = y;
             Cover = cover;
             Theta = theta;
-            _refresh = methodName;
-            IsFile = isFile;
         }
 
         /// <summary>
@@ -65,8 +54,6 @@ namespace RobotMover {
 
         public int X { get; set; }
         public int Y { get; set; }
-
-        private bool IsFile { get; }
 
         private float[,] OriginalCoordinates { get; set; }
 
@@ -94,20 +81,10 @@ namespace RobotMover {
 
             for (var i = X - Radius; i <= X - Radius + 2 * Radius; i++)
                 for (var j = Y - Radius; j <= Y - Radius + 2 * Radius; j++)
-                    if (i >= 0 && i < 640 && j >= 0 && j < 640 && pixels[i * 4 + j * 4 * 640] == 255 &&
-                        pixels[i * 4 + j * 4 * 640 + 1] == 255 && pixels[i * 4 + j * 4 * 640 + 2] == 255 &&
-                        pixels[i * 4 + j * 4 * 640 + 3] == 255) CurrentlyCoveredArea.Add(new Tuple<int, int>(i, j));
+                    if (pixels[i * 4 + j * 4 * 640] == 255 && pixels[i * 4 + j * 4 * 640 + 1] == 255 &&
+                        pixels[i * 4 + j * 4 * 640 + 2] == 255 && pixels[i * 4 + j * 4 * 640 + 3] == 255) CurrentlyCoveredArea.Add(new Tuple<int, int>(i, j));
             // for (int i = 0; i < CurrentlyCoveredArea.Count; i++)
             //MessageHandler.Write(CurrentlyCoveredArea[i].ToString());
-        }
-
-        public async void ExecuteRobot() {
-            for (var i = 100; i < 320; i++) Route.Add(new Tuple<int, int, double>(i, i + 1, Convert.ToDouble(i * 0.05)));
-            foreach (var t in Route) {
-                Reposition(t.Item1, t.Item2, t.Item3);
-                await Task.Delay(1);
-                _refresh(IsFile);
-            }
         }
 
         private void BoolMatrixToBitmap() {
@@ -138,8 +115,9 @@ namespace RobotMover {
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="rotAngle"></param>
-        public void Reposition(int x, int y, double rotAngle) {
-            if (IsFile)
+        /// <param name="method"></param>
+        public void Reposition(int x, int y, double rotAngle, bool method) {
+            if (method)
                 if (x < Robot1.Map.GetLength(0) / 2 || y < Robot1.Map.GetLength(1) / 2 ||
                     x > 640 - Robot1.Map.GetLength(0) / 2 || y > 640 - Robot1.Map.GetLength(1) / 2) ;
                 else {
@@ -245,10 +223,6 @@ namespace RobotMover {
             }
             else MessageBox.Show("Matrix size mismatch.");
             return c;
-        }
-
-        public Robot GetRobot() {
-            return this;
         }
     }
 }
