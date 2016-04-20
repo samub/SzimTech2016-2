@@ -66,6 +66,7 @@
     <Compile Include="MessageHandler.cs" />
     <Compile Include="Robot.cs" />
     <Compile Include="ShapeDrawer.cs" />
+    <Compile Include="SimulateAlgos.cs" />
     <Page Include="Dialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
