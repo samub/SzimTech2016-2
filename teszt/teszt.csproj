@@ -58,6 +58,11 @@
     <Compile Include="Dialog.xaml.cs">
       <DependentUpon>Dialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="H1\Alg.cs" />
+    <Compile Include="H1\Auxilary.cs" />
+    <Compile Include="H1\Map.cs" />
+    <Compile Include="H1\Path.cs" />
+    <Compile Include="H1\PointHOne.cs" />
     <Compile Include="MessageHandler.cs" />
     <Compile Include="Robot.cs" />
     <Compile Include="ShapeDrawer.cs" />
