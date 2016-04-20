@@ -295,6 +295,12 @@ namespace RobotMover {
                         var randX = _robot.X + randRadius * Math.Cos(Math.PI / 180.0 * randAngle);
                         var randY = _robot.Y - randRadius * Math.Sin(Math.PI / 180.0 * randAngle);
 
+                        if ((int) randX > 638) randX = 638;
+                        if ((int) randY > 638) randY = 638;
+
+                        if ((int)randX <= 0) randX = 1;
+                        if ((int)randY <= 0) randY =1;
+
                         ShapeDrawer.FloodFill(ref _pixels, new Point((int) Math.Floor(randX), (int) Math.Floor(randY)));
 
                         _myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, _pixels,
