@@ -138,7 +138,7 @@ namespace RobotMover {
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="rotAngle"></param>
-        public void Reposition(int x, int y, double rotAngle) {
+        private void Reposition(int x, int y, double rotAngle) {
             if (IsFile)
                 if (x < Robot1.Map.GetLength(0) / 2 || y < Robot1.Map.GetLength(1) / 2 ||
                     x > 640 - Robot1.Map.GetLength(0) / 2 || y > 640 - Robot1.Map.GetLength(1) / 2) ;
