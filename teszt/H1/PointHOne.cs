@@ -12,6 +12,7 @@ namespace RobotMover
 			this.x = x;
 			this.y = y;
 			this.theta = theta;
+            this.ertek = ertek;
 		}
 
 	}
