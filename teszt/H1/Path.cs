@@ -13,10 +13,10 @@ namespace RobotMover
 	{
 		public PointHOne	Start;
 		public PointHOne	End;
-		public double	Length;
-		public double	Rotation;
-		//public double	Újonnan lefedett terület súlyának átlaga
-		public double	Importance;
+		public double		Length;
+		public double		Rotation;
+		//public double	Újonnan lefedett terület súlya
+		public double		Importance;
 
 		public Path(PointHOne Start, PointHOne End) {
 			this.Start = Start;
@@ -30,7 +30,8 @@ namespace RobotMover
 			double res;
 
 			res = this.Length + this.Rotation / 4.0;    // Hossz + elfordulás/4
-			//res -= Újonnan lefedett terület súlyának átlaga
+
+			//res -= Újonnan lefedett terület súlya
 
 			return res;
 		}

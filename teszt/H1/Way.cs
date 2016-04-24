@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;	// List
+﻿using System;						// Math.Abs
+using System.Collections.Generic;	// List
 using System.Linq;					// ElementAt
 
 namespace RobotMover
@@ -10,11 +11,10 @@ namespace RobotMover
 	{
 
 		public List<PointHOne>	Waypoints;
-		private double		Length;
-		private int[,]		map;
+		private double			Length;
+		private int[,]			map;
 		private Robot			gui;
-		private float		NeededCoverage;	// 0.8
-		public byte Dirs;
+		private float			NeededCoverage;
 
 		/// <summary>
 		/// Annak eldöntése, a robot sugara alapján,
@@ -60,43 +60,49 @@ namespace RobotMover
 		/// Új útpont keresése
 		/// </summary>
 		/// <returns>Új pont</returns>
-		private PointHOne NewPoint() {
-			byte Directions = this.Dirs;//DirsFromRadius(gui.Radius);
-			PointHOne New = null;						// Azaktuális lehetséges végpont
-			List<PointHOne> Points = new List<PointHOne>();	// A lehetséges végpontok listája
+		private void NewPoint() {
+			byte Directions = DirsFromRadius(gui.Radius);
+			PointHOne New = null;					// Az aktuális lehetséges végpont
 			List<Path> Paths = new List<Path>();	// A lehetséges utak listája
 
 			for (int i = 0; i < Directions; i++) {
-				// Vonal húzása
+
+				// Vonal pontjainak megállapítása a megadott irányokban
 				List<PointHOne> line = Auxilary.Bresenham2(
 					Waypoints.ElementAt(Waypoints.Count-1),
 					360 / Directions * i,
 					ref map
 				);
-				for (int j = 0; j < line.Count; j++) {
-					map[line.ElementAt(j).y, line.ElementAt(j).x] = 'x';
-				}
+
 				// Visszalépés annyit, amennyi a sugár
 				New = Back(ref line, gui.Radius);
-				Points.Add(New);
-				// Területlefedés a GUI segítségével
+
+				// Területlefedés a GUI segítségével, NeededCoverage frissítése
 				;
-				// Az újonnan lefedett terület súlya
+
+				// A vonalra eső pontok vizsgálata
 				int count = 0;
-				for (int j = 0; j < gui.CurrentlyCoveredArea.Count; j++) {
-					int x = gui.CurrentlyCoveredArea.ElementAt(i).Item1;
-					int y = gui.CurrentlyCoveredArea.ElementAt(i).Item2;
-					count += map[y, x];
+				for (int j = 0; j < line.Count; j++) {
+					if (map[line.ElementAt(j).y, line.ElementAt(j).x] == 0) {
+						++count;
+					} else {
+						count -= map[line.ElementAt(j).y, line.ElementAt(j).x];
+					}
 				}
 				Paths.Add(new Path(Waypoints.ElementAt(Waypoints.Count-1),New));
 			}
+
 			// A legjobb út kiválasztása
 			;
+
 			// Távolság megállapítása, úthossz frissítése
-			;
+			Length += Auxilary.Distance(Waypoints.ElementAt(Waypoints.Count-1),New);
+
 			// Elfordulás megállapítása, úthossz frissítése
-			;
-			return New;
+			Length += Math.Abs(Waypoints.ElementAt(Waypoints.Count-1).theta - New.theta) / 4;
+
+			// Új pont hozzáadása az útpontok listájához
+			Waypoints.Add(New);
 		}
 		
 		public void FindWay() {
