@@ -11,7 +11,7 @@ namespace RobotMover
     {
         static int[,] myIntMap = new int[640, 640];
         
-        public static void line(int x, int y, int x2, int y2, List<PointHOne> list)
+        public static void line(int x, int y, int x2, int y2, List<PointHOne> list, int[,] map)
         {
             
             //x and y represents the starting postition of the line
@@ -38,11 +38,11 @@ namespace RobotMover
             for (int i = 0; i <= longest; i++)
             {
                 Console.SetCursorPosition(x, y);
-                if((x==xOriginal && y==yOriginal)) Console.Write("K");
-                else if (x == x2 && y == y2) Console.Write("V");
-                else Console.Write("x");
+               // if((x==xOriginal && y==yOriginal)) Console.Write("K");
+               //else if (x == x2 && y == y2) Console.Write("V");
+               //else Console.Write("x");
                 //TODO: fix theta
-                list.Add(new PointHOne(x, y,0));
+                list.Add(new PointHOne(x, y,map[x,y],0));
 
                 numerator += shortest;
                 if (!(numerator < longest))
@@ -76,8 +76,21 @@ namespace RobotMover
             return intmap;
         }
 
+        public double sulyozas(int x1, int y1, int x2, int y2, int theta) {
+            double d = Math.Sqrt(Math.Pow(Math.Abs(x2 - x1), 2) + Math.Pow(Math.Abs(y2 - y1),2));
+            List<PointHOne> pontok = new List<PointHOne>();
 
+            line(x1, y1, x2, y2, pontok, Alg.myIntMap);
 
+            int nullak = 0;
+            int nemNullaParos = 0;
+            foreach (var pont in pontok)
+            {
+                if (pont.ertek == 0) nullak++;
+                if ((pont.ertek != 0) && (pont.ertek % 2 == 0)) nemNullaParos+=Alg.myIntMap[pont.x,pont.y];
+            }
 
+            return d + (theta / 4) + nullak - nemNullaParos;
+        }
     }
 }
