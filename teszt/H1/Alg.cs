@@ -62,6 +62,8 @@ namespace RobotMover
 
             MessageBox.Show("H1 start method");
             myIntMap = BoolToIntMap(map); 
+			new Way(0.8f, ref myIntMap, ref robot);
+
         }
         public static int [,] BoolToIntMap(bool[,] boolmap) {
             var intmap = new int[640, 640];
