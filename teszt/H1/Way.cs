@@ -113,7 +113,7 @@ namespace RobotMover
 
 		public Way(float NeededCoverage, ref int[,] map, ref Robot gui) {
 			this.Waypoints = new List<PointHOne>();
-			this.Waypoints.Add(new PointHOne(gui.X, gui.Y, gui.Theta));	// Kezdőpont hozzáadása
+			this.Waypoints.Add(new PointHOne(gui.X, gui.Y, 0, gui.Theta));	// Kezdőpont hozzáadása
 			this.Length = 0;
 			this.map = map;
 			this.NeededCoverage = NeededCoverage;
