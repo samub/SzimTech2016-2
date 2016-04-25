@@ -166,8 +166,12 @@ namespace RobotMover {
             if (_robot != null) {
                 MapRefresh();
 
-                if (RadioButtonGenetic.IsChecked != null && RadioButtonGenetic.IsChecked.Value) GeneticAlgo.Start();
-                else if (RadioButtonHeuristic1.IsChecked != null && RadioButtonHeuristic1.IsChecked.Value) {
+                if (RadioButtonGenetic.IsChecked != null && RadioButtonGenetic.IsChecked.Value)
+                {
+                    GeneticAlgo.Start();
+                }
+                else if (RadioButtonHeuristic1.IsChecked != null && RadioButtonHeuristic1.IsChecked.Value)
+                {
                     _mapToBool = BitmapToBools(_myOriginalMap);
 
 
