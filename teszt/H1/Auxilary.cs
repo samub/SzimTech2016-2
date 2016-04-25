@@ -125,6 +125,8 @@ namespace RobotMover
 		}
 
 		public static double Distance(PointHOne p1, PointHOne p2) {
+			if (p1 == null || p2 == null) 
+				return 0.0;
 			return Math.Sqrt( 
 				(double)(p1.x - p2.x) * (p1.x - p2.x) + 
 				(p1.y - p2.y) * (p1.y - p2.y) 
@@ -138,7 +140,9 @@ namespace RobotMover
 		public static double Angle(PointHOne p1, PointHOne p2) {
 			int xDist = p2.x - p1.x;
 			int yDist = p2.y - p1.y;
-
+			
+			// Hibaellenőrzés
+			if (p1 == null || p2 == null) return 0.0;
 			// A két pont egybe esik
 			if(xDist == 0 && yDist == 0) return 360;
 			// Függőleges vonal

@@ -11,19 +11,22 @@ namespace RobotMover
 	/// </summary>
 	class Path
 	{
-		public PointHOne	Start;
-		public PointHOne	End;
+		private PointHOne	Start;
+		private PointHOne	End;
 		public double		Length;
 		public double		Rotation;
-		//public double	Újonnan lefedett terület súlya
+		//private double	Újonnan lefedett terület súlya
 		public double		Importance;
 
 		public Path(PointHOne Start, PointHOne End) {
+			if (Start != null && End != null)
+			{
 			this.Start = Start;
 			this.End = End;
 			this.Length = Auxilary.Distance(Start, End);
 			this.Rotation = Math.Abs(this.Start.theta - this.End.theta);
 			this.Importance = I();
+			}
 		}
 
 		private double I() {
@@ -31,7 +34,7 @@ namespace RobotMover
 
 			res = this.Length + this.Rotation / 4.0;    // Hossz + elfordulás/4
 
-			//res -= Újonnan lefedett terület súlya
+			//res += Újonnan lefedett terület súlya
 
 			return res;
 		}

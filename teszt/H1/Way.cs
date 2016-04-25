@@ -1,7 +1,7 @@
 ﻿using System;						// Math.Abs
 using System.Collections.Generic;	// List
 using System.Linq;					// ElementAt
-
+using System.Windows;
 namespace RobotMover
 {
 	/// <summary>
@@ -15,6 +15,7 @@ namespace RobotMover
 		private int[,]			map;
 		private Robot			gui;
 		private float			NeededCoverage;
+		private float			Coverage;
 
 		/// <summary>
 		/// Annak eldöntése, a robot sugara alapján,
@@ -61,13 +62,13 @@ namespace RobotMover
 		/// </summary>
 		/// <returns>Új pont</returns>
 		private void NewPoint() {
-			byte Directions = DirsFromRadius(gui.Radius);
+			byte Directions = 36;//DirsFromRadius(gui.Radius);
 			PointHOne	New = null;		// Az aktuális lehetséges végpont
-			Path		Paths = null;	// A legjobb út
-
+			Path		Path1 = null;	// A legjobb út
+			
 			for (int i = 0; i < Directions; i++) {
 
-				// Vonal pontjainak megállapítása a megadott irányokban
+				// Vonal pontjainak megállapítása a megadott irányban
 				List<PointHOne> line = Auxilary.Bresenham2(
 					Waypoints.ElementAt(Waypoints.Count-1),
 					360 / Directions * i,
@@ -79,16 +80,14 @@ namespace RobotMover
 				
 				// A legjobb út kiválasztása
 				Path Paths2 = new Path(Waypoints.ElementAt(Waypoints.Count-1),New);
-				if (Paths == null || Paths.Importance < Paths2.Importance) {
-					Paths = Paths2;
+				if (Path1 == null || Path1.Importance < Paths2.Importance) {
+					Path1 = Paths2;
 				}
 			}
 			
-			// Távolság megállapítása, úthossz frissítése
-			Length += Auxilary.Distance(Waypoints.ElementAt(Waypoints.Count-1),New);
 
-			// Elfordulás megállapítása, úthossz frissítése
-			Length += Math.Abs(Waypoints.ElementAt(Waypoints.Count-1).theta - New.theta) / 4;
+			// Úthossz frissítése
+			Length += Path1.Length + Path1.Rotation / 4;
 
 			// Új pont hozzáadása az útpontok listájához
 			Waypoints.Add(New);
@@ -110,7 +109,9 @@ namespace RobotMover
 				gui.Route.Add(new Tuple<int, int, double>(
 					Waypoints.ElementAt(i).x, 
 					Waypoints.ElementAt(i).y,
-					Waypoints.ElementAt(i).theta));
+					Waypoints.ElementAt(i).theta)
+				);
+				MessageBox.Show(Waypoints.ElementAt(i).x.ToString() + " " + Waypoints.ElementAt(i).y.ToString());
 			}
 		}
 
@@ -119,10 +120,11 @@ namespace RobotMover
 			this.Waypoints.Add(new PointHOne(gui.X, gui.Y, 0, gui.Theta));	// Kezdőpont hozzáadása
 			this.Length = 0;
 			this.map = map;
-			this.NeededCoverage = NeededCoverage;
 			this.gui = gui;
-			//this.FindWay();
-			//UpDateGUI();
+			this.NeededCoverage = NeededCoverage;
+			this.Coverage = gui.Cover;		// Kezdeti lefedettség
+			this.FindWay();
+			this.UpdateGUI();
 		}
 
 	}
