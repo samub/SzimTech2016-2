@@ -168,7 +168,9 @@ namespace RobotMover {
 
                 if (RadioButtonGenetic.IsChecked != null && RadioButtonGenetic.IsChecked.Value)
                 {
-                    GeneticAlgo.Start();
+                    //Genetikus algo
+                    GA.Go(_robot, _mapToBool);
+                    MessageBox.Show("Generikus");
                 }
                 else if (RadioButtonHeuristic1.IsChecked != null && RadioButtonHeuristic1.IsChecked.Value)
                 {
