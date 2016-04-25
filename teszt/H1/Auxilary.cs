@@ -141,7 +141,16 @@ namespace RobotMover
 
 			// A két pont egybe esik
 			if(xDist == 0 && yDist == 0) return 360;
+			// Függőleges vonal
+			if(xDist == 0) {
+				if(p2.y > p1.y) {
+					return 270.0;
+				} else {
+					return 90.0;
+				}
+			}
 			// A végpont jobbra van
+			else // A végpont jobbra van
 			if(xDist >= 0) {
 				// A végpont feljebb van (0° - 90°)
 				if(yDist > 0) {
