@@ -62,8 +62,8 @@ namespace RobotMover
 		/// <returns>Új pont</returns>
 		private void NewPoint() {
 			byte Directions = DirsFromRadius(gui.Radius);
-			PointHOne New = null;					// Az aktuális lehetséges végpont
-			List<Path> Paths = new List<Path>();	// A lehetséges utak listája
+			PointHOne	New = null;		// Az aktuális lehetséges végpont
+			Path		Paths = null;	// A legjobb út
 
 			for (int i = 0; i < Directions; i++) {
 
@@ -76,25 +76,14 @@ namespace RobotMover
 
 				// Visszalépés annyit, amennyi a sugár
 				New = Back(ref line, gui.Radius);
-
-				// Területlefedés a GUI segítségével, NeededCoverage frissítése
-				;
-
-				// A vonalra eső pontok vizsgálata
-				int count = 0;
-				for (int j = 0; j < line.Count; j++) {
-					if (map[line.ElementAt(j).y, line.ElementAt(j).x] == 0) {
-						++count;
-					} else {
-						count -= map[line.ElementAt(j).y, line.ElementAt(j).x];
-					}
+				
+				// A legjobb út kiválasztása
+				Path Paths2 = new Path(Waypoints.ElementAt(Waypoints.Count-1),New);
+				if (Paths == null || Paths.Importance < Paths2.Importance) {
+					Paths = Paths2;
 				}
-				Paths.Add(new Path(Waypoints.ElementAt(Waypoints.Count-1),New));
 			}
-
-			// A legjobb út kiválasztása
-			;
-
+			
 			// Távolság megállapítása, úthossz frissítése
 			Length += Auxilary.Distance(Waypoints.ElementAt(Waypoints.Count-1),New);
 
@@ -103,12 +92,26 @@ namespace RobotMover
 
 			// Új pont hozzáadása az útpontok listájához
 			Waypoints.Add(New);
+			
+			// Területlefedés a GUI segítségével, Cover frissítése
+			;
+
 		}
 		
-		public void FindWay() {
+		private void FindWay() {
 			//while (Robot.Cover < (NeededCoverage)) {
 				NewPoint();
 			//}
+		}
+
+		// Az út pontjainak visszaadása
+		private void UpdateGUI() {
+			for (int i = 0; i < Waypoints.Count; i++) {
+				gui.Route.Add(new Tuple<int, int, double>(
+					Waypoints.ElementAt(i).x, 
+					Waypoints.ElementAt(i).y,
+					Waypoints.ElementAt(i).theta));
+			}
 		}
 
 		public Way(float NeededCoverage, ref int[,] map, ref Robot gui) {
@@ -119,6 +122,7 @@ namespace RobotMover
 			this.NeededCoverage = NeededCoverage;
 			this.gui = gui;
 			//this.FindWay();
+			//UpDateGUI();
 		}
 
 	}
