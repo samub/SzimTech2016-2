@@ -2,7 +2,8 @@
 using System.IO;
 using System.Windows.Controls;
 
-namespace RobotMover {
+namespace teszt
+{
     /*
         Használata:
         Write() osztálymetódussal kiíratunk egy üzenetet a boxba. Az üzeneteket egymás után fűzi.

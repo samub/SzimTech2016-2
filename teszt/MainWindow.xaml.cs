@@ -8,7 +8,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 
-namespace RobotMover {
+namespace teszt
+{
     public partial class MainWindow {
         private const int MyImageSizeX = 640;
         private const int MyImageSizeY = 640;
