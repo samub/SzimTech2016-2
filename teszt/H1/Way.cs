@@ -10,12 +10,30 @@ namespace RobotMover
 	class Way
 	{
 
-		public List<PointHOne>	Waypoints;
-		private double			Length;
-		private int[,]			map;
-		private Robot			gui;
-		private float			NeededCoverage;
-		private float			Coverage;
+		/// <summary>
+		/// Az út pontjai.
+		/// </summary>
+		public List<PointHOne> Waypoints;
+		/// <summary>
+		/// Az út hossza.
+		/// </summary>
+		private double Length;
+		/// <summary>
+		/// A térkép mátrix.
+		/// </summary>
+		private int[,] map;
+		/// <summary>
+		/// A Robot osztály példányának referenciája.
+		/// </summary>
+		private Robot gui;
+		/// <summary>
+		/// Az elvárt lefedettség.
+		/// </summary>
+		private float NeededCoverage;
+		/// <summary>
+		/// A jelenlegi lefedettség.
+		/// </summary>
+		private float Coverage;
 
 		/// <summary>
 		/// Annak eldöntése, a robot sugara alapján,
@@ -74,9 +92,8 @@ namespace RobotMover
 					360 / Directions * i,
 					ref map
 				);
-
-				// Visszalépés annyit, amennyi a sugár
-				New = Back(ref line, gui.Radius);
+				
+				New = Back(ref line, gui.Radius);	// Visszalépés annyit, amennyi a sugár
 				
 				// A legjobb út kiválasztása
 				Path Paths2 = new Path(Waypoints.ElementAt(Waypoints.Count-1),New);
@@ -84,26 +101,26 @@ namespace RobotMover
 					Path1 = Paths2;
 				}
 			}
-			
 
-			// Úthossz frissítése
-			Length += Path1.Length + Path1.Rotation / 4;
-
-			// Új pont hozzáadása az útpontok listájához
-			Waypoints.Add(New);
+			Length += Path1.Length + Path1.Rotation / 4;	// Úthossz frissítése
+			Waypoints.Add(New);	  // Az új pont hozzáadása az útpontok listájához
 			
 			// Területlefedés a GUI segítségével, Coverage frissítése!!
 			;
 
 		}
 		
+		/// <summary>
+		/// Útkeresés.
+		/// </summary>
 		private void FindWay() {
 			//while (Coverege < NeededCoverage) {
 				NewPoint();
 			//}
 		}
-
-		// Az út pontjainak visszaadása
+		/// <summary>
+		/// Az út pontjainak visszaadása.
+		/// </summary>
 		private void UpdateGUI() {
 			for (int i = 0; i < Waypoints.Count; i++) {
 				gui.Route.Add(new Tuple<int, int, double>(
@@ -111,7 +128,6 @@ namespace RobotMover
 					Waypoints.ElementAt(i).y,
 					Waypoints.ElementAt(i).theta)
 				);
-				MessageBox.Show(Waypoints.ElementAt(i).x.ToString() + " " + Waypoints.ElementAt(i).y.ToString());
 			}
 		}
 
