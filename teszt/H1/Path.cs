@@ -64,5 +64,23 @@ namespace RobotMover
             return d - (this.Rotation / 4) + nullak - nemNullaParos;
         }
 
+        private void RadiusLepesek(List<PointHOne> origLista, List<PointHOne> newLista, int radius) {
+            int db = 1;
+
+            //bejarjuk az eredeti (bresenham altal adott) listankat
+            foreach (var l in origLista) {
+                //az elso elemet adjuk hozza a listahoz
+                if (l == origLista.First()) newLista.Add(l);
+                //majd minden X. elemet (X == radius, a koztes elemek nem kerulnek hozzaadasra)
+                if ((db % radius) == 0)
+                {
+                    newLista.Add(l);
+                    db = 1;
+                }            
+                db++;
+            }
+            //ha az utolso hozzaadott elem nem az utolso, akkor adjuk azt is hozza
+            if (newLista.Last() != origLista.Last()) newLista.Add(origLista.Last());
+        }
     }
 }
