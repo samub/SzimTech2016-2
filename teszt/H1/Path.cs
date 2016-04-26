@@ -65,7 +65,7 @@ namespace RobotMover
         }
 
         private void RadiusLepesek(List<PointHOne> origLista, List<PointHOne> newLista, int radius) {
-            int db = 1;
+            int db = 0;
 
             //bejarjuk az eredeti (bresenham altal adott) listankat
             foreach (var l in origLista) {
