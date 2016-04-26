@@ -1,7 +1,7 @@
 ﻿using System;						// Math.Abs
 using System.Collections.Generic;	// List
 using System.Linq;					// ElementAt
-using System.Windows;
+
 namespace RobotMover
 {
 	/// <summary>
@@ -92,13 +92,13 @@ namespace RobotMover
 			// Új pont hozzáadása az útpontok listájához
 			Waypoints.Add(New);
 			
-			// Területlefedés a GUI segítségével, Cover frissítése
+			// Területlefedés a GUI segítségével, Coverage frissítése!!
 			;
 
 		}
 		
 		private void FindWay() {
-			//while (Robot.Cover < (NeededCoverage)) {
+			//while (Coverege < NeededCoverage) {
 				NewPoint();
 			//}
 		}
