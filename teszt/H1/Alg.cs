@@ -9,7 +9,7 @@ namespace RobotMover
 {
     class Alg
     {
-        static int[,] myIntMap = new int[640, 640];
+        public static int[,] myIntMap = new int[640, 640];
         
         public static void line(int x, int y, int x2, int y2, List<PointHOne> list, int[,] map)
         {
@@ -76,21 +76,6 @@ namespace RobotMover
             return intmap;
         }
 
-        public double sulyozas(int x1, int y1, int x2, int y2, int theta) {
-            double d = Math.Sqrt(Math.Pow(Math.Abs(x2 - x1), 2) + Math.Pow(Math.Abs(y2 - y1),2));
-            List<PointHOne> pontok = new List<PointHOne>();
 
-            line(x1, y1, x2, y2, pontok, Alg.myIntMap);
-
-            int nullak = 0;
-            int nemNullaParos = 0;
-            foreach (var pont in pontok)
-            {
-                if (pont.ertek == 0) nullak++;
-                if ((pont.ertek != 0) && (pont.ertek % 2 == 0)) nemNullaParos+=Alg.myIntMap[pont.x,pont.y];
-            }
-
-            return d + (theta / 4) + nullak - nemNullaParos;
-        }
     }
 }

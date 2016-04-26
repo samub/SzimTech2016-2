@@ -39,5 +39,23 @@ namespace RobotMover
 			return res;
 		}
 
-	}
+        public double sulyozas(int x1, int y1, int x2, int y2, int theta)
+        {
+            double d = Math.Sqrt(Math.Pow(Math.Abs(x2 - x1), 2) + Math.Pow(Math.Abs(y2 - y1), 2));
+            List<PointHOne> pontok = new List<PointHOne>();
+
+            Alg.line(x1, y1, x2, y2, pontok, Alg.myIntMap);
+
+            int nullak = 0;
+            int nemNullaParos = 0;
+            foreach (var pont in pontok)
+            {
+                if (pont.ertek == 0) nullak++;
+                if ((pont.ertek != 0) && (pont.ertek % 2 == 0)) nemNullaParos += Alg.myIntMap[pont.x, pont.y];
+            }
+
+            return d + (theta / 4) + nullak - nemNullaParos;
+        }
+
+    }
 }
