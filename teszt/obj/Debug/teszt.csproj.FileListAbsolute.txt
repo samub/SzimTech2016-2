@@ -1,0 +1,60 @@
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-development\teszt\bin\Debug\RobotMover.exe.config
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-development\teszt\bin\Debug\RobotMover.exe
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-development\teszt\bin\Debug\RobotMover.pdb
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-development\teszt\obj\Debug\teszt.csprojResolveAssemblyReference.cache
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-development\teszt\obj\Debug\Dialog.baml
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-development\teszt\obj\Debug\MainWindow.baml
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-development\teszt\obj\Debug\Dialog.g.cs
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-development\teszt\obj\Debug\MainWindow.g.cs
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-development\teszt\obj\Debug\App.g.cs
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-development\teszt\obj\Debug\RobotMover_MarkupCompile.cache
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-development\teszt\obj\Debug\RobotMover.g.resources
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-development\teszt\obj\Debug\RobotMover.Properties.Resources.resources
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-development\teszt\obj\Debug\teszt.csproj.GenerateResource.Cache
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-development\teszt\obj\Debug\RobotMover.exe
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-development\teszt\obj\Debug\RobotMover.pdb
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW\teszt\bin\Debug\RobotMover.exe.config
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW\teszt\obj\Debug\RobotMover.exe
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW\teszt\obj\Debug\RobotMover.pdb
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW\teszt\bin\Debug\RobotMover.exe
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW\teszt\bin\Debug\RobotMover.pdb
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW\teszt\obj\Debug\teszt.csprojResolveAssemblyReference.cache
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW\teszt\obj\Debug\Dialog.baml
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW\teszt\obj\Debug\MainWindow.baml
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW\teszt\obj\Debug\Dialog.g.cs
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW\teszt\obj\Debug\MainWindow.g.cs
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW\teszt\obj\Debug\App.g.cs
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW\teszt\obj\Debug\RobotMover_MarkupCompile.cache
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW\teszt\obj\Debug\RobotMover.g.resources
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW\teszt\obj\Debug\RobotMover.Properties.Resources.resources
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW\teszt\obj\Debug\teszt.csproj.GenerateResource.Cache
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW2\teszt\bin\Debug\RobotMover.exe.config
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW2\teszt\obj\Debug\RobotMover.exe
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW2\teszt\obj\Debug\RobotMover.pdb
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW2\teszt\obj\Debug\teszt.csprojResolveAssemblyReference.cache
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW2\teszt\obj\Debug\Dialog.baml
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW2\teszt\obj\Debug\MainWindow.baml
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW2\teszt\obj\Debug\Dialog.g.cs
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW2\teszt\obj\Debug\MainWindow.g.cs
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW2\teszt\obj\Debug\App.g.cs
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW2\teszt\obj\Debug\RobotMover_MarkupCompile.cache
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW2\teszt\obj\Debug\RobotMover.g.resources
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW2\teszt\obj\Debug\RobotMover.Properties.Resources.resources
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW2\teszt\obj\Debug\teszt.csproj.GenerateResource.Cache
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW2\teszt\bin\Debug\RobotMover.exe
+C:\Users\kissz\Desktop\SzimTech2016-2-GUI-developmentNEW2\teszt\bin\Debug\RobotMover.pdb
+D:\SZE\4 Felev\Szimu\szimuprojekt\ProjectVersions\SzimTech2016-2-GUI-developmentNEW2\teszt\bin\Debug\RobotMover.exe.config
+D:\SZE\4 Felev\Szimu\szimuprojekt\ProjectVersions\SzimTech2016-2-GUI-developmentNEW2\teszt\obj\Debug\RobotMover.exe
+D:\SZE\4 Felev\Szimu\szimuprojekt\ProjectVersions\SzimTech2016-2-GUI-developmentNEW2\teszt\obj\Debug\RobotMover.pdb
+D:\SZE\4 Felev\Szimu\szimuprojekt\ProjectVersions\SzimTech2016-2-GUI-developmentNEW2\teszt\bin\Debug\RobotMover.exe
+D:\SZE\4 Felev\Szimu\szimuprojekt\ProjectVersions\SzimTech2016-2-GUI-developmentNEW2\teszt\bin\Debug\RobotMover.pdb
+D:\SZE\4 Felev\Szimu\szimuprojekt\ProjectVersions\SzimTech2016-2-GUI-developmentNEW2\teszt\obj\Debug\teszt.csprojResolveAssemblyReference.cache
+D:\SZE\4 Felev\Szimu\szimuprojekt\ProjectVersions\SzimTech2016-2-GUI-developmentNEW2\teszt\obj\Debug\Dialog.baml
+D:\SZE\4 Felev\Szimu\szimuprojekt\ProjectVersions\SzimTech2016-2-GUI-developmentNEW2\teszt\obj\Debug\MainWindow.baml
+D:\SZE\4 Felev\Szimu\szimuprojekt\ProjectVersions\SzimTech2016-2-GUI-developmentNEW2\teszt\obj\Debug\Dialog.g.cs
+D:\SZE\4 Felev\Szimu\szimuprojekt\ProjectVersions\SzimTech2016-2-GUI-developmentNEW2\teszt\obj\Debug\MainWindow.g.cs
+D:\SZE\4 Felev\Szimu\szimuprojekt\ProjectVersions\SzimTech2016-2-GUI-developmentNEW2\teszt\obj\Debug\App.g.cs
+D:\SZE\4 Felev\Szimu\szimuprojekt\ProjectVersions\SzimTech2016-2-GUI-developmentNEW2\teszt\obj\Debug\RobotMover_MarkupCompile.cache
+D:\SZE\4 Felev\Szimu\szimuprojekt\ProjectVersions\SzimTech2016-2-GUI-developmentNEW2\teszt\obj\Debug\RobotMover.g.resources
+D:\SZE\4 Felev\Szimu\szimuprojekt\ProjectVersions\SzimTech2016-2-GUI-developmentNEW2\teszt\obj\Debug\RobotMover.Properties.Resources.resources
+D:\SZE\4 Felev\Szimu\szimuprojekt\ProjectVersions\SzimTech2016-2-GUI-developmentNEW2\teszt\obj\Debug\teszt.csproj.GenerateResource.Cache

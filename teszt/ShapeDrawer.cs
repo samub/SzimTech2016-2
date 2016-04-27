@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 
-namespace teszt {
+namespace RobotMover {
     internal static class ShapeDrawer {
         public static void DrawCircle(int x0, int y0, int radius, ref byte[] pixels) {
             var x = radius;
@@ -81,17 +81,25 @@ namespace teszt {
             theta = theta * (180 / Math.PI);
 
 
-            if (CanDraw(theta, startangle, endangle)) DrawPixel(xc + x, yc - y, ref pixels);
-            if (CanDraw(360 - theta, startangle, endangle)) DrawPixel(xc + x, yc + y, ref pixels);
+            if (CanDraw(theta, startangle, endangle) && xc + x >= 0 && xc + x <= 640 - 1 && yc - y >= 0 &&
+                yc - y <= 640 - 1) DrawPixel(xc + x, yc - y, ref pixels);
+            if (CanDraw(360 - theta, startangle, endangle) && xc + x >= 0 && xc + x <= 640 - 1 && yc + y >= 0 &&
+                yc + y <= 640 - 1) DrawPixel(xc + x, yc + y, ref pixels);
 
-            if (CanDraw(90 - theta, startangle, endangle)) DrawPixel(xc + y, yc - x, ref pixels);
-            if (CanDraw(270 + theta, startangle, endangle)) DrawPixel(xc + y, yc + x, ref pixels);
+            if (CanDraw(90 - theta, startangle, endangle) && xc + y >= 0 && xc + y <= 640 - 1 && yc - x >= 0 &&
+                yc - x <= 640 - 1) DrawPixel(xc + y, yc - x, ref pixels);
+            if (CanDraw(270 + theta, startangle, endangle) && xc + y >= 0 && xc + y <= 640 - 1 && yc + x >= 0 &&
+                yc + x <= 640 - 1) DrawPixel(xc + y, yc + x, ref pixels);
 
-            if (CanDraw(180 - theta, startangle, endangle)) DrawPixel(xc - x, yc - y, ref pixels);
-            if (CanDraw(180 + theta, startangle, endangle)) DrawPixel(xc - x, yc + y, ref pixels);
+            if (CanDraw(180 - theta, startangle, endangle) && xc - x >= 0 && xc - x <= 640 - 1 && yc - y >= 0 &&
+                yc - y <= 640 - 1) DrawPixel(xc - x, yc - y, ref pixels);
+            if (CanDraw(180 + theta, startangle, endangle) && xc - x >= 0 && xc - x <= 640 - 1 && yc + y >= 0 &&
+                yc + y <= 640 - 1) DrawPixel(xc - x, yc + y, ref pixels);
 
-            if (CanDraw(90 + theta, startangle, endangle)) DrawPixel(xc - y, yc - x, ref pixels);
-            if (CanDraw(270 - theta, startangle, endangle)) DrawPixel(xc - y, yc + x, ref pixels);
+            if (CanDraw(90 + theta, startangle, endangle) && xc - y >= 0 && xc - y <= 640 - 1 && yc - x >= 0 &&
+                yc - x <= 640 - 1) DrawPixel(xc - y, yc - x, ref pixels);
+            if (CanDraw(270 - theta, startangle, endangle) && xc - y >= 0 && xc - y <= 640 - 1 && yc + x >= 0 &&
+                yc + x <= 640 - 1) DrawPixel(xc - y, yc + x, ref pixels);
         }
 
         public static void FloodFill(ref byte[] pixels, Point pt) {
