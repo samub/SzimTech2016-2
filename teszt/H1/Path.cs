@@ -37,7 +37,7 @@ namespace RobotMover
 			this.End = End;
 			this.Length = Auxilary.Distance(Start, End);
 			this.Rotation = Math.Abs(this.Start.theta - this.End.theta);
-			this.Covered = sulyozas(Start.x, Start.y, End.x, End.y);
+			this.Covered = 0;//sulyozas(Start.x, Start.y, End.x, End.y);
 			this.Importance = I();
 			}
 		}
