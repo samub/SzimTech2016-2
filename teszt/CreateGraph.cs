@@ -74,20 +74,7 @@ namespace RobotMover
             return coordinatesList;
         }
 
-        public void kiir(int number)
-        {
-            var file = new StreamWriter("kula.txt");
 
-
-            for (int i = 0; i < number; i++)
-            {
-
-                file.Write(coormap[1, i] + "\t");
-                file.Write(coormap[0, i] + "\t");
-                file.WriteLine();
-            }
-            file.Close();
-        }
 
         public void adjMatrixCreator(int number, double[,] fullmap, int x, int y)
         {
