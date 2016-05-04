@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace RobotMover {
@@ -12,30 +11,24 @@ namespace RobotMover {
         Start gomb kiüríti a tartalmát.
         Stop gomb fileba írja(ToLog()) a tartalmát, és kiírja, hogy hova mentette   
     */
+
     internal static class MessageHandler {
         public static TextBox TextBoxMessages;
 
-        public async static void Write(string message)
-        {
-            await Task.Run(() =>
-            {
-                if (TextBoxMessages.Text != "") TextBoxMessages.AppendText("\r\n");
-                TextBoxMessages.AppendText(DateTime.Now + ": " + message);
-                TextBoxMessages.Focus();
-                TextBoxMessages.CaretIndex = TextBoxMessages.Text.Length;
-                TextBoxMessages.ScrollToEnd();
-            });
+
+        public static void Write(string message) {
+            if (TextBoxMessages.Text != "") TextBoxMessages.AppendText("\r\n");
+            TextBoxMessages.AppendText(DateTime.Now + ": " + message);
+            TextBoxMessages.Focus();
+            TextBoxMessages.CaretIndex = TextBoxMessages.Text.Length;
+            TextBoxMessages.ScrollToEnd();
         }
 
-        public async static void ToLog(string fileName)
-        {
-            await Task.Run(() =>
-            {
-                var file = new StreamWriter(fileName + ".txt");
-                file.Write(TextBoxMessages.Text);
-                file.Close();
-                TextBoxMessages.Text = "Üzenetek logolva ide: " + fileName + ".txt";
-            });
+        public static void ToLog(string fileName) {
+            var file = new StreamWriter(fileName + ".txt");
+            file.Write(TextBoxMessages.Text);
+            file.Close();
+            TextBoxMessages.Text = "Üzenetek logolva ide: " + fileName + ".txt";
         }
     }
 }
