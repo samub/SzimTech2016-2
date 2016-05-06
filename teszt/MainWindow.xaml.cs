@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
+using System.Threading.Tasks;
 
 namespace RobotMover {
     public partial class MainWindow {
         private const int MyImageSizeX = 640;
         private const int MyImageSizeY = 640;
-        /*
-        private readonly ShapeDrawer _sd = new ShapeDrawer();
-*/
         private bool _isFile;
         private CsvToMatrix _map;
         private bool[,] _mapToBool;
@@ -22,6 +19,8 @@ namespace RobotMover {
         private BitmapSource _myOriginalMap;
         private byte[] _pixels;
         private Robot _robot;
+        private Mapcover _mapcover = new Mapcover();
+        private CreateGraph _creategraph = new CreateGraph();
 
         public MainWindow() {
             InitializeComponent();
@@ -104,7 +103,7 @@ namespace RobotMover {
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ButtonStart_Click(object sender, RoutedEventArgs e) {
+        private async void ButtonStart_Click(object sender, RoutedEventArgs e) {
             TextBoxForMessages.Text = "";
             ButtonMapEdit.IsEnabled = false;
             ButtonMapOpen.IsEnabled = false;
@@ -119,7 +118,12 @@ namespace RobotMover {
                         TextBoxCoveringPercentage.Text.Length != 0) {
                         _robot = new Robot(20, Convert.ToInt32(TextBoxPositionX.Text),
                                            Convert.ToInt32(TextBoxPositionY.Text),
-                                           Convert.ToInt32(TextBoxCoveringPercentage.Text), 90, "fan50A.csv");
+                                           Convert.ToInt32(TextBoxCoveringPercentage.Text), 90, "fan50A.csv", MapRefresh,
+                                           _isFile);
+                        Console.WriteLine(@"Robooot");
+                        SimulateAlgos.setRobot(ref _robot);
+                        Console.WriteLine(@"Cover in robot.cs" + _robot.Cover);
+
                         if (Convert.ToInt32(TextBoxPositionX.Text) < _robot.Robot1.Map.GetLength(0) / 2 ||
                             Convert.ToInt32(TextBoxPositionY.Text) < _robot.Robot1.Map.GetLength(1) / 2 ||
                             Convert.ToInt32(TextBoxPositionX.Text) > MyImageSizeX - _robot.Robot1.Map.GetLength(0) / 2 ||
@@ -135,7 +139,8 @@ namespace RobotMover {
                         TextBoxCoveringPercentage.Text.Length != 0) {
                         _robot = new Robot(41, Convert.ToInt32(TextBoxPositionX.Text),
                                            Convert.ToInt32(TextBoxPositionY.Text),
-                                           Convert.ToInt32(TextBoxCoveringPercentage.Text), 90, "fan100.csv");
+                                           Convert.ToInt32(TextBoxCoveringPercentage.Text), 90, "fan100.csv", MapRefresh,
+                                           _isFile);
                         if (Convert.ToInt32(TextBoxPositionX.Text) < _robot.Robot1.Map.GetLength(0) / 2 ||
                             Convert.ToInt32(TextBoxPositionY.Text) < _robot.Robot1.Map.GetLength(1) / 2 ||
                             Convert.ToInt32(TextBoxPositionX.Text) > MyImageSizeX - _robot.Robot1.Map.GetLength(0) / 2 ||
@@ -151,7 +156,10 @@ namespace RobotMover {
                      TextBoxCoveringPercentage.Text.Length != 0) {
                 _robot = new Robot((int) SliderViweAngle.Value, Convert.ToInt32(TextBoxPositionX.Text),
                                    Convert.ToInt32(TextBoxPositionY.Text),
-                                   Convert.ToInt32(TextBoxCoveringPercentage.Text), 223);
+                                   Convert.ToInt32(TextBoxCoveringPercentage.Text), 223, MapRefresh, _isFile);
+                Console.WriteLine(@"Robooot1");
+                SimulateAlgos.setRobot(ref _robot);
+                Console.WriteLine(@"Cover in robot.cs " + _robot.Cover);
                 if (Convert.ToInt32(TextBoxPositionX.Text) < _robot.Radius ||
                     Convert.ToInt32(TextBoxPositionY.Text) < _robot.Radius ||
                     Convert.ToInt32(TextBoxPositionX.Text) > MyImageSizeX - _robot.Radius ||
@@ -164,18 +172,48 @@ namespace RobotMover {
             else MessageBox.Show("Adjon meg kezdőértékeket a robotnak!", "Figyelmeztetés");
 
             if (_robot != null) {
-                MapRefresh();
+                MapRefresh(_isFile);
 
                 if (RadioButtonGenetic.IsChecked != null && RadioButtonGenetic.IsChecked.Value) MessageBox.Show("Generikus");
-                else if (RadioButtonHeuristic1.IsChecked != null && RadioButtonHeuristic1.IsChecked.Value) {
+                else if (RadioButtonHeuristic1.IsChecked != null && RadioButtonHeuristic1.IsChecked.Value)
+                {
                     _mapToBool = BitmapToBools(_myOriginalMap);
-                    
 
-                    //MessageBox.Show("H1 " + _mapToBool.GetLength(0) + "x" + _mapToBool.GetLength(1));
-                    Alg.start(_robot, _mapToBool);
-                    
+
+                    MessageBox.Show("H1 " + _mapToBool.GetLength(0) + "x" + _mapToBool.GetLength(1));
                 }
-                else if (RadioButtonHeuristic2.IsChecked != null && RadioButtonHeuristic2.IsChecked.Value) MessageBox.Show("H2");
+                else if (RadioButtonHeuristic2.IsChecked != null && RadioButtonHeuristic2.IsChecked.Value)
+                {
+                    MessageBox.Show("H2");
+                    _mapToBool = BitmapToBools(_myOriginalMap);
+
+                    _mapcover.setStart(_robot.X, _robot.Y);
+                    _mapcover.setRadius(_robot.Radius);
+                    _mapcover.setCover(_robot.Cover);
+
+                    _mapcover.fullMapCover();
+                    _mapcover.obstacleCover(_mapToBool);
+                    _mapcover.createMap(_mapToBool);
+                    _mapcover.isTheMapOptimized(_mapToBool);
+                    _mapcover.mapOptimizedCover();
+                    _mapcover.createFullmap(_mapToBool);
+
+                    _creategraph.creatcoor(_mapcover.getNumber(), _mapcover.fullmap);
+                    _creategraph.adjMatrixCreator(_mapcover.getNumber(), _mapcover.fullmap, _robot.X, _robot.Y);
+                    _creategraph.runTSP(_robot.X, _robot.Y, _mapcover.getNumber());
+                    _creategraph.runTSPmodif();
+                    _creategraph.calculateAngle();
+                    
+                    foreach (var t in _creategraph.fullList)
+                    {
+                        _robot.Reposition(t.Item1, t.Item2, t.Item3);
+                        await Task.Delay(1);
+                        MapRefresh(false);
+                    }
+
+                    _mapcover.cleanUp();
+                   _creategraph.cleanUp();
+                }
             }
         }
 
@@ -199,10 +237,10 @@ namespace RobotMover {
         ///     az új helyre lerakni a robotot. A method paramétertől függően forgatás és mozgatás következik be illetve
         ///     ha nem fájlból olvastuk a robotot akkor újra lesz rajzolva.
         /// </summary>
-        private void MapRefresh() {
+        private void MapRefresh(bool nothing) {
             if (_robot != null)
                 if (_myBitmapSource != null) {
-                    if (_isFile) {
+                    if (nothing) {
                         var stride = _myBitmapSource.PixelWidth * 4;
                         var size = _myBitmapSource.PixelHeight * stride;
                         _pixels = new byte[size];
@@ -292,6 +330,12 @@ namespace RobotMover {
                         var randX = _robot.X + randRadius * Math.Cos(Math.PI / 180.0 * randAngle);
                         var randY = _robot.Y - randRadius * Math.Sin(Math.PI / 180.0 * randAngle);
 
+                        if ((int) randX > 638) randX = 638;
+                        if ((int) randY > 638) randY = 638;
+
+                        if ((int)randX <= 0) randX = 1;
+                        if ((int)randY <= 0) randY =1;
+
                         ShapeDrawer.FloodFill(ref _pixels, new Point((int) Math.Floor(randX), (int) Math.Floor(randY)));
 
                         _myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, _pixels,
@@ -376,19 +420,13 @@ namespace RobotMover {
             if (!_isFile) angle = Convert.ToInt32(TextBoxTeszt.Text);
             else angle = Convert.ToInt32(TextBoxTeszt.Text) * Math.PI / 180.0;
 
-            _robot.Reposition(Convert.ToInt32(TextBoxPositionX.Text), Convert.ToInt32(TextBoxPositionY.Text), angle,
-                              _isFile);
-            MapRefresh();
+            _robot.Reposition(Convert.ToInt32(TextBoxPositionX.Text), Convert.ToInt32(TextBoxPositionY.Text), angle);
+            MapRefresh(_isFile);
         }
 
 
-        private async void button1_Click(object sender, RoutedEventArgs e) {
-            for (var i = 100; i < 320; i++) _robot.Route.Add(new Tuple<int, int, double>(i, i + 1, Convert.ToDouble(i * 0.05)));
-            foreach (var t in _robot.Route) {
-                _robot.Reposition(t.Item1, t.Item2, t.Item3, _isFile);
-                await Task.Delay(1);
-                MapRefresh();
-            }
+        private void button1_Click(object sender, RoutedEventArgs e) {
+            _robot.ExecuteRobot();
         }
 
         /// <summary>
