@@ -99,8 +99,7 @@ namespace RobotMover
 				gui.Reposition(
 					Waypoints.ElementAt(i).x,
 					Waypoints.ElementAt(i).y,
-					Waypoints.ElementAt(i).theta,
-					false
+					Waypoints.ElementAt(i).theta
 				);
 				gui.Route.Add(new Tuple<int, int, double>(
 					Waypoints.ElementAt(i).x, 
