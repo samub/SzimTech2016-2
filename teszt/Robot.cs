@@ -102,7 +102,7 @@ namespace RobotMover {
         }
 
         public async void ExecuteRobot() {
-            foreach (var t in Route) {
+            foreach (var t in Route.ToArray()) {
                 Reposition(t.Item1, t.Item2, t.Item3);
                 await Task.Delay(1);
                 _refresh(IsFile);
