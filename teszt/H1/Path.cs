@@ -60,8 +60,9 @@ namespace RobotMover
             int nemNullaParos = 0;
             foreach (var pont in pontok)
             {
-                if (pont.ertek == 0) nullak++;
-                if ((pont.ertek != 0) && (pont.ertek % 2 == 0)) nemNullaParos += Alg.myIntMap[pont.x, pont.y];
+                if (Alg.myIntMap[pont.x, pont.y] == 0) nullak++;
+                if ((Alg.myIntMap[pont.x, pont.y] != 0) && (Alg.myIntMap[pont.x, pont.y] % 2 == 0))
+					nemNullaParos += Alg.myIntMap[pont.x, pont.y];
             }
 
             return nullak - nemNullaParos;

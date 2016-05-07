@@ -38,12 +38,12 @@ namespace RobotMover
             int numerator = longest >> 1;
             for (int i = 0; i <= longest; i++)
             {
-                Console.SetCursorPosition(x, y);
-               // if((x==xOriginal && y==yOriginal)) Console.Write("K");
-               //else if (x == x2 && y == y2) Console.Write("V");
-               //else Console.Write("x");
+                //Console.SetCursorPosition(x, y);
+                // if((x==xOriginal && y==yOriginal)) Console.Write("K");
+                //else if (x == x2 && y == y2) Console.Write("V");
+                //else Console.Write("x");
                 //TODO: fix theta
-                list.Add(new PointHOne(x, y,map[x,y],0));
+                list.Add(new PointHOne(x, y, 0));
 
                 numerator += shortest;
                 if (!(numerator < longest))

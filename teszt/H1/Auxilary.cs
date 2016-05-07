@@ -31,10 +31,8 @@ namespace RobotMover
 			int numerator = longest >> 1;
 			for (int i = 0; i <= longest; i++)
 			{
-				//Console.SetCursorPosition(x, y);
-				//if ((x == xOriginal && y == yOriginal) || (x == x2 && y == y2)) Console.Write("0");
-				//else Console.Write("X");
-				list.Add(new PointHOne(x, y, 0, 0.0));
+				list.Add(new PointHOne(x, y, 0.0));
+
 
 				numerator += shortest;
 				if (!(numerator < longest))
@@ -104,7 +102,7 @@ namespace RobotMover
 				&& y < Matrix.GetLength(0)
 				&& Matrix[y, x] != 1
 			) {
-				L.Add(new PointHOne(x,y, 0, Direction));
+				L.Add(new PointHOne(x, y, Direction));
 
 				if (Steepness <= 1) {
 					x += dx;
