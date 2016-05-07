@@ -6,7 +6,7 @@ using System.Text;
 namespace RobotMover
 {
 	/// <summary>
-	/// Ez az osztály a lehetséges utak adatait tárolja és
+	/// Ez az osztály egy lehetséges következő lépés adatait tárolja és
 	/// kiszámítja az ahhoz tartozó jósági tényezőt (súlyt).
 	/// </summary>
 	class Path
@@ -37,20 +37,23 @@ namespace RobotMover
 			this.End = End;
 			this.Length = Auxilary.Distance(Start, End);
 			this.Rotation = Math.Abs(this.Start.theta - this.End.theta);
-			this.Covered = 0;//sulyozas(Start.x, Start.y, End.x, End.y);
-			this.Importance = I();
+			this.Covered = sulyozas(Start.x, Start.y, End.x, End.y);
+			this.Importance = Length - Rotation / 4.0 + Covered;
 			}
 		}
 
-		private double I() {
-			return Length - Rotation / 4.0 + Covered;
-		}
-
+		/// <summary>
+		/// Megállapítja, hogy a vonal pontjaira eső területet hányszor fedtük már le,
+		/// és ez alapján számol egy súlyt a területlefedéshez.
+		/// </summary>
+		/// <param name="x1">A kezdőpont x koordinátája.</param>
+		/// <param name="y1">A kezdőpont y koordinátája.</param>
+		/// <param name="x2">A végpont x koordinátája.</param>
+		/// <param name="y2">A végpont y koordinátája.</param>
+		/// <returns>A lefedett terület súlya.</returns>
         private double sulyozas(int x1, int y1, int x2, int y2)
         {
-            double d = Math.Sqrt(Math.Pow(Math.Abs(x2 - x1), 2) + Math.Pow(Math.Abs(y2 - y1), 2));
             List<PointHOne> pontok = new List<PointHOne>();
-
             Alg.line(x1, y1, x2, y2, pontok, Alg.myIntMap);
 
             int nullak = 0;
@@ -61,7 +64,7 @@ namespace RobotMover
                 if ((pont.ertek != 0) && (pont.ertek % 2 == 0)) nemNullaParos += Alg.myIntMap[pont.x, pont.y];
             }
 
-            return d - (this.Rotation / 4) + nullak - nemNullaParos;
+            return nullak - nemNullaParos;
         }
 
         private void RadiusLepesek(List<PointHOne> origLista, List<PointHOne> newLista, int radius) {
