@@ -97,20 +97,31 @@ namespace RobotMover
 			// Területlefedés a vonalon sugár távolságonként
 			while (i < line.Count) {
 				gui.Reposition(
-					Waypoints.ElementAt(i).x,
-					Waypoints.ElementAt(i).y,
-					Waypoints.ElementAt(i).theta
+					line.ElementAt(i).x,
+					line.ElementAt(i).y,
+					line.ElementAt(i).theta
 				);
-				gui.Route.Add(new Tuple<int, int, double>(
-					Waypoints.ElementAt(i).x, 
-					Waypoints.ElementAt(i).y,
-					Waypoints.ElementAt(i).theta)
-				);
-				//gui.SetCurrentlyCoveredArea(this.map to BitmapSource);
-				//MainWindow.MapRefresh();
-				Coverage = gui.Cover;
 				i += gui.Radius;
-			} }
+				//gui.SetCurrentlyCoveredArea(map);
+			}
+			Alg.MapRefresh(false);
+			
+			// Új pont átadása a robotnak
+			i = Waypoints.Count-1;
+			gui.Route.Add(new Tuple<int, int, double>(
+				Waypoints.ElementAt(i).x, 
+				Waypoints.ElementAt(i).y,
+				Waypoints.ElementAt(i).theta)
+			);
+			/*byte[] pixels = new byte[640*640];
+			for (i = 0; i < 640; i++) {
+				for (int j = 0; j < 640; j++) {
+					pixels[j + i * 640] = (byte) Alg.myIntMap[i,j];
+				}
+			}
+			BitmapSource MyBitmap = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, pixels, 640 * 4);*/
+			Coverage += 0.1f;
+			}
 		}
 		
 
@@ -120,7 +131,8 @@ namespace RobotMover
 		/// <returns>Új pont.</returns>
 		private void NewPoint() {
 			byte Directions = DirsFromRadius(gui.Radius);
-			PointHOne		New = null;		// Az aktuális lehetséges végpont
+			PointHOne		New = null;     // Az aktuális lehetséges végpont
+			PointHOne		Best = null;	// A legjobb végpont
 			Path			Path1 = null;	// A legjobb út
 			List<PointHOne> line = null;	// A vonal pontjai a visszalépéshez
 			int				i;
@@ -141,12 +153,13 @@ namespace RobotMover
 				Path Paths2 = new Path(Waypoints.ElementAt(Waypoints.Count-1),New);
 				if (Path1 == null || Path1.Importance < Paths2.Importance) {
 					Path1 = Paths2;
+					Best = New;
 				}
 
 			}
 
 			Length += Path1.Length + Path1.Rotation / 4;	// Úthossz frissítése
-			Waypoints.Add(New);	  // Az új pont hozzáadása az útpontok listájához
+			Waypoints.Add(Best);	  // Az új pont hozzáadása az útpontok listájához
 			
 			// Területlefedés a GUI segítségével, Coverage frissítése!!
 			this.Cover();
@@ -160,9 +173,10 @@ namespace RobotMover
 			int i = 0;
 			while (i < 1000 && Coverage < NeededCoverage) {
 				NewPoint();
-				MessageHandler.Write(i.ToString());
+				MessageHandler.Write("\t" + Waypoints[i].x + ", " + Waypoints[i].y);
 				++i;
 			}
+			MessageHandler.Write("\nA térkép bejárása véget ért.\n");
 		}
 
 
@@ -173,7 +187,7 @@ namespace RobotMover
 			this.map = map;
 			this.gui = gui;
 			this.NeededCoverage = NeededCoverage;
-			this.Coverage = 0;//gui.Cover;		// Kezdeti lefedettség
+			this.Coverage = 0;
 			this.FindWay();
 		}
 
