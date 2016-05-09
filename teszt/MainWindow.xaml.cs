@@ -59,6 +59,10 @@ namespace RobotMover {
 
                 _map.Read();
 
+                RadioButtonCircle.IsEnabled = false;
+                RadioButtonRect.IsEnabled = false;
+                RadioButtonEllips.IsEnabled = false;
+
                 if (_map.Map.GetLength(0) == 640 && _map.Map.GetLength(1) == 640) {
                     _pixels = new byte[MyImageSizeX * MyImageSizeY * 4];
                     var current = 0;
@@ -101,12 +105,14 @@ namespace RobotMover {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ButtonStart_Click(object sender, RoutedEventArgs e) {
-            TextBoxForMessages.Text = "";
-            ButtonMapEdit.IsEnabled = false;
-            ButtonMapOpen.IsEnabled = false;
-            RadioButtonCircle.IsEnabled = false;
-            RadioButtonRect.IsEnabled = false;
-            RadioButtonEllips.IsEnabled = false;
+            if (_myBitmapSource != null) {
+                TextBoxForMessages.Text = "";
+                ButtonMapEdit.IsEnabled = false;
+                ButtonMapOpen.IsEnabled = false;
+                RadioButtonCircle.IsEnabled = false;
+                RadioButtonRect.IsEnabled = false;
+                RadioButtonEllips.IsEnabled = false;
+            }
             if (_isFile) {
                 if (RadioButton.IsChecked != null && !RadioButton.IsChecked.Value && RadioButton1.IsChecked != null &&
                     !RadioButton1.IsChecked.Value) MessageBox.Show("Kérem válassza ki a robot típusát!", "Figyelmeztetés");
@@ -298,13 +304,14 @@ namespace RobotMover {
                         if ((int) randX > 638) randX = 638;
                         if ((int) randY > 638) randY = 638;
 
-                        if ((int)randX <= 0) randX = 1;
-                        if ((int)randY <= 0) randY =1;
+                        if ((int) randX <= 0) randX = 1;
+                        if ((int) randY <= 0) randY = 1;
 
                         ShapeDrawer.FloodFill(ref _pixels, new Point((int) Math.Floor(randX), (int) Math.Floor(randY)));
 
                         _myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, _pixels,
                                                               640 * 4);
+
                         Image.Source = _myBitmapSource;
                     }
                     _robot.SetCurrentlyCoveredArea(_myBitmapSource);
@@ -377,6 +384,13 @@ namespace RobotMover {
             RadioButtonCircle.IsEnabled = true;
             RadioButtonRect.IsEnabled = true;
             RadioButtonEllips.IsEnabled = true;
+
+            _robot = null;
+            _myBitmapSource = null;
+            _myOriginalMap = null;
+            _map = null;
+
+            Image.Source = null;
         }
 
         private void button_Click_1(object sender, RoutedEventArgs e) {
@@ -435,6 +449,31 @@ namespace RobotMover {
             _isFile = false;
             RadioButton.IsEnabled = false;
             RadioButton1.IsEnabled = false;
+        }
+
+        private void BtnSave_Click(object sender, RoutedEventArgs e) {
+            var dlg = new SaveFileDialog();
+
+            dlg.FileName = "map";
+            dlg.DefaultExt = ".csv";
+            dlg.Filter = "CSV Files|*.csv";
+            dlg.Title = "Save MAP";
+            dlg.InitialDirectory = Assembly.GetExecutingAssembly().Location;
+
+            var result = dlg.ShowDialog();
+
+            if (result == true) {
+                if (_myOriginalMap != null) {
+                    var writer = new MapToCsv(dlg.FileName, _myOriginalMap);
+
+                    writer.Write();
+                }
+                else MessageBox.Show("Nem lehet menteni! Nincs kirajzolva aktuális térkép!", "Figyelmeztetés");
+            }
+        }
+
+        private void BtnQuit_Click(object sender, RoutedEventArgs e) {
+            Application.Current.Shutdown();
         }
     }
 }
