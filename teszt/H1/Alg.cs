@@ -10,7 +10,7 @@ namespace RobotMover
     class Alg
     {
         public static int[,] myIntMap;
-		public static Action<bool> MapRefresh;
+		public static Action<bool> _MapRefresh;
         
         public static void line(int x, int y, int x2, int y2, List<PointHOne> list, int[,] map)
         {
@@ -62,7 +62,7 @@ namespace RobotMover
         public static void start(ref Robot robot, ref bool[,] map, Action<bool> MapRefresh) {
 			
             Alg.myIntMap = BoolToIntMap(map); 
-			Alg.MapRefresh = MapRefresh;
+			Alg._MapRefresh = MapRefresh;
 			MessageHandler.Write("\nA robot elindult.\n");
 			new Way(0.8f, ref myIntMap, ref robot);
 			MessageHandler.Write("\n\nA térkép bejárása véget ért.\n");

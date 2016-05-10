@@ -2,7 +2,8 @@
 using System.Collections.Generic;	// List
 using System.Linq;					// ElementAt
 using System.Windows.Media.Imaging;	// BitmapSource
-using System.Windows.Media;			// PixelFormats
+using System.Windows.Media;         // PixelFormats
+using System.Threading.Tasks;
 
 namespace RobotMover
 {
@@ -105,7 +106,7 @@ namespace RobotMover
 				i += gui.Radius;
 				//gui.SetCurrentlyCoveredArea(map);
 			}
-			Alg.MapRefresh(false);
+			
 			
 			// Új pont átadása a robotnak
 			i = Waypoints.Count-1;
@@ -123,7 +124,7 @@ namespace RobotMover
 			//BitmapSource MyBitmap = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, pixels, 640 * 4);
 			Coverage += 0.1f;// TODO: pillanatnyi lefedettség
 			}
-		}
+        }
 		
 
 		/// <summary>
@@ -164,19 +165,25 @@ namespace RobotMover
 			
 			// Területlefedés a GUI segítségével, Coverage frissítése!!
 			this.Cover();
-
 		}
 		
 		/// <summary>
 		/// Útkeresés.
 		/// </summary>
-		private void FindWay() {
+		private async void FindWay() {
 			int i = 0;
 			while (i < 1000 && Coverage < NeededCoverage) {
 				NewPoint();
 				MessageHandler.Write("\t" + Waypoints[i].x + ", " + Waypoints[i].y);
-				++i;
-			}
+
+                //robot mozgatása pontonként:
+                gui.Reposition(Waypoints[i].x, Waypoints[i].y, 0);   
+                await Task.Delay(1);
+                Alg._MapRefresh(false);
+                System.Threading.Thread.Sleep(1000);
+
+                ++i;
+            }
 		}
 
 
