@@ -2,6 +2,7 @@
 using System.Collections.Generic;	// List
 using System.Linq;					// ElementAt
 using System.Windows.Media.Imaging;	// BitmapSource
+using System.Windows.Media;			// PixelFormats
 
 namespace RobotMover
 {
@@ -113,14 +114,14 @@ namespace RobotMover
 				Waypoints.ElementAt(i).y,
 				Waypoints.ElementAt(i).theta)
 			);
-			/*byte[] pixels = new byte[640*640];
+			byte[] pixels = new byte[640*640];
 			for (i = 0; i < 640; i++) {
 				for (int j = 0; j < 640; j++) {
 					pixels[j + i * 640] = (byte) Alg.myIntMap[i,j];
 				}
 			}
-			BitmapSource MyBitmap = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, pixels, 640 * 4);*/
-			Coverage += 0.1f;
+			//BitmapSource MyBitmap = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, pixels, 640 * 4);
+			Coverage += 0.1f;// TODO: pillanatnyi lefedettség
 			}
 		}
 		
@@ -176,7 +177,6 @@ namespace RobotMover
 				MessageHandler.Write("\t" + Waypoints[i].x + ", " + Waypoints[i].y);
 				++i;
 			}
-			MessageHandler.Write("\nA térkép bejárása véget ért.\n");
 		}
 
 

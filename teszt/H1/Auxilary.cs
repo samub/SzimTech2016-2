@@ -33,7 +33,6 @@ namespace RobotMover
 			{
 				list.Add(new PointHOne(x, y, 0.0));
 
-
 				numerator += shortest;
 				if (!(numerator < longest))
 				{
