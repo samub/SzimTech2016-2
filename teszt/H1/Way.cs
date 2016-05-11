@@ -81,7 +81,7 @@ namespace RobotMover
 		/// <summary>
 		/// Területlefedés a Robot osztály segítségével.
 		/// </summary>
-		private void Cover() {
+		private async void Cover() {
 			List<PointHOne> line = new List<PointHOne>();
 			int i = 0;
 			
@@ -95,21 +95,27 @@ namespace RobotMover
 				Waypoints.ElementAt(Waypoints.Count-1).y,
 				ref line
 			);
-			
-			// Területlefedés a vonalon sugár távolságonként
-			while (i < line.Count) {
-				gui.Reposition(
-					line.ElementAt(i).x,
-					line.ElementAt(i).y,
-					line.ElementAt(i).theta
-				);
-				i += gui.Radius;
+
+                // Területlefedés a vonalon sugár távolságonként
+                while (i < line.Count) {
+                    //robot mozgatása pontonként:
+                    gui.Reposition(line.ElementAt(i).x, line.ElementAt(i).y, line.ElementAt(i).theta);
+
+                    //TODO: valahogy mukodesre birni
+                    //await Task.Delay(1);
+
+                    Alg._MapRefresh(false);
+                    
+                    i += gui.Radius;
+                    
 				//gui.SetCurrentlyCoveredArea(map);
 			}
 			
 			
 			// Új pont átadása a robotnak
 			i = Waypoints.Count-1;
+
+            
 			gui.Route.Add(new Tuple<int, int, double>(
 				Waypoints.ElementAt(i).x, 
 				Waypoints.ElementAt(i).y,
@@ -161,27 +167,20 @@ namespace RobotMover
 			}
 
 			Length += Path1.Length + Path1.Rotation / 4;	// Úthossz frissítése
-			Waypoints.Add(Best);	  // Az új pont hozzáadása az útpontok listájához
-			
-			// Területlefedés a GUI segítségével, Coverage frissítése!!
-			this.Cover();
+			Waypoints.Add(Best);      // Az új pont hozzáadása az útpontok listájához
+
+            // Területlefedés a GUI segítségével, Coverage frissítése!!
+            this.Cover();
 		}
 		
 		/// <summary>
 		/// Útkeresés.
 		/// </summary>
-		private async void FindWay() {
+		private void FindWay() {
 			int i = 0;
 			while (i < 1000 && Coverage < NeededCoverage) {
 				NewPoint();
-				MessageHandler.Write("\t" + Waypoints[i].x + ", " + Waypoints[i].y);
-
-                //robot mozgatása pontonként:
-                gui.Reposition(Waypoints[i].x, Waypoints[i].y, 0);   
-                await Task.Delay(1);
-                Alg._MapRefresh(false);
-                System.Threading.Thread.Sleep(1000);
-
+                MessageHandler.Write("\t" + Waypoints[i].x + ", " + Waypoints[i].y);
                 ++i;
             }
 		}
