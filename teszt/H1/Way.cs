@@ -99,28 +99,27 @@ namespace RobotMover
                 // Területlefedés a vonalon sugár távolságonként
                 while (i < line.Count) {
                     //robot mozgatása pontonként:
-                    gui.Reposition(line.ElementAt(i).x, line.ElementAt(i).y, line.ElementAt(i).theta);
+                    gui.Route.Add(new Tuple<int, int, double> (line.ElementAt(i).x, line.ElementAt(i).y, line.ElementAt(i).theta));
 
-                    //TODO: valahogy mukodesre birni
-                    //await Task.Delay(1);
-
-                    Alg._MapRefresh(false);
-                    
                     i += gui.Radius;
-                    
+
 				//gui.SetCurrentlyCoveredArea(map);
 			}
-			
+                // A Route-ba rakott pontok kirajzolása
+                gui.ExecuteRobot();
 			
 			// Új pont átadása a robotnak
 			i = Waypoints.Count-1;
 
-            
+            // Erre nem lesz szükség, mivel minden pontot amit be szeretnénk járni be kell tenni a Route-ba
+            // Előző ciklusban ez már megtörtént 
+            /*    
 			gui.Route.Add(new Tuple<int, int, double>(
 				Waypoints.ElementAt(i).x, 
 				Waypoints.ElementAt(i).y,
 				Waypoints.ElementAt(i).theta)
 			);
+            */
 			byte[] pixels = new byte[640*640];
 			for (i = 0; i < 640; i++) {
 				for (int j = 0; j < 640; j++) {
