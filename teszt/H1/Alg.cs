@@ -63,9 +63,9 @@ namespace RobotMover
 			
             Alg.myIntMap = BoolToIntMap(map); 
 			Alg._MapRefresh = MapRefresh;
-			MessageHandler.Write("\nA robot elindult.\n");
-			new Way(0.8f, ref myIntMap, ref robot);
-			MessageHandler.Write("\n\nA térkép bejárása véget ért.\n");
+			MessageHandler.Write("A robot elindult.");
+			new Way(ref myIntMap, ref robot);
+			MessageHandler.Write("A térkép bejárása véget ért.");
 
         }
         public static int [,] BoolToIntMap(bool[,] boolmap) {

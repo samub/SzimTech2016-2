@@ -30,10 +30,6 @@ namespace RobotMover
 		/// </summary>
 		private Robot gui;
 		/// <summary>
-		/// Az elvárt lefedettség.
-		/// </summary>
-		private float NeededCoverage;
-		/// <summary>
 		/// A jelenlegi lefedettség.
 		/// </summary>
 		private float Coverage;
@@ -79,6 +75,27 @@ namespace RobotMover
 		}
 
 		/// <summary>
+		/// A lefedett terület arányát adja eredményül.
+		/// </summary>
+		/// <returns>0 és 1 közé eső lebegőpontos szám.</returns>
+		private float CurrentCoverage() {
+			float barrier = 0;
+			float covered = 0;
+
+			for (int i = 0; i < 640; i++) {
+				for (int j = 0; j < 640; j++) {
+					if (Alg.myIntMap[i, j] > 0) {
+						if (Alg.myIntMap[i, j] == 1)
+						    barrier += 1.0f;
+						else
+							covered += 1.0f;
+					}
+				}
+			}
+			return covered / (640 * 640 - barrier);
+		}
+
+		/// <summary>
 		/// Területlefedés a Robot osztály segítségével.
 		/// </summary>
 		private async void Cover() {
@@ -87,47 +104,44 @@ namespace RobotMover
 			
 			if (Waypoints.Count >= 2) {
 
-			// Vonal a két előzőleg meghatározott útpont között
-			Auxilary.Bresenham(
-				Waypoints.ElementAt(Waypoints.Count-2).x,
-				Waypoints.ElementAt(Waypoints.Count-2).y, 
-				Waypoints.ElementAt(Waypoints.Count-1).x, 
-				Waypoints.ElementAt(Waypoints.Count-1).y,
-				ref line
-			);
+			    // Vonal a két előzőleg meghatározott útpont között
+			    Auxilary.Bresenham(
+				    Waypoints.ElementAt(Waypoints.Count-2).x,
+				    Waypoints.ElementAt(Waypoints.Count-2).y, 
+    				Waypoints.ElementAt(Waypoints.Count-1).x, 
+	    			Waypoints.ElementAt(Waypoints.Count-1).y,
+		    		ref line
+			    );
 
                 // Területlefedés a vonalon sugár távolságonként
                 while (i < line.Count) {
                     //robot mozgatása pontonként:
                     gui.Route.Add(new Tuple<int, int, double> (line.ElementAt(i).x, line.ElementAt(i).y, line.ElementAt(i).theta));
+					MessageHandler.Write("\t[" + line.ElementAt(i).x + ", " + line.ElementAt(i).y + "]\t" + CurrentCoverage());
 
-                    i += gui.Radius;
+					i += gui.Radius;
+                
+				    // Az int mátrix konvertálása
+                    byte[] pixels = new byte[640*640];
+			        for (i = 0; i < 640; i++) {
+				        for (int j = 0; j < 640; j++) {
+					        pixels[j + i * 640] = (byte) Alg.myIntMap[i,j];
+		    		    }
+			        }
 
-				//gui.SetCurrentlyCoveredArea(map);
-			}
+					//BitmapSource MyBitmap = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, pixels, 640 * 4);
+					//gui.SetCurrentlyCoveredArea(MyBitmap);
+					
+					// Terület súlyozása
+					for (i = 0; i < gui.CurrentlyCoveredArea.Count; ++i) { 
+						Alg.myIntMap[gui.CurrentlyCoveredArea[i].Item2, gui.CurrentlyCoveredArea[i].Item1] += 2;
+					}
+			    }
                 // A Route-ba rakott pontok kirajzolása
                 gui.ExecuteRobot();
-			
-			// Új pont átadása a robotnak
-			i = Waypoints.Count-1;
 
-            // Erre nem lesz szükség, mivel minden pontot amit be szeretnénk járni be kell tenni a Route-ba
-            // Előző ciklusban ez már megtörtént 
-            /*    
-			gui.Route.Add(new Tuple<int, int, double>(
-				Waypoints.ElementAt(i).x, 
-				Waypoints.ElementAt(i).y,
-				Waypoints.ElementAt(i).theta)
-			);
-            */
-			byte[] pixels = new byte[640*640];
-			for (i = 0; i < 640; i++) {
-				for (int j = 0; j < 640; j++) {
-					pixels[j + i * 640] = (byte) Alg.myIntMap[i,j];
-				}
-			}
-			//BitmapSource MyBitmap = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, pixels, 640 * 4);
-			Coverage += 0.1f;// TODO: pillanatnyi lefedettség
+				// Pillanatnyi lefedettség
+			    Coverage += 0.1f;//CurrentCoverage();
 			}
         }
 		
@@ -177,21 +191,19 @@ namespace RobotMover
 		/// </summary>
 		private void FindWay() {
 			int i = 0;
-			while (i < 1000 && Coverage < NeededCoverage) {
+			while (i < 100 && Coverage < gui.Cover / 100.0) {
 				NewPoint();
-                MessageHandler.Write("\t" + Waypoints[i].x + ", " + Waypoints[i].y);
                 ++i;
             }
 		}
 
 
-		public Way(float NeededCoverage, ref int[,] map, ref Robot gui) {
+		public Way(ref int[,] map, ref Robot gui) {
 			this.Waypoints = new List<PointHOne>();
 			this.Waypoints.Add(new PointHOne(gui.X, gui.Y, gui.Theta));	// Kezdőpont hozzáadása
 			this.Length = 0;
 			this.map = map;
 			this.gui = gui;
-			this.NeededCoverage = NeededCoverage;
 			this.Coverage = 0;
 			this.FindWay();
 		}
