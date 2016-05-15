@@ -271,14 +271,14 @@ namespace RobotMover {
                         Image.Source = _myBitmapSource;
                     }
                     else {
-                        _myOriginalMap.CopyPixels(_pixels, 640 * 4, 0);
+                        //_myOriginalMap.CopyPixels(_pixels, 640 * 4, 0);
 
-                        _myBitmapSource = BitmapSource.Create(MyImageSizeX, MyImageSizeY, 96, 96, PixelFormats.Pbgra32,
-                                                              null, _pixels, MyImageSizeX * 4);
+                        //_myBitmapSource = BitmapSource.Create(MyImageSizeX, MyImageSizeY, 96, 96, PixelFormats.Pbgra32,
+                        //                                   null, _pixels, MyImageSizeX * 4);
 
 
                         ShapeDrawer.DrawCircle(_robot.X, _robot.Y, _robot.Radius, _robot.Theta, _robot.Theta + 270,
-                                               ref _pixels);
+                                               ref _pixels, true);
 
                         var xstart = _robot.X + _robot.Radius * Math.Cos(Math.PI / 180.0 * _robot.Theta);
                         var ystart = _robot.Y - _robot.Radius * Math.Sin(Math.PI / 180.0 * _robot.Theta);
@@ -288,12 +288,12 @@ namespace RobotMover {
 
                         if (_robot.Theta + 270 > 360)
                             ShapeDrawer.DrawCircle(_robot.X, _robot.Y, _robot.Radius, 0, _robot.Theta + 270 - 360,
-                                                   ref _pixels);
+                                                   ref _pixels, true);
 
                         ShapeDrawer.DrawLine(_robot.X, _robot.Y, (int) Math.Round(xstart), (int) Math.Round(ystart),
-                                             ref _pixels);
+                                             ref _pixels, true);
                         ShapeDrawer.DrawLine(_robot.X, _robot.Y, (int) Math.Round(xend), (int) Math.Round(yend),
-                                             ref _pixels);
+                                             ref _pixels, true);
 
                         //var r = new Random();
                         var randAngle = _robot.Theta + 0.2 * (_robot.Theta + 270 - _robot.Theta);
@@ -307,7 +307,8 @@ namespace RobotMover {
                         if ((int) randX <= 0) randX = 1;
                         if ((int) randY <= 0) randY = 1;
 
-                        ShapeDrawer.FloodFill(ref _pixels, new Point((int) Math.Floor(randX), (int) Math.Floor(randY)));
+                        ShapeDrawer.FloodFill(ref _pixels, new Point((int) Math.Floor(randX), (int) Math.Floor(randY)),
+                                              true);
 
                         _myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, _pixels,
                                                               640 * 4);
@@ -336,7 +337,7 @@ namespace RobotMover {
                     dialog.Label.Content = "Sugár";
                     if (dialog.ShowDialog() == true) {
                         ShapeDrawer.DrawCircle((int) p1.X, (int) p1.Y, Convert.ToInt32(dialog.ResponseText), ref _pixels);
-                        ShapeDrawer.FloodFill(ref _pixels, p1);
+                        ShapeDrawer.FloodFill(ref _pixels, p1, false);
                     }
                 }
                 else if (RadioButtonRect.IsChecked != null && RadioButtonRect.IsChecked.Value) {
@@ -345,8 +346,8 @@ namespace RobotMover {
                     dialog.TextBox1.Visibility = Visibility.Visible;
                     if (dialog.ShowDialog() == true) {
                         ShapeDrawer.DrawRectangle((int) p1.X, (int) p1.Y, Convert.ToInt32(dialog.ResponseText),
-                                                  Convert.ToInt32(dialog.ResponseText1), ref _pixels);
-                        ShapeDrawer.FloodFill(ref _pixels, p1);
+                                                  Convert.ToInt32(dialog.ResponseText1), ref _pixels, false);
+                        ShapeDrawer.FloodFill(ref _pixels, p1, false);
                     }
                 }
                 else if (RadioButtonEllips.IsChecked != null && RadioButtonEllips.IsChecked.Value) {
@@ -356,7 +357,7 @@ namespace RobotMover {
                     if (dialog.ShowDialog() == true) {
                         ShapeDrawer.DrawEllipse((int) p1.X, (int) p1.Y, Convert.ToInt32(dialog.ResponseText1),
                                                 Convert.ToInt32(dialog.ResponseText), ref _pixels);
-                        ShapeDrawer.FloodFill(ref _pixels, p1);
+                        ShapeDrawer.FloodFill(ref _pixels, p1, false);
                     }
                 }
 
