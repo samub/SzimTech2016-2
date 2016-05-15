@@ -112,6 +112,11 @@ namespace RobotMover {
                 RadioButtonCircle.IsEnabled = false;
                 RadioButtonRect.IsEnabled = false;
                 RadioButtonEllips.IsEnabled = false;
+                SliderViweAngle.IsEnabled = false;
+                TextBoxCoveringPercentage.IsEnabled = false;
+                TextBoxPositionX.IsEnabled = false;
+                TextBoxPositionY.IsEnabled = false;
+                CheckBox.IsEnabled = false;
             }
             if (_isFile) {
                 if (RadioButton.IsChecked != null && !RadioButton.IsChecked.Value && RadioButton1.IsChecked != null &&
@@ -385,6 +390,12 @@ namespace RobotMover {
             RadioButtonCircle.IsEnabled = true;
             RadioButtonRect.IsEnabled = true;
             RadioButtonEllips.IsEnabled = true;
+
+            SliderViweAngle.IsEnabled = true;
+            TextBoxCoveringPercentage.IsEnabled = true;
+            TextBoxPositionX.IsEnabled = true;
+            TextBoxPositionY.IsEnabled = true;
+            CheckBox.IsEnabled = true;
 
             _robot = null;
             _myBitmapSource = null;
