@@ -34,6 +34,8 @@ namespace RobotMover
 		/// </summary>
 		private float Coverage;
 
+        
+
 		/// <summary>
 		/// Annak eldöntése, a robot sugara alapján,
 		/// hogy hány irányba keressünk új pontot.
@@ -79,27 +81,29 @@ namespace RobotMover
 		/// </summary>
 		/// <returns>0 és 1 közé eső lebegőpontos szám.</returns>
 		private float CurrentCoverage() {
-			float barrier = 0;
-			float covered = 0;
+			long barrier = 0;
+			long covered = 0;
 
 			for (int i = 0; i < 640; i++) {
 				for (int j = 0; j < 640; j++) {
 					if (Alg.myIntMap[i, j] > 0) {
-						if (Alg.myIntMap[i, j] == 1)
-						    barrier += 1.0f;
+						if (Alg.myIntMap[i, j] % 2 == 1)
+						    barrier += 1;
 						else
-							covered += 1.0f;
+							covered += 1;
 					}
 				}
 			}
-			return covered / (640 * 640 - barrier);
+            float ret_value = (float)covered / (640 * 640 - barrier);
+            return ret_value;
 		}
 
 		/// <summary>
 		/// Területlefedés a Robot osztály segítségével.
 		/// </summary>
-		private async void Cover() {
-			List<PointHOne> line = new List<PointHOne>();
+		private void Cover() {
+            List<Tuple<int, int, double>> OurOwnRoute = new List<Tuple<int, int, double>>();
+            List<PointHOne> line = new List<PointHOne>();
 			int i = 0;
 			
 			if (Waypoints.Count >= 2) {
@@ -115,33 +119,46 @@ namespace RobotMover
 
                 // Területlefedés a vonalon sugár távolságonként
                 while (i < line.Count) {
+                    
                     //robot mozgatása pontonként:
+
                     gui.Route.Add(new Tuple<int, int, double> (line.ElementAt(i).x, line.ElementAt(i).y, line.ElementAt(i).theta));
-					MessageHandler.Write("\t[" + line.ElementAt(i).x + ", " + line.ElementAt(i).y + "]\t" + CurrentCoverage());
+                    OurOwnRoute.Add(new Tuple<int, int, double>(line.ElementAt(i).x, line.ElementAt(i).y, line.ElementAt(i).theta));
+                    MessageHandler.Write(" [" + line.ElementAt(i).x + ", " + line.ElementAt(i).y + "] CC:" + CurrentCoverage());
 
 					i += gui.Radius;
                 
 				    // Az int mátrix konvertálása
                     byte[] pixels = new byte[640*640];
-			        for (i = 0; i < 640; i++) {
-				        for (int j = 0; j < 640; j++) {
-					        pixels[j + i * 640] = (byte) Alg.myIntMap[i,j];
+			        for (int j = 0; j < 640; j++) {
+				        for (int k = 0; k < 640; k++) {
+					        pixels[k + j * 640] = (byte) Alg.myIntMap[j,k];
 		    		    }
 			        }
 
-					//BitmapSource MyBitmap = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, pixels, 640 * 4);
-					//gui.SetCurrentlyCoveredArea(MyBitmap);
-					
-					// Terület súlyozása
-					for (i = 0; i < gui.CurrentlyCoveredArea.Count; ++i) { 
-						Alg.myIntMap[gui.CurrentlyCoveredArea[i].Item2, gui.CurrentlyCoveredArea[i].Item1] += 2;
-					}
-			    }
-                // A Route-ba rakott pontok kirajzolása
+                    //BitmapSource MyBitmap = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, pixels, 640 * 4);
+                    //gui.SetCurrentlyCoveredArea(MyBitmap);
+
+                    gui.ExecuteRobot();
+
+                    // Terület súlyozása
+                    for (int j = 0; j < gui.CurrentlyCoveredArea.Count; ++j)
+                    {
+                        int a = gui.CurrentlyCoveredArea[j].Item1;
+                        int b = gui.CurrentlyCoveredArea[j].Item2;
+                        Alg.myIntMap[a, b] += 2;
+                    }
+
+                    gui.Route.Clear();
+                }
+                // A Route-ba berakjuk a bejárt pontokat:
+                foreach (var p in OurOwnRoute) gui.Route.Add(new Tuple<int, int, double>(p.Item1, p.Item2, p.Item3));
+                
+                // A robottal bejárjuk a területet (most már egyben is)
                 gui.ExecuteRobot();
 
-				// Pillanatnyi lefedettség
-			    Coverage += 0.1f;//CurrentCoverage();
+                // Pillanatnyi lefedettség
+                Coverage += 0.1f;//CurrentCoverage();
 			}
         }
 		
