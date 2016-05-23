@@ -4,12 +4,14 @@ using System.Windows;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace RobotMover
 {
     class Alg
     {
         public static int[,] myIntMap;
+        public static BitmapSource myBitMap;
 		public static Action<bool> _MapRefresh;
         
         public static void line(int x, int y, int x2, int y2, List<PointHOne> list, int[,] map)
@@ -59,12 +61,12 @@ namespace RobotMover
             }
         }
 
-        public static void start(ref Robot robot, ref bool[,] map, Action<bool> MapRefresh) {
-			
+        public static void start(ref Robot robot, ref bool[,] map, ref BitmapSource bms,  Action<bool> MapRefresh) {
+            Alg.myBitMap = bms;
             Alg.myIntMap = BoolToIntMap(map); 
 			Alg._MapRefresh = MapRefresh;
 			MessageHandler.Write("A robot elindult.");
-			new Way(ref myIntMap, ref robot);
+			new Way(ref myIntMap, ref myBitMap, ref robot);
 			MessageHandler.Write("A térkép bejárása véget ért.");
 
         }

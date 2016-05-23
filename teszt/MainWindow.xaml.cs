@@ -181,7 +181,7 @@ namespace RobotMover {
 
 
                     MessageBox.Show("H1 " + _mapToBool.GetLength(0) + "x" + _mapToBool.GetLength(1));
-					Alg.start(ref _robot, ref _mapToBool, MapRefresh);
+					Alg.start(ref _robot, ref _mapToBool, ref _myBitmapSource, MapRefresh);
                     //System.Threading.Thread.Sleep(500);
                 }
                 else if (RadioButtonHeuristic2.IsChecked != null && RadioButtonHeuristic2.IsChecked.Value)

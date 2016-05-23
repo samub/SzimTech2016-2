@@ -33,7 +33,7 @@ namespace RobotMover
 		/// A jelenlegi lefedettség.
 		/// </summary>
 		private float Coverage;
-
+        private BitmapSource bitMap;
         
 
 		/// <summary>
@@ -83,24 +83,29 @@ namespace RobotMover
 		private float CurrentCoverage() {
 			long barrier = 0;
 			long covered = 0;
+            long notCovered = 0;
 
 			for (int i = 0; i < 640; i++) {
 				for (int j = 0; j < 640; j++) {
 					if (Alg.myIntMap[i, j] > 0) {
-						if (Alg.myIntMap[i, j] % 2 == 1)
-						    barrier += 1;
-						else if(Alg.myIntMap[i, j] > 0)	covered += 1;
+                        if (Alg.myIntMap[i, j] % 2 == 1)
+                            barrier += 1;
+                        else
+                        {
+                            if (Alg.myIntMap[i, j] > 0) covered += 1;
+                            else if (Alg.myIntMap[i, j] == 0) notCovered += 1;
+                        }
 					}
 				}
 			}
-            float ret_value = (float)covered / (640 * 640 - barrier);
+            float ret_value = (float)covered / ((640*640) - barrier);
             return ret_value;
 		}
 
 		/// <summary>
 		/// Területlefedés a Robot osztály segítségével.
 		/// </summary>
-		private async void Cover() {
+		private void Cover() {
             List<Tuple<int, int, double>> OurOwnRoute = new List<Tuple<int, int, double>>();
             List<PointHOne> line = new List<PointHOne>();
 			int i = 0;
@@ -121,13 +126,16 @@ namespace RobotMover
                     
                     //robot mozgatása pontonként:
 
-                    gui.Route.Add(new Tuple<int, int, double> (line.ElementAt(i).x, line.ElementAt(i).y, line.ElementAt(i).theta));
+                    //gui.Route.Add(new Tuple<int, int, double> (line.ElementAt(i).x, line.ElementAt(i).y, line.ElementAt(i).theta));
                     OurOwnRoute.Add(new Tuple<int, int, double>(line.ElementAt(i).x, line.ElementAt(i).y, line.ElementAt(i).theta));
                     MessageHandler.Write(" [" + line.ElementAt(i).x + ", " + line.ElementAt(i).y + "] CC:" + CurrentCoverage());
 
-					i += gui.Radius;
 
-                    //gui.ExecuteRobot();
+
+                    // odalépünk az aktuális pontra
+                    gui.Reposition(line.ElementAt(i).x, line.ElementAt(i).y, line.ElementAt(i).theta);
+                    gui.SetCurrentlyCoveredArea(bitMap);
+                    //MessageHandler.Write("gui repos");
 
                     // Terület súlyozása
                     for (int j = 0; j < gui.CurrentlyCoveredArea.Count; ++j)
@@ -137,14 +145,15 @@ namespace RobotMover
                         Alg.myIntMap[a, b] += 2;
                     }
 
-                    gui.Route.Clear();
+                    //töröljük ezt az egy bejárt pontot a route listából
+                    //gui.Route.Clear();
+
+                    //lépjünk egy sugárnyival odébb
+                    i += gui.Radius;
                 }
                 // A Route-ba berakjuk a bejárt pontokat:
                 foreach (var p in OurOwnRoute) gui.Route.Add(new Tuple<int, int, double>(p.Item1, p.Item2, p.Item3));
                 
-                // A robottal bejárjuk a területet (most már egyben is)
-                //gui.ExecuteRobot();
-
                 // Pillanatnyi lefedettség
                 Coverage += 0.1f;//CurrentCoverage();
 			}
@@ -203,10 +212,11 @@ namespace RobotMover
 		}
 
 
-		public Way(ref int[,] map, ref Robot gui) {
+		public Way(ref int[,] map, ref BitmapSource myBitMap,  ref Robot gui) {
 			this.Waypoints = new List<PointHOne>();
 			this.Waypoints.Add(new PointHOne(gui.X, gui.Y, gui.Theta));	// Kezdőpont hozzáadása
 			this.Length = 0;
+            this.bitMap = myBitMap;
 			this.map = map;
 			this.gui = gui;
 			this.Coverage = 0;
