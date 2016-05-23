@@ -89,8 +89,7 @@ namespace RobotMover
 					if (Alg.myIntMap[i, j] > 0) {
 						if (Alg.myIntMap[i, j] % 2 == 1)
 						    barrier += 1;
-						else
-							covered += 1;
+						else if(Alg.myIntMap[i, j] > 0)	covered += 1;
 					}
 				}
 			}
@@ -101,7 +100,7 @@ namespace RobotMover
 		/// <summary>
 		/// Területlefedés a Robot osztály segítségével.
 		/// </summary>
-		private void Cover() {
+		private async void Cover() {
             List<Tuple<int, int, double>> OurOwnRoute = new List<Tuple<int, int, double>>();
             List<PointHOne> line = new List<PointHOne>();
 			int i = 0;
@@ -128,7 +127,7 @@ namespace RobotMover
 
 					i += gui.Radius;
 
-                    gui.ExecuteRobot();
+                    //gui.ExecuteRobot();
 
                     // Terület súlyozása
                     for (int j = 0; j < gui.CurrentlyCoveredArea.Count; ++j)
@@ -144,7 +143,7 @@ namespace RobotMover
                 foreach (var p in OurOwnRoute) gui.Route.Add(new Tuple<int, int, double>(p.Item1, p.Item2, p.Item3));
                 
                 // A robottal bejárjuk a területet (most már egyben is)
-                gui.ExecuteRobot();
+                //gui.ExecuteRobot();
 
                 // Pillanatnyi lefedettség
                 Coverage += 0.1f;//CurrentCoverage();
@@ -212,6 +211,7 @@ namespace RobotMover
 			this.gui = gui;
 			this.Coverage = 0;
 			this.FindWay();
+            gui.ExecuteRobot();
 		}
 
 	}
