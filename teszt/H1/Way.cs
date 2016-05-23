@@ -127,17 +127,6 @@ namespace RobotMover
                     MessageHandler.Write(" [" + line.ElementAt(i).x + ", " + line.ElementAt(i).y + "] CC:" + CurrentCoverage());
 
 					i += gui.Radius;
-                
-				    // Az int mátrix konvertálása
-                    byte[] pixels = new byte[640*640];
-			        for (int j = 0; j < 640; j++) {
-				        for (int k = 0; k < 640; k++) {
-					        pixels[k + j * 640] = (byte) Alg.myIntMap[j,k];
-		    		    }
-			        }
-
-                    //BitmapSource MyBitmap = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, pixels, 640 * 4);
-                    //gui.SetCurrentlyCoveredArea(MyBitmap);
 
                     gui.ExecuteRobot();
 
