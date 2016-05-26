@@ -83,19 +83,11 @@ namespace RobotMover
 		private float CurrentCoverage() {
 			long barrier = 0;
 			long covered = 0;
-            long notCovered = 0;
 
 			for (int i = 0; i < 640; i++) {
 				for (int j = 0; j < 640; j++) {
-					if (Alg.myIntMap[i, j] > 0) {
-                        if (Alg.myIntMap[i, j] % 2 == 1)
-                            barrier += 1;
-                        else
-                        {
-                            if (Alg.myIntMap[i, j] > 0) covered += 1;
-                            else if (Alg.myIntMap[i, j] == 0) notCovered += 1;
-                        }
-					}
+                        if (Alg.myIntMap[i, j] == 1) barrier += 1;
+                        else if (Alg.myIntMap[i, j] > 1) covered += 1;
 				}
 			}
             float ret_value = (float)covered / ((640*640) - barrier);
@@ -129,8 +121,6 @@ namespace RobotMover
                     //gui.Route.Add(new Tuple<int, int, double> (line.ElementAt(i).x, line.ElementAt(i).y, line.ElementAt(i).theta));
                     OurOwnRoute.Add(new Tuple<int, int, double>(line.ElementAt(i).x, line.ElementAt(i).y, line.ElementAt(i).theta));
                     MessageHandler.Write(" [" + line.ElementAt(i).x + ", " + line.ElementAt(i).y + "] CC:" + CurrentCoverage());
-
-
 
                     // odalépünk az aktuális pontra
                     gui.Reposition(line.ElementAt(i).x, line.ElementAt(i).y, line.ElementAt(i).theta);
