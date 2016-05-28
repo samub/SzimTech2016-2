@@ -183,7 +183,7 @@ namespace RobotMover {
 
             if (_robot != null) {
                 MapRefresh(_isFile);
-
+                _robot.Button = false;
                 if (RadioButtonGenetic.IsChecked != null && RadioButtonGenetic.IsChecked.Value) MessageBox.Show("Generikus");
                 else if (RadioButtonHeuristic1.IsChecked != null && RadioButtonHeuristic1.IsChecked.Value) {
                     _mapToBool = BitmapToBools(_myOriginalMap);
@@ -422,6 +422,7 @@ namespace RobotMover {
             TextBoxPositionX.IsEnabled = true;
             TextBoxPositionY.IsEnabled = true;
             CheckBox.IsEnabled = true;
+            _robot.Button = true;
             _robot = null;
             _myBitmapSource = null;
             _myOriginalMap = null;
