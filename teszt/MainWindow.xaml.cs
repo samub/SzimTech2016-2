@@ -7,8 +7,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 
-namespace teszt
-{
+namespace RobotMover {
     public partial class MainWindow {
         private const int MyImageSizeX = 640;
         private const int MyImageSizeY = 640;
@@ -183,14 +182,8 @@ namespace teszt
             if (_robot != null) {
                 MapRefresh(_isFile);
 
-                if (RadioButtonGenetic.IsChecked != null && RadioButtonGenetic.IsChecked.Value)
-                {
-                    //Genetikus algo
-                    GA.Go(_robot, _mapToBool);
-                    MessageBox.Show("Generikus");
-                }
-                else if (RadioButtonHeuristic1.IsChecked != null && RadioButtonHeuristic1.IsChecked.Value)
-                {
+                if (RadioButtonGenetic.IsChecked != null && RadioButtonGenetic.IsChecked.Value) MessageBox.Show("Generikus");
+                else if (RadioButtonHeuristic1.IsChecked != null && RadioButtonHeuristic1.IsChecked.Value) {
                     _mapToBool = BitmapToBools(_myOriginalMap);
 
 
@@ -220,11 +213,7 @@ namespace teszt
         ///     az új helyre lerakni a robotot. A method paramétertől függően forgatás és mozgatás következik be illetve
         ///     ha nem fájlból olvastuk a robotot akkor újra lesz rajzolva.
         /// </summary>
-<<<<<<< HEAD
-        private void MapRefresh() {
-=======
         private void MapRefresh(bool nothing) {
->>>>>>> GUI/development
             if (_robot != null)
                 if (_myBitmapSource != null) {
                     if (nothing) {

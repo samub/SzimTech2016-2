@@ -58,12 +58,7 @@
     <Compile Include="Dialog.xaml.cs">
       <DependentUpon>Dialog.xaml</DependentUpon>
     </Compile>
-<<<<<<< HEAD
-    <Compile Include="GA\Algo.cs" />
-    <Compile Include="GA\GA.cs" />
-=======
     <Compile Include="MapToCsv.cs" />
->>>>>>> GUI/development
     <Compile Include="MessageHandler.cs" />
     <Compile Include="Robot.cs" />
     <Compile Include="ShapeDrawer.cs" />

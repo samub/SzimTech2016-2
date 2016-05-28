@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace teszt {
+namespace RobotMover {
     internal class Robot {
         private readonly Action<bool> _refresh;
         // A robot mozgását a koordinátái és szögébõl alkotott hármasokból álló listában rögzítjük. 
