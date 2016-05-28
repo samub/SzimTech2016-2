@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 
 teszt/obj/Debug/*
 
 teszt/bin/Debug/*
 /
+=======
+teszt/obj/Debug/*
+
+teszt/bin/Debug/*
+>>>>>>> GUI/development
