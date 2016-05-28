@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace RobotMover.GA
-{
-    internal struct Chromosome
-    {
+namespace RobotMover.GA {
+    internal struct Chromosome {
         public List<Tuple<int, int, double>> Route;
         public double Fitness;
     }
 
-    delegate void Progress(int progress);
-    class Algo
-    {
-        public event Progress progress;
-        private const int MAX_FIT = 28;
-        private Random random;
-        public Algo()
-        {
-            random = new Random((int)DateTime.Now.Ticks);
+    internal delegate void Progress(int progress);
+
+    internal class Algo {
+        private const int MaxFit = 28;
+        private Random _random;
+
+        public Algo() {
+            _random = new Random((int) DateTime.Now.Ticks);
         }
+
+        public event Progress progress;
 
         /*public static void DoMating(ref List<Chromosome> initPopulation, int generations, double probCrossver, double probMutation)
         {
@@ -41,8 +40,8 @@ namespace RobotMover.GA
                     progress(generation + 1);
                 }*/
     }
-    //initPopulation.Sort(new FitnessComparator());
 
+    //initPopulation.Sort(new FitnessComparator());
 
 
     //}*/

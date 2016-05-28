@@ -182,7 +182,12 @@ namespace RobotMover {
             if (_robot != null) {
                 MapRefresh(_isFile);
 
-                if (RadioButtonGenetic.IsChecked != null && RadioButtonGenetic.IsChecked.Value) MessageBox.Show("Generikus");
+                if (RadioButtonGenetic.IsChecked != null && RadioButtonGenetic.IsChecked.Value) {
+                    _mapToBool = BitmapToBools(_myOriginalMap);
+                    var algoritmus = new GA.GA(_robot);
+                    GA.GA.Go(_robot, _mapToBool);
+                    //MessageBox.Show("Generikus");
+                }
                 else if (RadioButtonHeuristic1.IsChecked != null && RadioButtonHeuristic1.IsChecked.Value) {
                     _mapToBool = BitmapToBools(_myOriginalMap);
 
