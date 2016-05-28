@@ -102,6 +102,7 @@ namespace RobotMover {
         }
 
         public async void ExecuteRobot() {
+            for (var i = 320; i >= 100; i--) Route.Add(new Tuple<int, int, double>(i, i, Convert.ToDouble(0)));
             foreach (var t in Route.ToArray()) {
                 Reposition(t.Item1, t.Item2, t.Item3);
                 await Task.Delay(1);

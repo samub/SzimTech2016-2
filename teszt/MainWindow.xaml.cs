@@ -62,6 +62,10 @@ namespace RobotMover {
 
                 _map.Read();
 
+                RadioButtonCircle.IsEnabled = false;
+                RadioButtonRect.IsEnabled = false;
+                RadioButtonEllips.IsEnabled = false;
+
                 if (_map.Map.GetLength(0) == 640 && _map.Map.GetLength(1) == 640) {
                     _pixels = new byte[MyImageSizeX * MyImageSizeY * 4];
                     var current = 0;
@@ -103,13 +107,21 @@ namespace RobotMover {
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void ButtonStart_Click(object sender, RoutedEventArgs e) {
-            TextBoxForMessages.Text = "";
-            ButtonMapEdit.IsEnabled = false;
-            ButtonMapOpen.IsEnabled = false;
-            RadioButtonCircle.IsEnabled = false;
-            RadioButtonRect.IsEnabled = false;
-            RadioButtonEllips.IsEnabled = false;
+
+        private void ButtonStart_Click(object sender, RoutedEventArgs e) {
+            if (_myBitmapSource != null) {
+                TextBoxForMessages.Text = "";
+                ButtonMapEdit.IsEnabled = false;
+                ButtonMapOpen.IsEnabled = false;
+                RadioButtonCircle.IsEnabled = false;
+                RadioButtonRect.IsEnabled = false;
+                RadioButtonEllips.IsEnabled = false;
+                SliderViweAngle.IsEnabled = false;
+                TextBoxCoveringPercentage.IsEnabled = false;
+                TextBoxPositionX.IsEnabled = false;
+                TextBoxPositionY.IsEnabled = false;
+                CheckBox.IsEnabled = false;
+            }
             if (_isFile) {
                 if (RadioButton.IsChecked != null && !RadioButton.IsChecked.Value && RadioButton1.IsChecked != null &&
                     !RadioButton1.IsChecked.Value) MessageBox.Show("Kérem válassza ki a robot típusát!", "Figyelmeztetés");
@@ -302,14 +314,14 @@ namespace RobotMover {
                         Image.Source = _myBitmapSource;
                     }
                     else {
-                        _myOriginalMap.CopyPixels(_pixels, 640 * 4, 0);
+                        //_myOriginalMap.CopyPixels(_pixels, 640 * 4, 0);
 
-                        _myBitmapSource = BitmapSource.Create(MyImageSizeX, MyImageSizeY, 96, 96, PixelFormats.Pbgra32,
-                                                              null, _pixels, MyImageSizeX * 4);
+                        //_myBitmapSource = BitmapSource.Create(MyImageSizeX, MyImageSizeY, 96, 96, PixelFormats.Pbgra32,
+                        //                                   null, _pixels, MyImageSizeX * 4);
 
 
                         ShapeDrawer.DrawCircle(_robot.X, _robot.Y, _robot.Radius, _robot.Theta, _robot.Theta + 270,
-                                               ref _pixels);
+                                               ref _pixels, true);
 
                         var xstart = _robot.X + _robot.Radius * Math.Cos(Math.PI / 180.0 * _robot.Theta);
                         var ystart = _robot.Y - _robot.Radius * Math.Sin(Math.PI / 180.0 * _robot.Theta);
@@ -319,12 +331,12 @@ namespace RobotMover {
 
                         if (_robot.Theta + 270 > 360)
                             ShapeDrawer.DrawCircle(_robot.X, _robot.Y, _robot.Radius, 0, _robot.Theta + 270 - 360,
-                                                   ref _pixels);
+                                                   ref _pixels, true);
 
                         ShapeDrawer.DrawLine(_robot.X, _robot.Y, (int) Math.Round(xstart), (int) Math.Round(ystart),
-                                             ref _pixels);
+                                             ref _pixels, true);
                         ShapeDrawer.DrawLine(_robot.X, _robot.Y, (int) Math.Round(xend), (int) Math.Round(yend),
-                                             ref _pixels);
+                                             ref _pixels, true);
 
                         //var r = new Random();
                         var randAngle = _robot.Theta + 0.2 * (_robot.Theta + 270 - _robot.Theta);
@@ -335,13 +347,15 @@ namespace RobotMover {
                         if ((int) randX > 638) randX = 638;
                         if ((int) randY > 638) randY = 638;
 
-                        if ((int)randX <= 0) randX = 1;
-                        if ((int)randY <= 0) randY =1;
+                        if ((int) randX <= 0) randX = 1;
+                        if ((int) randY <= 0) randY = 1;
 
-                        ShapeDrawer.FloodFill(ref _pixels, new Point((int) Math.Floor(randX), (int) Math.Floor(randY)));
+                        ShapeDrawer.FloodFill(ref _pixels, new Point((int) Math.Floor(randX), (int) Math.Floor(randY)),
+                                              true);
 
                         _myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, _pixels,
                                                               640 * 4);
+
                         Image.Source = _myBitmapSource;
                     }
                     _robot.SetCurrentlyCoveredArea(_myBitmapSource);
@@ -366,7 +380,7 @@ namespace RobotMover {
                     dialog.Label.Content = "Sugár";
                     if (dialog.ShowDialog() == true) {
                         ShapeDrawer.DrawCircle((int) p1.X, (int) p1.Y, Convert.ToInt32(dialog.ResponseText), ref _pixels);
-                        ShapeDrawer.FloodFill(ref _pixels, p1);
+                        ShapeDrawer.FloodFill(ref _pixels, p1, false);
                     }
                 }
                 else if (RadioButtonRect.IsChecked != null && RadioButtonRect.IsChecked.Value) {
@@ -375,8 +389,8 @@ namespace RobotMover {
                     dialog.TextBox1.Visibility = Visibility.Visible;
                     if (dialog.ShowDialog() == true) {
                         ShapeDrawer.DrawRectangle((int) p1.X, (int) p1.Y, Convert.ToInt32(dialog.ResponseText),
-                                                  Convert.ToInt32(dialog.ResponseText1), ref _pixels);
-                        ShapeDrawer.FloodFill(ref _pixels, p1);
+                                                  Convert.ToInt32(dialog.ResponseText1), ref _pixels, false);
+                        ShapeDrawer.FloodFill(ref _pixels, p1, false);
                     }
                 }
                 else if (RadioButtonEllips.IsChecked != null && RadioButtonEllips.IsChecked.Value) {
@@ -386,7 +400,7 @@ namespace RobotMover {
                     if (dialog.ShowDialog() == true) {
                         ShapeDrawer.DrawEllipse((int) p1.X, (int) p1.Y, Convert.ToInt32(dialog.ResponseText1),
                                                 Convert.ToInt32(dialog.ResponseText), ref _pixels);
-                        ShapeDrawer.FloodFill(ref _pixels, p1);
+                        ShapeDrawer.FloodFill(ref _pixels, p1, false);
                     }
                 }
 
@@ -414,6 +428,19 @@ namespace RobotMover {
             RadioButtonCircle.IsEnabled = true;
             RadioButtonRect.IsEnabled = true;
             RadioButtonEllips.IsEnabled = true;
+
+            SliderViweAngle.IsEnabled = true;
+            TextBoxCoveringPercentage.IsEnabled = true;
+            TextBoxPositionX.IsEnabled = true;
+            TextBoxPositionY.IsEnabled = true;
+            CheckBox.IsEnabled = true;
+
+            _robot = null;
+            _myBitmapSource = null;
+            _myOriginalMap = null;
+            _map = null;
+
+            Image.Source = null;
         }
 
         private void button_Click_1(object sender, RoutedEventArgs e) {
@@ -472,6 +499,31 @@ namespace RobotMover {
             _isFile = false;
             RadioButton.IsEnabled = false;
             RadioButton1.IsEnabled = false;
+        }
+
+        private void BtnSave_Click(object sender, RoutedEventArgs e) {
+            var dlg = new SaveFileDialog();
+
+            dlg.FileName = "map";
+            dlg.DefaultExt = ".csv";
+            dlg.Filter = "CSV Files|*.csv";
+            dlg.Title = "Save MAP";
+            dlg.InitialDirectory = Assembly.GetExecutingAssembly().Location;
+
+            var result = dlg.ShowDialog();
+
+            if (result == true) {
+                if (_myOriginalMap != null) {
+                    var writer = new MapToCsv(dlg.FileName, _myOriginalMap);
+
+                    writer.Write();
+                }
+                else MessageBox.Show("Nem lehet menteni! Nincs kirajzolva aktuális térkép!", "Figyelmeztetés");
+            }
+        }
+
+        private void BtnQuit_Click(object sender, RoutedEventArgs e) {
+            Application.Current.Shutdown();
         }
     }
 }

@@ -79,10 +79,10 @@
                 VerticalAlignment="Top" Width="97" Height="35" Click="ButtonStop_Click" />
         <Label Content="Térkép opciók" HorizontalAlignment="Right" Margin="0,15,133,0"
                VerticalAlignment="Top" Height="25" Width="108" />
-        <Button x:Name="ButtonEditOk" Content="Mentés" HorizontalAlignment="Right" Margin="0,89,137,0"
-                VerticalAlignment="Top" Width="102" Height="22" />
-        <Button x:Name="ButtonEditCancel" Content="Mégsem" HorizontalAlignment="Right" Margin="0,111,137,0"
-                VerticalAlignment="Top" Width="102" Height="21" />
+        <Button x:Name="ButtonSave" Content="Mentés" HorizontalAlignment="Right" Margin="0,89,137,0"
+                VerticalAlignment="Top" Width="102" Height="22" Click="BtnSave_Click" />
+        <Button x:Name="ButtonQuit" Content="Kilép" HorizontalAlignment="Right" Margin="0,111,137,0"
+                VerticalAlignment="Top" Width="102" Height="21" Click="BtnQuit_Click" />
         <TextBox x:Name="TextBoxForMessages" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Left"
                  Height="105" TextWrapping="Wrap" VerticalAlignment="Top" Width="321" IsReadOnlyCaretVisible="True"
                  SelectionOpacity="1" Margin="645,535,0,0" />
@@ -104,7 +104,7 @@
         <TextBox Visibility="Hidden" x:Name="TextBoxLogFileName" HorizontalAlignment="Left" Height="23"
                  Margin="779,412,0,0" TextWrapping="Wrap" Text="fájlnév" VerticalAlignment="Top" Width="120" />
         <Rectangle HorizontalAlignment="Left" Height="640" Stroke="Black" VerticalAlignment="Top" Width="640" />
-        <Rectangle HorizontalAlignment="Right" Height="102" Margin="0,39,123,0" Stroke="Black" VerticalAlignment="Top"
+        <Rectangle HorizontalAlignment="Right" Height="102" Margin="0,38,123,0" Stroke="Black" VerticalAlignment="Top"
                    Width="126" />
         <Button Content="Teszt(Jobb)" Margin="874,46,25,586" Click="button_Click_1" />
         <Button Content="Teszt(Bal)" Margin="874,74,25,558" Click="button1_Click" />
