@@ -9,7 +9,7 @@ namespace RobotMover {
     internal class Robot {
         private readonly Action<bool> _refresh;
         // A robot mozgását a koordinátái és szögébõl alkotott hármasokból álló listában rögzítjük. 
-        public readonly List<Tuple<int, int, double>> Route = new List<Tuple<int, int, double>>();
+        public List<Tuple<int, int, double>> Route = new List<Tuple<int, int, double>>();
 
         /// <summary>
         ///     Ezt a konstruktort akkor használjuk mikor a robotot fájból olvassuk.
@@ -100,6 +100,7 @@ namespace RobotMover {
             // for (int i = 0; i < CurrentlyCoveredArea.Count; i++)
             //MessageHandler.Write(CurrentlyCoveredArea[i].ToString());
         }
+
 
         public async void ExecuteRobot() {
             //for (var i = 320; i >= 100; i--) Route.Add(new Tuple<int, int, double>(i, i, Convert.ToDouble(0)));

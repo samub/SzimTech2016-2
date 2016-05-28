@@ -6,21 +6,20 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
-using System.Threading.Tasks;
 
 namespace RobotMover {
     public partial class MainWindow {
         private const int MyImageSizeX = 640;
         private const int MyImageSizeY = 640;
+        private readonly CreateGraph _creategraph = new CreateGraph();
         private bool _isFile;
         private CsvToMatrix _map;
+        private readonly Mapcover _mapcover = new Mapcover();
         private bool[,] _mapToBool;
         private BitmapSource _myBitmapSource;
         private BitmapSource _myOriginalMap;
         private byte[] _pixels;
         private Robot _robot;
-        private Mapcover _mapcover = new Mapcover();
-        private CreateGraph _creategraph = new CreateGraph();
 
         public MainWindow() {
             InitializeComponent();
@@ -107,8 +106,7 @@ namespace RobotMover {
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-
-        private async void ButtonStart_Click(object sender, RoutedEventArgs e) {
+        private void ButtonStart_Click(object sender, RoutedEventArgs e) {
             if (_myBitmapSource != null) {
                 TextBoxForMessages.Text = "";
                 ButtonMapEdit.IsEnabled = false;
@@ -187,18 +185,12 @@ namespace RobotMover {
                 MapRefresh(_isFile);
 
                 if (RadioButtonGenetic.IsChecked != null && RadioButtonGenetic.IsChecked.Value) MessageBox.Show("Generikus");
-                else if (RadioButtonHeuristic1.IsChecked != null && RadioButtonHeuristic1.IsChecked.Value)
-                {
+                else if (RadioButtonHeuristic1.IsChecked != null && RadioButtonHeuristic1.IsChecked.Value) {
                     _mapToBool = BitmapToBools(_myOriginalMap);
-
-
-                    MessageBox.Show("H1 " + _mapToBool.GetLength(0) + "x" + _mapToBool.GetLength(1));
-					Alg.start(ref _robot, ref _mapToBool, ref _myBitmapSource, MapRefresh);
+                    Alg.start(ref _robot, ref _mapToBool, ref _myBitmapSource, MapRefresh);
                     //System.Threading.Thread.Sleep(500);
                 }
-                else if (RadioButtonHeuristic2.IsChecked != null && RadioButtonHeuristic2.IsChecked.Value)
-                {
-                    MessageBox.Show("H2");
+                else if (RadioButtonHeuristic2.IsChecked != null && RadioButtonHeuristic2.IsChecked.Value) {
                     _mapToBool = BitmapToBools(_myOriginalMap);
 
                     _mapcover.setStart(_robot.X, _robot.Y);
@@ -217,16 +209,12 @@ namespace RobotMover {
                     _creategraph.runTSP(_robot.X, _robot.Y, _mapcover.getNumber());
                     _creategraph.runTSPmodif();
                     _creategraph.calculateAngle();
-                    
-                    foreach (var t in _creategraph.fullList)
-                    {
-                        _robot.Reposition(t.Item1, t.Item2, t.Item3);
-                        await Task.Delay(1);
-                        MapRefresh(false);
-                    }
+
+                    _robot.Route = _creategraph.fullList;
+                    _robot.ExecuteRobot();
 
                     _mapcover.cleanUp();
-                   _creategraph.cleanUp();
+                    _creategraph.cleanUp();
                 }
             }
         }
@@ -434,7 +422,6 @@ namespace RobotMover {
             TextBoxPositionX.IsEnabled = true;
             TextBoxPositionY.IsEnabled = true;
             CheckBox.IsEnabled = true;
-
             _robot = null;
             _myBitmapSource = null;
             _myOriginalMap = null;
