@@ -108,7 +108,7 @@ namespace RobotMover {
         /// <param name="sender"></param>
         /// <param name="e"></param>
 
-        private void ButtonStart_Click(object sender, RoutedEventArgs e) {
+        private async void ButtonStart_Click(object sender, RoutedEventArgs e) {
             if (_myBitmapSource != null) {
                 TextBoxForMessages.Text = "";
                 ButtonMapEdit.IsEnabled = false;
