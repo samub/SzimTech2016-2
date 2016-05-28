@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -12,9 +11,6 @@ namespace RobotMover {
     public partial class MainWindow {
         private const int MyImageSizeX = 640;
         private const int MyImageSizeY = 640;
-        /*
-        private readonly ShapeDrawer _sd = new ShapeDrawer();
-*/
         private bool _isFile;
         private CsvToMatrix _map;
         private bool[,] _mapToBool;
@@ -63,6 +59,10 @@ namespace RobotMover {
 
                 _map.Read();
 
+                RadioButtonCircle.IsEnabled = false;
+                RadioButtonRect.IsEnabled = false;
+                RadioButtonEllips.IsEnabled = false;
+
                 if (_map.Map.GetLength(0) == 640 && _map.Map.GetLength(1) == 640) {
                     _pixels = new byte[MyImageSizeX * MyImageSizeY * 4];
                     var current = 0;
@@ -105,12 +105,19 @@ namespace RobotMover {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ButtonStart_Click(object sender, RoutedEventArgs e) {
-            TextBoxForMessages.Text = "";
-            ButtonMapEdit.IsEnabled = false;
-            ButtonMapOpen.IsEnabled = false;
-            RadioButtonCircle.IsEnabled = false;
-            RadioButtonRect.IsEnabled = false;
-            RadioButtonEllips.IsEnabled = false;
+            if (_myBitmapSource != null) {
+                TextBoxForMessages.Text = "";
+                ButtonMapEdit.IsEnabled = false;
+                ButtonMapOpen.IsEnabled = false;
+                RadioButtonCircle.IsEnabled = false;
+                RadioButtonRect.IsEnabled = false;
+                RadioButtonEllips.IsEnabled = false;
+                SliderViweAngle.IsEnabled = false;
+                TextBoxCoveringPercentage.IsEnabled = false;
+                TextBoxPositionX.IsEnabled = false;
+                TextBoxPositionY.IsEnabled = false;
+                CheckBox.IsEnabled = false;
+            }
             if (_isFile) {
                 if (RadioButton.IsChecked != null && !RadioButton.IsChecked.Value && RadioButton1.IsChecked != null &&
                     !RadioButton1.IsChecked.Value) MessageBox.Show("Kérem válassza ki a robot típusát!", "Figyelmeztetés");
@@ -119,7 +126,12 @@ namespace RobotMover {
                         TextBoxCoveringPercentage.Text.Length != 0) {
                         _robot = new Robot(20, Convert.ToInt32(TextBoxPositionX.Text),
                                            Convert.ToInt32(TextBoxPositionY.Text),
-                                           Convert.ToInt32(TextBoxCoveringPercentage.Text), 90, "fan50A.csv");
+                                           Convert.ToInt32(TextBoxCoveringPercentage.Text), 90, "fan50A.csv", MapRefresh,
+                                           _isFile);
+                        Console.WriteLine(@"Robooot");
+                        SimulateAlgos.setRobot(ref _robot);
+                        Console.WriteLine(@"Cover in robot.cs" + _robot.Cover);
+
                         if (Convert.ToInt32(TextBoxPositionX.Text) < _robot.Robot1.Map.GetLength(0) / 2 ||
                             Convert.ToInt32(TextBoxPositionY.Text) < _robot.Robot1.Map.GetLength(1) / 2 ||
                             Convert.ToInt32(TextBoxPositionX.Text) > MyImageSizeX - _robot.Robot1.Map.GetLength(0) / 2 ||
@@ -135,7 +147,8 @@ namespace RobotMover {
                         TextBoxCoveringPercentage.Text.Length != 0) {
                         _robot = new Robot(41, Convert.ToInt32(TextBoxPositionX.Text),
                                            Convert.ToInt32(TextBoxPositionY.Text),
-                                           Convert.ToInt32(TextBoxCoveringPercentage.Text), 90, "fan100.csv");
+                                           Convert.ToInt32(TextBoxCoveringPercentage.Text), 90, "fan100.csv", MapRefresh,
+                                           _isFile);
                         if (Convert.ToInt32(TextBoxPositionX.Text) < _robot.Robot1.Map.GetLength(0) / 2 ||
                             Convert.ToInt32(TextBoxPositionY.Text) < _robot.Robot1.Map.GetLength(1) / 2 ||
                             Convert.ToInt32(TextBoxPositionX.Text) > MyImageSizeX - _robot.Robot1.Map.GetLength(0) / 2 ||
@@ -151,7 +164,10 @@ namespace RobotMover {
                      TextBoxCoveringPercentage.Text.Length != 0) {
                 _robot = new Robot((int) SliderViweAngle.Value, Convert.ToInt32(TextBoxPositionX.Text),
                                    Convert.ToInt32(TextBoxPositionY.Text),
-                                   Convert.ToInt32(TextBoxCoveringPercentage.Text), 223);
+                                   Convert.ToInt32(TextBoxCoveringPercentage.Text), 223, MapRefresh, _isFile);
+                Console.WriteLine(@"Robooot1");
+                SimulateAlgos.setRobot(ref _robot);
+                Console.WriteLine(@"Cover in robot.cs " + _robot.Cover);
                 if (Convert.ToInt32(TextBoxPositionX.Text) < _robot.Radius ||
                     Convert.ToInt32(TextBoxPositionY.Text) < _robot.Radius ||
                     Convert.ToInt32(TextBoxPositionX.Text) > MyImageSizeX - _robot.Radius ||
@@ -164,7 +180,7 @@ namespace RobotMover {
             else MessageBox.Show("Adjon meg kezdőértékeket a robotnak!", "Figyelmeztetés");
 
             if (_robot != null) {
-                MapRefresh();
+                MapRefresh(_isFile);
 
                 if (RadioButtonGenetic.IsChecked != null && RadioButtonGenetic.IsChecked.Value)
                 {
@@ -203,10 +219,14 @@ namespace RobotMover {
         ///     az új helyre lerakni a robotot. A method paramétertől függően forgatás és mozgatás következik be illetve
         ///     ha nem fájlból olvastuk a robotot akkor újra lesz rajzolva.
         /// </summary>
+<<<<<<< HEAD
         private void MapRefresh() {
+=======
+        private void MapRefresh(bool nothing) {
+>>>>>>> GUI/development
             if (_robot != null)
                 if (_myBitmapSource != null) {
-                    if (_isFile) {
+                    if (nothing) {
                         var stride = _myBitmapSource.PixelWidth * 4;
                         var size = _myBitmapSource.PixelHeight * stride;
                         _pixels = new byte[size];
@@ -266,14 +286,14 @@ namespace RobotMover {
                         Image.Source = _myBitmapSource;
                     }
                     else {
-                        _myOriginalMap.CopyPixels(_pixels, 640 * 4, 0);
+                        //_myOriginalMap.CopyPixels(_pixels, 640 * 4, 0);
 
-                        _myBitmapSource = BitmapSource.Create(MyImageSizeX, MyImageSizeY, 96, 96, PixelFormats.Pbgra32,
-                                                              null, _pixels, MyImageSizeX * 4);
+                        //_myBitmapSource = BitmapSource.Create(MyImageSizeX, MyImageSizeY, 96, 96, PixelFormats.Pbgra32,
+                        //                                   null, _pixels, MyImageSizeX * 4);
 
 
                         ShapeDrawer.DrawCircle(_robot.X, _robot.Y, _robot.Radius, _robot.Theta, _robot.Theta + 270,
-                                               ref _pixels);
+                                               ref _pixels, true);
 
                         var xstart = _robot.X + _robot.Radius * Math.Cos(Math.PI / 180.0 * _robot.Theta);
                         var ystart = _robot.Y - _robot.Radius * Math.Sin(Math.PI / 180.0 * _robot.Theta);
@@ -283,12 +303,12 @@ namespace RobotMover {
 
                         if (_robot.Theta + 270 > 360)
                             ShapeDrawer.DrawCircle(_robot.X, _robot.Y, _robot.Radius, 0, _robot.Theta + 270 - 360,
-                                                   ref _pixels);
+                                                   ref _pixels, true);
 
                         ShapeDrawer.DrawLine(_robot.X, _robot.Y, (int) Math.Round(xstart), (int) Math.Round(ystart),
-                                             ref _pixels);
+                                             ref _pixels, true);
                         ShapeDrawer.DrawLine(_robot.X, _robot.Y, (int) Math.Round(xend), (int) Math.Round(yend),
-                                             ref _pixels);
+                                             ref _pixels, true);
 
                         //var r = new Random();
                         var randAngle = _robot.Theta + 0.2 * (_robot.Theta + 270 - _robot.Theta);
@@ -296,10 +316,18 @@ namespace RobotMover {
                         var randX = _robot.X + randRadius * Math.Cos(Math.PI / 180.0 * randAngle);
                         var randY = _robot.Y - randRadius * Math.Sin(Math.PI / 180.0 * randAngle);
 
-                        ShapeDrawer.FloodFill(ref _pixels, new Point((int) Math.Floor(randX), (int) Math.Floor(randY)));
+                        if ((int) randX > 638) randX = 638;
+                        if ((int) randY > 638) randY = 638;
+
+                        if ((int) randX <= 0) randX = 1;
+                        if ((int) randY <= 0) randY = 1;
+
+                        ShapeDrawer.FloodFill(ref _pixels, new Point((int) Math.Floor(randX), (int) Math.Floor(randY)),
+                                              true);
 
                         _myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, _pixels,
                                                               640 * 4);
+
                         Image.Source = _myBitmapSource;
                     }
                     _robot.SetCurrentlyCoveredArea(_myBitmapSource);
@@ -324,7 +352,7 @@ namespace RobotMover {
                     dialog.Label.Content = "Sugár";
                     if (dialog.ShowDialog() == true) {
                         ShapeDrawer.DrawCircle((int) p1.X, (int) p1.Y, Convert.ToInt32(dialog.ResponseText), ref _pixels);
-                        ShapeDrawer.FloodFill(ref _pixels, p1);
+                        ShapeDrawer.FloodFill(ref _pixels, p1, false);
                     }
                 }
                 else if (RadioButtonRect.IsChecked != null && RadioButtonRect.IsChecked.Value) {
@@ -333,8 +361,8 @@ namespace RobotMover {
                     dialog.TextBox1.Visibility = Visibility.Visible;
                     if (dialog.ShowDialog() == true) {
                         ShapeDrawer.DrawRectangle((int) p1.X, (int) p1.Y, Convert.ToInt32(dialog.ResponseText),
-                                                  Convert.ToInt32(dialog.ResponseText1), ref _pixels);
-                        ShapeDrawer.FloodFill(ref _pixels, p1);
+                                                  Convert.ToInt32(dialog.ResponseText1), ref _pixels, false);
+                        ShapeDrawer.FloodFill(ref _pixels, p1, false);
                     }
                 }
                 else if (RadioButtonEllips.IsChecked != null && RadioButtonEllips.IsChecked.Value) {
@@ -344,7 +372,7 @@ namespace RobotMover {
                     if (dialog.ShowDialog() == true) {
                         ShapeDrawer.DrawEllipse((int) p1.X, (int) p1.Y, Convert.ToInt32(dialog.ResponseText1),
                                                 Convert.ToInt32(dialog.ResponseText), ref _pixels);
-                        ShapeDrawer.FloodFill(ref _pixels, p1);
+                        ShapeDrawer.FloodFill(ref _pixels, p1, false);
                     }
                 }
 
@@ -372,6 +400,19 @@ namespace RobotMover {
             RadioButtonCircle.IsEnabled = true;
             RadioButtonRect.IsEnabled = true;
             RadioButtonEllips.IsEnabled = true;
+
+            SliderViweAngle.IsEnabled = true;
+            TextBoxCoveringPercentage.IsEnabled = true;
+            TextBoxPositionX.IsEnabled = true;
+            TextBoxPositionY.IsEnabled = true;
+            CheckBox.IsEnabled = true;
+
+            _robot = null;
+            _myBitmapSource = null;
+            _myOriginalMap = null;
+            _map = null;
+
+            Image.Source = null;
         }
 
         private void button_Click_1(object sender, RoutedEventArgs e) {
@@ -380,19 +421,13 @@ namespace RobotMover {
             if (!_isFile) angle = Convert.ToInt32(TextBoxTeszt.Text);
             else angle = Convert.ToInt32(TextBoxTeszt.Text) * Math.PI / 180.0;
 
-            _robot.Reposition(Convert.ToInt32(TextBoxPositionX.Text), Convert.ToInt32(TextBoxPositionY.Text), angle,
-                              _isFile);
-            MapRefresh();
+            _robot.Reposition(Convert.ToInt32(TextBoxPositionX.Text), Convert.ToInt32(TextBoxPositionY.Text), angle);
+            MapRefresh(_isFile);
         }
 
 
-        private async void button1_Click(object sender, RoutedEventArgs e) {
-            for (var i = 100; i < 320; i++) _robot.Route.Add(new Tuple<int, int, double>(i, i + 1, Convert.ToDouble(i * 0.05)));
-            foreach (var t in _robot.Route) {
-                _robot.Reposition(t.Item1, t.Item2, t.Item3, _isFile);
-                await Task.Delay(1);
-                MapRefresh();
-            }
+        private void button1_Click(object sender, RoutedEventArgs e) {
+            _robot.ExecuteRobot();
         }
 
         /// <summary>
@@ -436,6 +471,31 @@ namespace RobotMover {
             _isFile = false;
             RadioButton.IsEnabled = false;
             RadioButton1.IsEnabled = false;
+        }
+
+        private void BtnSave_Click(object sender, RoutedEventArgs e) {
+            var dlg = new SaveFileDialog();
+
+            dlg.FileName = "map";
+            dlg.DefaultExt = ".csv";
+            dlg.Filter = "CSV Files|*.csv";
+            dlg.Title = "Save MAP";
+            dlg.InitialDirectory = Assembly.GetExecutingAssembly().Location;
+
+            var result = dlg.ShowDialog();
+
+            if (result == true) {
+                if (_myOriginalMap != null) {
+                    var writer = new MapToCsv(dlg.FileName, _myOriginalMap);
+
+                    writer.Write();
+                }
+                else MessageBox.Show("Nem lehet menteni! Nincs kirajzolva aktuális térkép!", "Figyelmeztetés");
+            }
+        }
+
+        private void BtnQuit_Click(object sender, RoutedEventArgs e) {
+            Application.Current.Shutdown();
         }
     }
 }
