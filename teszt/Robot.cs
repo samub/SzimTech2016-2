@@ -99,7 +99,7 @@ namespace RobotMover {
             for (var i = X - Radius; i <= X - Radius + 2 * Radius; i++)
                 for (var j = Y - Radius; j <= Y - Radius + 2 * Radius; j++)
                     if (i >= 0 && i < 640 && j >= 0 && j < 640 && pixels[i * 4 + j * 4 * 640] == 255 &&
-                        pixels[i * 4 + j * 4 * 640 + 1] == 255 && pixels[i * 4 + j * 4 * 640 + 2] == 255 &&
+                        pixels[i * 4 + j * 4 * 640 + 1] == 100 && pixels[i * 4 + j * 4 * 640 + 2] == 100 &&
                         pixels[i * 4 + j * 4 * 640 + 3] == 255) CurrentlyCoveredArea.Add(new Tuple<int, int>(i, j));
             // for (int i = 0; i < CurrentlyCoveredArea.Count; i++)
             //MessageHandler.Write(CurrentlyCoveredArea[i].ToString());
