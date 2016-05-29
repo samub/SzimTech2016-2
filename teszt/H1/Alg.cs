@@ -12,11 +12,15 @@ namespace RobotMover
     {
         public static int[,] myIntMap;
         public static BitmapSource myBitMap;
-		public static Action<bool> _MapRefresh;
-        
+        public static Action<bool> _MapRefresh;
+
+        /// <summary>
+        ///     Bresenham algoritmust megvalosito metodus.
+        ///     Parameterei a kezdo- es vegpont kordinatai, egy pontlista, es a terkep (int, jelenleg nem hasznalja az algoritmus)
+        ///     Az algoritmus a ket koordinata kozti pontokat a listaba helyezi.
+        /// </summary>
         public static void line(int x, int y, int x2, int y2, List<PointHOne> list, int[,] map)
         {
-            
             //x and y represents the starting postition of the line
             //x2 and y2 represents the ending postition of the line
             int xOriginal = x;
@@ -40,10 +44,6 @@ namespace RobotMover
             int numerator = longest >> 1;
             for (int i = 0; i <= longest; i++)
             {
-                //Console.SetCursorPosition(x, y);
-                // if((x==xOriginal && y==yOriginal)) Console.Write("K");
-                //else if (x == x2 && y == y2) Console.Write("V");
-                //else Console.Write("x");
                 //TODO: fix theta
                 list.Add(new PointHOne(x, y, 0));
 
@@ -54,33 +54,48 @@ namespace RobotMover
                     x += dx1;
                     y += dy1;
                 }
-                else {
+                else
+                {
                     x += dx2;
                     y += dy2;
                 }
             }
         }
 
-        public static void start(ref Robot robot, ref bool[,] map, ref BitmapSource bms,  Action<bool> MapRefresh) {
+        /// <summary>
+        ///     H1 csapat kodjat elindito metodus.
+        ///     A metodust a foprogrambol hibjuk meg (MainWindow.xaml.cs).
+        ///     Innen kerul meghivasra az utkereses, es innen adjuk at a szukseges valtozokat/peldanyokat (map, robot)
+        ///     Paramterei: robot referencia, terkep referencia (bool), bitmap terkep referencia, MapRefresh metodus ref (jelenleg nem hasznalt)
+        /// </summary>
+        public static void start(ref Robot robot, ref bool[,] map, ref BitmapSource bms, Action<bool> MapRefresh)
+        {
             Alg.myBitMap = bms;
-            Alg.myIntMap = BoolToIntMap(map); 
-			Alg._MapRefresh = MapRefresh;
-			MessageHandler.Write("A robot elindult.");
-			new Way(ref myIntMap, ref myBitMap, ref robot);
-			MessageHandler.Write("A térkép bejárása véget ért.");
-
+            Alg.myIntMap = BoolToIntMap(map);
+            Alg._MapRefresh = MapRefresh;
+            MessageHandler.Write("A robot elindult.");
+            new Way(ref myIntMap, ref myBitMap, ref robot);
+            MessageHandler.Write("A térkép bejárása véget ért.");
         }
-        public static int [,] BoolToIntMap(bool[,] boolmap) {
+
+        /// <summary>
+        ///     Egyszeru konvertalo metodus, ami a bool terkepunket alakitja at int terkeppe.
+        ///     Ez azert szukseges, mert a mi csapatunk sulyozza a bejart utat, igy szukseg van 1-nel nagyobb
+        ///     szamokra is az utkereses soran.
+        ///     Parametere a bool tipusu terkep, visszateresi erteke az eloallitott int terkep.
+        /// </summary>
+        public static int[,] BoolToIntMap(bool[,] boolmap)
+        {
             var intmap = new int[640, 640];
-            for (int i = 0; i < 640; i++) {
-                for (int j = 0; j < 640; j++) {
+            for (int i = 0; i < 640; i++)
+            {
+                for (int j = 0; j < 640; j++)
+                {
                     if (boolmap[i, j]) intmap[i, j] = 1;
                     else intmap[i, j] = 0;
                 }
             }
             return intmap;
         }
-
-
     }
 }
