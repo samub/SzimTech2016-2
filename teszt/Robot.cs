@@ -7,7 +7,9 @@ using System.Windows.Media.Imaging;
 
 namespace RobotMover {
     internal class Robot {
-        private readonly Action<bool> _refresh;
+        private readonly Action<Robot> _refresh;
+
+
         // A robot mozgását a koordinátái és szögébõl alkotott hármasokból álló listában rögzítjük. 
         public readonly List<Tuple<int, int, double>> Route = new List<Tuple<int, int, double>>();
 
@@ -22,7 +24,7 @@ namespace RobotMover {
         /// <param name="robotName"></param>
         /// <param name="methodName"></param>
         /// <param name="isFile"></param>
-        public Robot(int radius, int x, int y, int cover, double theta, string robotName, Action<bool> methodName,
+        public Robot(int radius, int x, int y, int cover, double theta, string robotName, Action<Robot> methodName,
                      bool isFile) {
             Robot1 = new CsvToMatrix(robotName);
             Robot1.Read();
@@ -47,7 +49,7 @@ namespace RobotMover {
         /// <param name="theta"></param>
         /// <param name="methodName"></param>
         /// <param name="isFile"></param>
-        public Robot(int radius, int x, int y, int cover, double theta, Action<bool> methodName, bool isFile) {
+        public Robot(int radius, int x, int y, int cover, double theta, Action<Robot> methodName, bool isFile) {
             Radius = radius;
             X = x;
             Y = y;
@@ -95,18 +97,29 @@ namespace RobotMover {
             for (var i = X - Radius; i <= X - Radius + 2 * Radius; i++)
                 for (var j = Y - Radius; j <= Y - Radius + 2 * Radius; j++)
                     if (i >= 0 && i < 640 && j >= 0 && j < 640 && pixels[i * 4 + j * 4 * 640] == 255 &&
-                        pixels[i * 4 + j * 4 * 640 + 1] == 255 && pixels[i * 4 + j * 4 * 640 + 2] == 255 &&
+                        pixels[i * 4 + j * 4 * 640 + 1] == 100 && pixels[i * 4 + j * 4 * 640 + 2] == 100 &&
                         pixels[i * 4 + j * 4 * 640 + 3] == 255) CurrentlyCoveredArea.Add(new Tuple<int, int>(i, j));
             // for (int i = 0; i < CurrentlyCoveredArea.Count; i++)
             //MessageHandler.Write(CurrentlyCoveredArea[i].ToString());
         }
 
         public async void ExecuteRobot() {
-            for (var i = 320; i >= 100; i--) Route.Add(new Tuple<int, int, double>(i, i, Convert.ToDouble(0)));
+            //for (var i = 320; i >= 100; i--) Route.Add(new Tuple<int, int, double>(i, i, Convert.ToDouble(0)));
             foreach (var t in Route.ToArray()) {
                 Reposition(t.Item1, t.Item2, t.Item3);
                 await Task.Delay(1);
-                _refresh(IsFile);
+                _refresh(this);
+            }
+        }
+
+        public void ExecuteRobot(ref int[,] setmtx) {
+            //for (var i = 320; i >= 100; i--) Route.Add(new Tuple<int, int, double>(i, i, Convert.ToDouble(0)));
+            foreach (var t in Route.ToArray()) {
+                Reposition(t.Item1, t.Item2, t.Item3);
+                _refresh(this);
+                foreach (var c in CurrentlyCoveredArea) {
+                    if (setmtx[c.Item1, c.Item2] != 1) setmtx[c.Item1, c.Item2] = 2;
+                }
             }
         }
 

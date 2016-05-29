@@ -3,29 +3,32 @@ using System.Collections.Generic;
 
 namespace RobotMover.GA {
     internal struct Chromosome {
-        public List<Tuple<int, int, double>> Route;
+        public Robot Robot;
         public double Fitness;
     }
 
-    internal delegate void Progress(int progress);
+    internal class FitnessComparator : Comparer<Chromosome> {
+        public override int Compare(Chromosome x, Chromosome y) {
+            if (x.Fitness == y.Fitness) return 0;
+            if (x.Fitness < y.Fitness) return 1;
+            return -1;
+        }
+    }
 
     internal class Algo {
-        private const int MaxFit = 28;
         private Random _random;
 
         public Algo() {
             _random = new Random((int) DateTime.Now.Ticks);
         }
 
-        public event Progress progress;
 
-        /*public static void DoMating(ref List<Chromosome> initPopulation, int generations, double probCrossver, double probMutation)
-        {
-            int totalFitness = 0;
-            CalcFitness(ref initPopulation, ref totalFitness);
+        public static void DoMating(ref List<Chromosome> initPopulation, int generations, double probCrossver,
+                                    double probMutation, ref int[,] matrix) {
+            CalcFitness(ref initPopulation, ref matrix);
 
-            for (int generation = 0; generation < generations; generation++)
-            {
+
+            /*for (int generation = 0; generation < generations; generation++) {
                 PrepareRuletteWheel(ref initPopulation, totalFitness);
                 Crossover(ref initPopulation, probCrossver);
                 Mutate(ref initPopulation, probMutation);
@@ -33,20 +36,45 @@ namespace RobotMover.GA {
 
 
 
-                /*if (initPopulation[initPopulation.Count - 1].fitness == 28)
-                    break;
-                if (progress != null)
-                {
-                    progress(generation + 1);
-                }*/
-    }
+                if (initPopulation[initPopulation.Count - 1].fitness == 28) break;
+                if (progress != null) { progress(generation + 1); }
+            }*/
+        }
 
-    //initPopulation.Sort(new FitnessComparator());
+        private static void CalcFitness(ref List<Chromosome> chromosome, ref int[,] matrix) {
+            for (var i = 0; i < chromosome.Count; i++) {
+                chromosome[i].Robot.ExecuteRobot(ref matrix);
 
 
-    //}*/
+                /*var nev = "kimenet" + (i + 1) + ".txt";
+                var fs = new FileStream(nev, FileMode.Create, FileAccess.Write, FileShare.None);
+                var sw = new StreamWriter(fs);
 
-    /* public void Crossover(ref List<Chromosome> parents, double probability)
+                for (var j = 0; j < matrix.GetLength(0); j++) {
+                    for (var k = 0; k < matrix.GetLength(1); k++) { sw.Write(matrix[k, j]); }
+                    sw.Write(Environment.NewLine);
+                }
+
+                sw.Close();*/
+                var darab = 0;
+                for (var j = 0; j < matrix.GetLength(0); j++) {
+                    for (var k = 0; k < matrix.GetLength(1); k++) {
+                        if (matrix[k, j] == 2) {
+                            matrix[k, j] = 0;
+                            darab++;
+                        }
+                    }
+                }
+                var item = chromosome[i];
+                item.Fitness = (double) darab / (640 * 640);
+                chromosome[i] = item;
+            }
+            chromosome.Sort(new FitnessComparator());
+        }
+
+        //}*/
+
+        /* public void Crossover(ref List<Chromosome> parents, double probability)
      {
          List<Chromosome> offspring = new List<Chromosome>();
 
@@ -196,7 +224,7 @@ namespace RobotMover.GA {
      }
  }
 
- //Két egyed összehasonlítása
+ Két egyed összehasonlítása
  class FitnessComparator : Comparer<Chromosome>
  {
      public override int Compare(Chromosome x, Chromosome y)
@@ -209,4 +237,5 @@ namespace RobotMover.GA {
              return -1;
      }
  }*/
+    }
 }

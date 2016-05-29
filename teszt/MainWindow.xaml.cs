@@ -180,12 +180,12 @@ namespace RobotMover {
             else MessageBox.Show("Adjon meg kezdőértékeket a robotnak!", "Figyelmeztetés");
 
             if (_robot != null) {
-                MapRefresh(_isFile);
+                //MapRefresh(_robot);
 
                 if (RadioButtonGenetic.IsChecked != null && RadioButtonGenetic.IsChecked.Value) {
                     _mapToBool = BitmapToBools(_myOriginalMap);
-                    var algoritmus = new GA.GA(_robot);
-                    GA.GA.Go(_robot, _mapToBool);
+                    var algoritmus = new GA.GA(MapRefresh, Convert.ToInt32(TextBoxCoveringPercentage.Text));
+                    GA.GA.Go(_mapToBool);
                     //MessageBox.Show("Generikus");
                 }
                 else if (RadioButtonHeuristic1.IsChecked != null && RadioButtonHeuristic1.IsChecked.Value) {
@@ -331,6 +331,57 @@ namespace RobotMover {
             else MessageBox.Show("Kérem válassza ki a robot típusát!", "Figyelmeztetés");
         }
 
+        private void MapRefresh(Robot mit) {
+            if (mit != null)
+                if (_myBitmapSource != null) {
+                    //_myOriginalMap.CopyPixels(_pixels, 640 * 4, 0);
+
+                    //_myBitmapSource = BitmapSource.Create(MyImageSizeX, MyImageSizeY, 96, 96, PixelFormats.Pbgra32,
+                    //                                   null, _pixels, MyImageSizeX * 4);
+
+
+                    ShapeDrawer.DrawCircle(mit.X, mit.Y, mit.Radius, mit.Theta, mit.Theta + 270,
+                                           ref _pixels, true);
+
+                    var xstart = mit.X + mit.Radius * Math.Cos(Math.PI / 180.0 * mit.Theta);
+                    var ystart = mit.Y - mit.Radius * Math.Sin(Math.PI / 180.0 * mit.Theta);
+
+                    var xend = mit.X + mit.Radius * Math.Cos(Math.PI / 180.0 * (mit.Theta + 270));
+                    var yend = mit.Y - mit.Radius * Math.Sin(Math.PI / 180.0 * (mit.Theta + 270));
+
+                    if (mit.Theta + 270 > 360)
+                        ShapeDrawer.DrawCircle(mit.X, mit.Y, mit.Radius, 0, mit.Theta + 270 - 360,
+                                               ref _pixels, true);
+
+                    ShapeDrawer.DrawLine(mit.X, mit.Y, (int) Math.Round(xstart), (int) Math.Round(ystart),
+                                         ref _pixels, true);
+                    ShapeDrawer.DrawLine(mit.X, mit.Y, (int) Math.Round(xend), (int) Math.Round(yend), ref _pixels,
+                                         true);
+
+                    //var r = new Random();
+                    var randAngle = mit.Theta + 0.2 * (mit.Theta + 270 - mit.Theta);
+                    var randRadius = 0.2 * mit.Radius;
+                    var randX = mit.X + randRadius * Math.Cos(Math.PI / 180.0 * randAngle);
+                    var randY = mit.Y - randRadius * Math.Sin(Math.PI / 180.0 * randAngle);
+
+                    if ((int) randX > 638) randX = 638;
+                    if ((int) randY > 638) randY = 638;
+
+                    if ((int) randX <= 0) randX = 1;
+                    if ((int) randY <= 0) randY = 1;
+
+                    ShapeDrawer.FloodFill(ref _pixels, new Point((int) Math.Floor(randX), (int) Math.Floor(randY)), true);
+
+                    _myBitmapSource = BitmapSource.Create(640, 640, 96, 96, PixelFormats.Pbgra32, null, _pixels, 640 * 4);
+
+                    //Image.Source = _myBitmapSource;
+
+                    mit.SetCurrentlyCoveredArea(_myBitmapSource);
+                }
+                else MessageBox.Show("Először töltsön be egy térképet!", "Figyelmeztetés");
+            else MessageBox.Show("Kérem válassza ki a robot típusát!", "Figyelmeztetés");
+        }
+
         /// <summary>
         ///     Mikor a szerkesztés gombot lenyomtuk és mikor ez a gomb aktív akkor az image kattintható.
         ///     Ekkor kört, téglalapot , ellipszist tudunk rajzolni a térképre melynek a közzéppontja az
@@ -417,7 +468,7 @@ namespace RobotMover {
             else angle = Convert.ToInt32(TextBoxTeszt.Text) * Math.PI / 180.0;
 
             _robot.Reposition(Convert.ToInt32(TextBoxPositionX.Text), Convert.ToInt32(TextBoxPositionY.Text), angle);
-            MapRefresh(_isFile);
+            MapRefresh(_robot);
         }
 
 

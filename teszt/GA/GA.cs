@@ -1,60 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows;
 
 namespace RobotMover.GA {
     internal class GA {
         //private bool m_elitism;
 
-        private static readonly Random _mRandom = new Random(); //for new Random number generator
-        private static Robot _myRobot;
+        private static readonly Random MRandom = new Random(); //for new Random number generator
         private static int _mPopulationSize; //POPULÁCIÓ NAGYSÁGA
-        private readonly double _mCrossoverRate; //KERESZTEZÉS %
-        private readonly int _mGenerationSize; //GENERÁCIÓK SZÁMA
-        private readonly double _mMutationRate; //MUTÁCIÓ %
+        private static double _mCrossoverRate; //KERESZTEZÉS %
+        private static int _mGenerationSize; //GENERÁCIÓK SZÁMA
+        private static Action<Robot> _refresh;
+        private static double _mMutationRate; //MUTÁCIÓ %
+        private static int _cover;
+
+        //static private GAFunction getFitness;
+
+        private static int[,] _myIntMap;
         private int _mGenomeSize; //Egy egyed nagysága
-        //private double m_totalFitness;
-        private string _mStrFitness; //FITNESS értéke string ként
 
         /// Set the GA rates and sizes
-        public GA(Robot r) {
+        public GA(Action<Robot> met, int cov) {
             _mMutationRate = 0.05;
             _mCrossoverRate = 0.80;
-            _mPopulationSize = 100;
+            _mPopulationSize = 5;
             _mGenerationSize = 2000;
-            _mStrFitness = "";
-            _myRobot = r;
+            _cover = cov;
+            _refresh = met;
         }
 
         /// Set the GA properties
-        public GA(double crossoverRate, double mutationRate, int populationSize, int generationSize, int genomeSize,
-                  Robot r) {
+        public GA(double crossoverRate, double mutationRate, int populationSize, int generationSize, int genomeSize) {
             //InitialValues();
             _mMutationRate = mutationRate;
             _mCrossoverRate = crossoverRate;
             _mPopulationSize = populationSize;
             _mGenerationSize = generationSize;
             _mGenomeSize = genomeSize;
-            _mStrFitness = "";
-            _myRobot = r;
         }
-
-        //static private GAFunction getFitness;
-
-        private static int[,] MyIntMap { get; set; } = new int[640, 640];
 
 
         /// GA program indulása
         //
-        public static void Go(Robot robi, bool[,] map) {
+        public static void Go(bool[,] map) {
             //Int térképet kapunk belőle amivel dolgozunk a bejárás során.
-            MyIntMap = Map_BoolToInt(map);
-
+            _myIntMap = Map_BoolToInt(map);
             //Populációs listát létrehozzuk az "m_populationSize"-ból
             var initPopulation = GetInitialPopulation(_mPopulationSize);
 
             //Számítás (Fitness, Szelekció, Keresztezés, Mutáció, Fitness)
-            //Algo.DoMating(ref initPopulation, _mGenerationSize, _mCrossoverRate, _mMutationRate);
+            Algo.DoMating(ref initPopulation, _mGenerationSize, _mCrossoverRate, _mMutationRate, ref _myIntMap);
         }
 
 
@@ -74,28 +68,29 @@ namespace RobotMover.GA {
         //Populáció inicializálás
         private static List<Chromosome> GetInitialPopulation(int population) {
             var initPop = new List<Chromosome>();
-            var RandomGen = new Algo();
             int x, y;
             for (var i = 0; i < population; i++) {
-                var egyed = new Chromosome();
+                var egyed = new Chromosome {
+                                               Robot =
+                                                   new Robot(20, MRandom.Next(640), MRandom.Next(640), _cover, 90,
+                                                             _refresh, false)
+                                           };
 
-                egyed.Route = new List<Tuple<int, int, double>>();
                 bool ok;
                 do {
                     ok = true;
-                    x = _mRandom.Next(640);
-                    y = _mRandom.Next(640);
-                    var koztesPontok = CalcPoints(_myRobot.X, _myRobot.Y, x, y);
+                    x = MRandom.Next(640);
+                    y = MRandom.Next(640);
+                    var koztesPontok = CalcPoints(egyed.Robot.X, egyed.Robot.Y, x, y);
                     foreach (var t in koztesPontok) {
-                        if (MyIntMap[t.Item1, t.Item1] == 1) {
+                        if (_myIntMap[t.Item1, t.Item1] == 1) {
                             ok = false;
                             break;
                         }
                     }
-                    // MessageBox.Show(ok + "");
                     if (ok) {
                         foreach (var t in koztesPontok) {
-                            egyed.Route.Add(new Tuple<int, int, double>(t.Item1, t.Item2, 0));
+                            egyed.Robot.Route.Add(new Tuple<int, int, double>(t.Item1, t.Item2, 0));
                         }
                     }
                 }
@@ -103,7 +98,6 @@ namespace RobotMover.GA {
 
                 initPop.Add(egyed);
             }
-            MessageBox.Show(initPop.Count + "");
             return initPop;
         }
 
