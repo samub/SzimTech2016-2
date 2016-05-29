@@ -4,6 +4,7 @@ using System.Linq;					// ElementAt
 using System.Windows.Media.Imaging;	// BitmapSource
 using System.Windows.Media;         // PixelFormats
 using System.Threading.Tasks;
+using System.IO;
 
 namespace RobotMover
 {
@@ -112,6 +113,7 @@ namespace RobotMover
             List<Tuple<int, int, double>> OurOwnRoute = new List<Tuple<int, int, double>>();
             List<PointHOne> line = new List<PointHOne>();
             int i = 0;
+            string sor;
 
             if (Waypoints.Count >= 2)
             {
@@ -137,6 +139,7 @@ namespace RobotMover
                     gui.Reposition(line.ElementAt(i).x, line.ElementAt(i).y, line.ElementAt(i).theta);
                     gui.SetCurrentlyCoveredArea(bitMap);
 
+                    sor = "";
                     // Terület súlyozása
                     for (int j = 0; j < gui.CurrentlyCoveredArea.Count; ++j)
                     {
@@ -145,8 +148,9 @@ namespace RobotMover
 
                         //myIntMap feltoltesevel a lefedettseg kesobb kiszamolhato [CurrentCoverage()]
                         map[a, b] += 2;
+                        sor += "[" + a + ";" + b + "] ";
                     }
-
+                    File.AppendAllText(@"CCA.txt", sor + Environment.NewLine);
                     //lépjünk egy sugárnyival odébb
                     i += gui.Radius;
                 }
