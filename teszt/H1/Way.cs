@@ -33,6 +33,7 @@ namespace RobotMover
         /// </summary>
         private float Coverage;
         private BitmapSource bitMap;
+        private int iteration;
 
         /// <summary>
         /// Annak eldöntése, a robot sugara alapján,
@@ -114,7 +115,6 @@ namespace RobotMover
 
             if (Waypoints.Count >= 2)
             {
-
                 // Vonal a két előzőleg meghatározott útpont között
                 Auxilary.Bresenham(
                     Waypoints.ElementAt(Waypoints.Count - 2).x,
@@ -130,7 +130,8 @@ namespace RobotMover
 
                     //robot mozgatása pontonként:
                     OurOwnRoute.Add(new Tuple<int, int, double>(line.ElementAt(i).x, line.ElementAt(i).y, line.ElementAt(i).theta));
-                    MessageHandler.Write(" [" + line.ElementAt(i).x + ", " + line.ElementAt(i).y + "] CC:" + CurrentCoverage());
+                    MessageHandler.Write(iteration + ": [" + line.ElementAt(i).x + ", " + line.ElementAt(i).y + "] CC:" + CurrentCoverage());
+                    iteration++;
 
                     // odalépünk az aktuális pontra
                     gui.Reposition(line.ElementAt(i).x, line.ElementAt(i).y, line.ElementAt(i).theta);
@@ -227,6 +228,7 @@ namespace RobotMover
             this.gui = gui;
             this.Coverage = 0;
             this.FindWay();
+            iteration = 0;
             gui.ExecuteRobot();
         }
     }
