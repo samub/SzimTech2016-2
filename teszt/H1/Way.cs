@@ -151,6 +151,7 @@ namespace RobotMover
                 }
                 // A Route-ba berakjuk a bejárt pontokat:
                 foreach (var p in OurOwnRoute) gui.Route.Add(new Tuple<int, int, double>(p.Item1, p.Item2, p.Item3));
+                Coverage += 0.1f;
             }
         }
 
