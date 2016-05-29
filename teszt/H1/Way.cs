@@ -88,20 +88,20 @@ namespace RobotMover
         /// </summary>
         /// <returns>0 és 1 közé eső lebegőpontos szám.</returns>
         private float CurrentCoverage()
-        {
+        {      
             long barrier = 0;
             long covered = 0;
 
             for (int i = 0; i < 640; i++)
             {
                 for (int j = 0; j < 640; j++)
-                {
-                    if (Alg.myIntMap[i, j] == 1) barrier += 1;
-                    else if (Alg.myIntMap[i, j] > 1) covered += 1;
+                {      
+                    if (map[i, j] % 2 == 1) barrier += 1;
+                    else if(map[i,j] > 0) covered += 1;
                 }
             }
             float ret_value = (float)covered / ((640 * 640) - barrier);
-            return ret_value;
+            return ret_value;  
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace RobotMover
                         int b = gui.CurrentlyCoveredArea[j].Item2;
 
                         //myIntMap feltoltesevel a lefedettseg kesobb kiszamolhato [CurrentCoverage()]
-                        Alg.myIntMap[a, b] += 2;
+                        map[a, b] += 2;
                     }
 
                     //lépjünk egy sugárnyival odébb
@@ -204,8 +204,21 @@ namespace RobotMover
         private void FindWay()
         {
             int i = 0;
-            while (i < 100 && Coverage < gui.Cover / 100.0)
+            while (i < 5 && CurrentCoverage() < (gui.Cover / 100.0))
             {
+                System.IO.StreamWriter file = new System.IO.StreamWriter("CC.txt");
+              
+                for (int j = 0; j < 640; j++)
+                {
+                    for (int k = 0; k < 640; k++)
+                    {
+                        file.Write(map[j, k]);
+                        file.Write(';');
+                    }
+                    file.Write('\n');
+                }
+                file.Close();
+
                 NewPoint();
                 ++i;
             }
