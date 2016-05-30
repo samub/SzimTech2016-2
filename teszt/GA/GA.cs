@@ -22,8 +22,8 @@ namespace RobotMover.GA {
         public GA(Action<Robot> met, int cov) {
             _mMutationRate = 0.05;
             _mCrossoverRate = 0.80;
-            _mPopulationSize = 5;
-            _mGenerationSize = 2000;
+            _mPopulationSize = 4;
+            _mGenerationSize = 10;
             _cover = cov;
             _refresh = met;
         }
@@ -66,6 +66,7 @@ namespace RobotMover.GA {
 
 
         //Populáció inicializálás
+        //
         private static List<Chromosome> GetInitialPopulation(int population) {
             var initPop = new List<Chromosome>();
             int x, y;
@@ -101,6 +102,8 @@ namespace RobotMover.GA {
             return initPop;
         }
 
+        //Koordináták kiszámítása amiket a robot, egy adott bejárás során megtesz.
+        //Pontok tárolása listába
         private static List<Tuple<int, int>> CalcPoints(int x0, int y0, int x1, int y1) {
             var retval = new List<Tuple<int, int>>();
             var steep = Math.Abs(y1 - y0) > Math.Abs(x1 - x0);

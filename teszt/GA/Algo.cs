@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace RobotMover.GA {
     internal struct Chromosome {
@@ -23,10 +24,13 @@ namespace RobotMover.GA {
         }
 
 
+        //A Genetikus algoritmus fő függvénye.
+        //Elvégzi a fittness kalkulációt
+        //Rulettkereket inicializál, majd Keresztez, Mutál és újra Fittness-t kalkulál az új egyedekhez.
         public static void DoMating(ref List<Chromosome> initPopulation, int generations, double probCrossver,
                                     double probMutation, ref int[,] matrix) {
             CalcFitness(ref initPopulation, ref matrix);
-
+            MessageBox.Show("Fittness kalkuláció kész!");
 
             /*for (int generation = 0; generation < generations; generation++) {
                 PrepareRuletteWheel(ref initPopulation, totalFitness);
@@ -41,6 +45,8 @@ namespace RobotMover.GA {
             }*/
         }
 
+
+        //Fitness számítása, a lefedési mátrix-al és az egyedek listával.
         private static void CalcFitness(ref List<Chromosome> chromosome, ref int[,] matrix) {
             for (var i = 0; i < chromosome.Count; i++) {
                 chromosome[i].Robot.ExecuteRobot(ref matrix);
@@ -130,8 +136,8 @@ namespace RobotMover.GA {
 
          parents = offspring;
      }
-
-     private void PrepareRuletteWheel(ref List<Chromosome> parents, int total)
+     */
+    /* private void PrepareRuletteWheel(ref List<Chromosome> parents, int total)
      {
          int currentTotalFitness = 0;
          for (int i = 0; i < parents.Count; i++)
@@ -142,8 +148,9 @@ namespace RobotMover.GA {
              parents[i] = temp;
          }
      }
+     */
 
-     private Chromosome AssayRuletteWheel(List<Chromosome> parents)
+    /* private Chromosome AssayRuletteWheel(List<Chromosome> parents)
      {
          Chromosome selection = parents[0];
          double probability = random.NextDouble();
@@ -156,8 +163,9 @@ namespace RobotMover.GA {
          }
          return selection;
      }
+     */
 
-     public void Mutate(ref List<Chromosome> parents, double probability)
+  /*   public void Mutate(ref List<Chromosome> parents, double probability)
      {
          List<Chromosome> offsprings = new List<Chromosome>();
 
@@ -184,8 +192,8 @@ namespace RobotMover.GA {
 
          parents = offsprings;
      }
-
-     public double GetRandomVal(double min, double max)
+     */
+    /* public double GetRandomVal(double min, double max)
      {
          return min + random.NextDouble() * (max - min);
      }
@@ -198,34 +206,11 @@ namespace RobotMover.GA {
              return false;
      }
 
-     public void CalcFitness(ref List<Chromosome> chromosome, ref int totalFitness)
-     {
-         int collisions = 0;
-         totalFitness = 0;
-         for (int k = 0; k < chromosome.Count; k++)
-         {
-             for (int i = 0; i < chromosome[k].genes.Length - 1; i++)
-             {
-                 int x = i;
-                 int y = chromosome[k].genes[i];
-                 for (int j = i + 1; j < chromosome[k].genes.Length; j++)
-                 {
-                     if (Math.Abs(j - x) == Math.Abs(chromosome[k].genes[j] - y))
-                         collisions++;
-                 }
-             }
-
-             Chromosome temp = chromosome[k];
-             temp.Fitness = MAX_FIT - collisions;
-             chromosome[k] = temp;
-             totalFitness += chromosome[k].Fitness;
-             collisions = 0;
-         }
-     }
+     
  }
-
- Két egyed összehasonlítása
- class FitnessComparator : Comparer<Chromosome>
+ */
+ //Két egyed összehasonlítása
+/* class FitnessComparator : Comparer<Chromosome>
  {
      public override int Compare(Chromosome x, Chromosome y)
      {
