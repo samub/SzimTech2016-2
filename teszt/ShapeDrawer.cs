@@ -59,10 +59,12 @@ namespace RobotMover {
         private static void DrawPixel(int x, int y, ref byte[] pixels, bool color) {
             var idx = x * 4 + y * 4 * 640;
             if (color) {
-                pixels[idx] = 255;
-                pixels[idx + 1] = 100;
-                pixels[idx + 2] = 100;
-                pixels[idx + 3] = 255;
+                if (pixels[idx] == 0 && pixels[idx + 1] == 0 && pixels[idx + 2] == 0 && pixels[idx + 3] == 255) {
+                    pixels[idx] = 255;
+                    pixels[idx + 1] = 100;
+                    pixels[idx + 2] = 100;
+                    pixels[idx + 3] = 255;
+                }
             }
             else {
                 pixels[idx] = 255;
